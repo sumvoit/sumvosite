@@ -53,7 +53,7 @@ enableGitInfo = false
   BookSection = 'docs'
 
   # Repo chứa source — sửa lại sau khi tạo repo GitHub
-  BookRepo = 'https://github.com/sumvo/sumvosite'
+  BookRepo = 'https://github.com/sumvo-it/sumvosite'
   # BookEditLink = '{{ .Site.Params.BookRepo }}/edit/main/{{ .Path }}'
 
   BookDateFormat = '02/01/2006'
