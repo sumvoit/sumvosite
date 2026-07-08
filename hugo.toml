@@ -1,0 +1,66 @@
+# Cấu hình Hugo cho sumvo.site
+# Theme: hugo-book (giao diện docs/wiki kiểu BookStack)
+
+baseURL = 'https://sumvo.site/'
+title = 'Sumvo'
+theme = 'hugo-book'
+locale = 'vi'
+defaultContentLanguage = 'vi'
+
+disablePathToLower = true
+enableGitInfo = false
+
+[pagination]
+  pagerSize = 10
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.tableOfContents]
+    startLevel = 1
+  [markup.highlight]
+    style = 'base16-snazzy'
+
+[taxonomies]
+  tag = 'tags'
+  category = 'categories'
+
+[menu]
+  # Menu trên trang chủ
+  [[menu.home]]
+    name = 'Tài liệu'
+    pageRef = '/docs/'
+    weight = 1
+  [[menu.home]]
+    name = 'Blog'
+    pageRef = '/posts/'
+    weight = 2
+
+  # Menu cuối sidebar
+  [[menu.after]]
+    name = 'Blog'
+    pageRef = '/posts/'
+    weight = 10
+
+[params]
+  # light / dark / auto
+  BookTheme = 'auto'
+
+  # Hiện mục lục bên phải mỗi trang
+  BookToC = true
+
+  # Section gốc render thành menu sidebar (giống cây sách/chương/trang BookStack)
+  BookSection = 'docs'
+
+  # Repo chứa source — sửa lại sau khi tạo repo GitHub
+  BookRepo = 'https://github.com/sumvo/sumvosite'
+  # BookEditLink = '{{ .Site.Params.BookRepo }}/edit/main/{{ .Path }}'
+
+  BookDateFormat = '02/01/2006'
+
+  # Tìm kiếm client-side bằng fuse.js
+  BookSearch = true
+
+  BookComments = false
+  BookPortableLinks = 'warning'
+  BookServiceWorker = false
