@@ -5,7 +5,7 @@ type: docs
 
 # Chào mừng đến sumvo.site
 
-Đây là trang tài liệu & blog cá nhân, xây dựng bằng [Hugo](https://gohugo.io/) với theme hugo-book.
+Đây là trang tài liệu & blog cá nhân.
 
 ## Bắt đầu
 
