@@ -35,12 +35,20 @@ enableGitInfo = false
     name = 'Blog'
     pageRef = '/posts/'
     weight = 2
+  [[menu.home]]
+    name = 'Books'
+    pageRef = '/books/'
+    weight = 3
 
   # Menu cuối sidebar
   [[menu.after]]
     name = 'Blog'
     pageRef = '/posts/'
     weight = 10
+  [[menu.after]]
+    name = 'Books'
+    pageRef = '/books/'
+    weight = 20
 
 [params]
   # light / dark / auto
