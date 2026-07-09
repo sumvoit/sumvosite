@@ -65,6 +65,42 @@
     .hero p { color: var(--muted); margin-top: 12px; max-width: 560px; margin-left: auto; margin-right: auto; }
     .hero-actions { margin-top: 30px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
+    /* Hero entrance */
+    @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+    .hero h1, .hero p, .hero-actions { opacity: 0; animation: rise .8s cubic-bezier(.22,.6,.28,1) forwards; }
+    .hero p { animation-delay: .25s; }
+    .hero-actions { animation-delay: .5s; }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      color: var(--muted); font-size: .7rem; letter-spacing: 4px; text-transform: uppercase;
+      opacity: 0; animation: rise .8s .9s cubic-bezier(.22,.6,.28,1) forwards;
+    }
+    .scroll-hint::after {
+      content: ""; width: 1px; height: 44px;
+      background: linear-gradient(var(--accent), transparent);
+      animation: scrollLine 1.8s ease-in-out infinite;
+      transform-origin: top;
+    }
+    @keyframes scrollLine { 0% { transform: scaleY(0); opacity: 1; } 70% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(34px); transition: opacity .8s cubic-bezier(.22,.6,.28,1), transform .8s cubic-bezier(.22,.6,.28,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: .12s; }
+    .reveal.d2 { transition-delay: .24s; }
+    .reveal.d3 { transition-delay: .36s; }
+    .reveal.d4 { transition-delay: .48s; }
+    .reveal.d5 { transition-delay: .6s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero h1, .hero p, .hero-actions, .scroll-hint { animation: none; opacity: 1; }
+      .scroll-hint::after { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
     .btn {
       display: inline-block; padding: 11px 28px; border-radius: 3px;
       font-size: .9rem; font-weight: 600; letter-spacing: .3px;
@@ -214,21 +250,22 @@
       <a class="btn btn-line" href="{{ with $p.hero }}{{ default "#contact" .secondaryUrl }}{{ else }}#contact{{ end }}">{{ with $p.hero }}{{ default "Liên hệ" .secondaryText }}{{ else }}Liên hệ{{ end }}</a>
     </div>
   </div>
+  <div class="scroll-hint">Scroll</div>
 </div>
 
 <!-- About -->
 <section id="about">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <h2>Giới thiệu <em>bản thân</em></h2>
       <div class="bar"></div>
       {{ with $p.about }}{{ with .lead }}<p>{{ . }}</p>{{ end }}{{ end }}
     </div>
     <div class="about-grid">
-      <div class="about-photo">
+      <div class="about-photo reveal">
         {{ with $p.about }}{{ with .image }}<img src="{{ . }}" alt="{{ with $p.about }}{{ .name }}{{ end }}">{{ else }}<span class="ph">&#128100;</span>{{ end }}{{ else }}<span class="ph">&#128100;</span>{{ end }}
       </div>
-      <div class="about-body">
+      <div class="about-body reveal d1">
         {{ with $p.about }}
         <h3>Xin chào, tôi là <em>{{ .name }}</em></h3>
         <p>{{ .bio }}</p>
@@ -247,14 +284,14 @@
 <!-- Services -->
 <section id="services">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <h2>Dịch vụ <em>của tôi</em></h2>
       <div class="bar"></div>
       {{ with $p.servicesLead }}<p>{{ . }}</p>{{ end }}
     </div>
     <div class="cards">
-      {{ range $p.services }}
-      <div class="card">
+      {{ range $i, $svc := $p.services }}
+      <div class="card reveal d{{ mod $i 3 }}">
         <div class="ico">{{ .icon | safeHTML }}</div>
         <h4>{{ .title }}</h4>
         <p>{{ .text }}</p>
@@ -267,13 +304,13 @@
 <!-- Resume -->
 <section id="resume">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <h2>Hồ sơ <em>của tôi</em></h2>
       <div class="bar"></div>
       {{ with $p.resumeLead }}<p>{{ . }}</p>{{ end }}
     </div>
     <div class="resume-grid">
-      <div class="resume-col">
+      <div class="resume-col reveal">
         <h3><span class="ico">&#127891;</span> Học vấn</h3>
         {{ range $p.education }}
         <div class="r-item">
@@ -283,7 +320,7 @@
         </div>
         {{ end }}
       </div>
-      <div class="resume-col">
+      <div class="resume-col reveal d1">
         <h3><span class="ico">&#128188;</span> Kinh nghiệm</h3>
         {{ range $p.experience }}
         <div class="r-item">
@@ -300,14 +337,14 @@
 <!-- Portfolio -->
 <section id="portfolio">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <h2>Portfolio <em>dự án</em></h2>
       <div class="bar"></div>
       {{ with $p.portfolioLead }}<p>{{ . }}</p>{{ end }}
     </div>
     <div class="pf-grid">
       {{ range $i, $item := $p.portfolio }}
-      <a class="pf-item g{{ add (mod $i 6) 1 }}" {{ with $item.url }}href="{{ . }}"{{ end }} {{ with $item.image }}style="background:url('{{ . }}') center/cover"{{ end }}>
+      <a class="pf-item reveal d{{ mod $i 3 }} g{{ add (mod $i 6) 1 }}" {{ with $item.url }}href="{{ . }}"{{ end }} {{ with $item.image }}style="background:url('{{ . }}') center/cover"{{ end }}>
         <span class="pf-label"><small>{{ $item.tag }}</small>{{ $item.title }}</span>
       </a>
       {{ end }}
@@ -318,8 +355,8 @@
 <!-- Stats -->
 <div class="stats">
   <div class="wrap stats-row">
-    {{ range $p.stats }}
-    <div class="stat"><b>{{ .value }}</b><span>{{ .label }}</span></div>
+    {{ range $i, $st := $p.stats }}
+    <div class="stat reveal d{{ mod $i 4 }}"><b data-count="{{ .value }}">{{ .value }}</b><span>{{ .label }}</span></div>
     {{ end }}
   </div>
 </div>
@@ -327,7 +364,7 @@
 <!-- Blog -->
 <section id="blog">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <h2>Blog <em>của tôi</em></h2>
       <div class="bar"></div>
       <p>Những bài viết mới nhất trên <a href="/posts/" style="color:var(--accent)">blog</a>.</p>
@@ -335,7 +372,7 @@
     <div class="blog-grid">
       {{ $posts := where .Site.RegularPages "Section" "posts" }}
       {{ range $i, $post := first 3 $posts }}
-      <div class="post-card">
+      <div class="post-card reveal d{{ mod $i 3 }}">
         <div class="post-thumb g{{ add (mod $i 6) 1 }}">&#9998;</div>
         <div class="post-body">
           <div class="post-meta">{{ $post.Date.Format "02/01/2006" }}{{ with $post.Params.categories }} | <em>{{ index . 0 }}</em>{{ end }}</div>
@@ -352,12 +389,12 @@
 <!-- Contact -->
 <section id="contact">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <h2>Liên hệ <em>với tôi</em></h2>
       <div class="bar"></div>
       {{ with $p.contactLead }}<p>{{ . }}</p>{{ end }}
     </div>
-    <form class="contact-form" onsubmit="return sendMail(this)">
+    <form class="contact-form reveal" onsubmit="return sendMail(this)">
       <div class="form-row">
         <input name="name" placeholder="Họ tên" required>
         <input name="email" type="email" placeholder="Email" required>
@@ -383,6 +420,39 @@
 </footer>
 
 <script>
+  (function () {
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var els = document.querySelectorAll(".reveal");
+    if (reduced || !("IntersectionObserver" in window)) {
+      els.forEach(function (el) { el.classList.add("visible"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
+        io.unobserve(entry.target);
+        entry.target.querySelectorAll("[data-count]").forEach(countUp);
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+    els.forEach(function (el) { io.observe(el); });
+
+    function countUp(el) {
+      var raw = el.getAttribute("data-count");
+      var m = raw.match(/^(\d+)(.*)$/);
+      if (!m) return;
+      var target = parseInt(m[1], 10), suffix = m[2], dur = 1400, t0 = null;
+      function tick(t) {
+        if (!t0) t0 = t;
+        var k = Math.min((t - t0) / dur, 1);
+        k = 1 - Math.pow(1 - k, 3);
+        el.textContent = Math.round(target * k) + suffix;
+        if (k < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+  })();
+
   function sendMail(f) {
     var to = {{ with $p.contactEmail }}"{{ . }}"{{ else }}"sumvo.it@gmail.com"{{ end }};
     var body = "Từ: " + f.name.value + " <" + f.email.value + ">\n\n" + f.message.value;
