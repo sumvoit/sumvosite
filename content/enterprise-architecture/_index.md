@@ -8,3 +8,7 @@ outputs: ["html"]
 # Enterprise Architecture
 
 Mục này tập hợp các bài viết về Enterprise Architecture (TOGAF, ArchiMate, mô hình hóa kiến trúc...).
+
+## Danh sách bài viết
+
+{{< children >}}

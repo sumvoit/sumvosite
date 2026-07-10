@@ -1,0 +1,5 @@
+<ul>
+{{ range .Page.Pages.ByWeight }}
+  <li><a href="{{ .RelPermalink }}">{{ partial "docs/title" . }}</a></li>
+{{ end }}
+</ul>
