@@ -39,6 +39,10 @@ enableGitInfo = false
     name = 'Books'
     pageRef = '/books/'
     weight = 3
+  [[menu.home]]
+    name = 'Enterprise Architecture'
+    pageRef = '/enterprise-architecture/'
+    weight = 4
 
   # Menu cuối sidebar
   [[menu.after]]
@@ -49,6 +53,10 @@ enableGitInfo = false
     name = 'Books'
     pageRef = '/books/'
     weight = 20
+  [[menu.after]]
+    name = 'Enterprise Architecture'
+    pageRef = '/enterprise-architecture/'
+    weight = 30
 
 [params]
   # light / dark / auto
