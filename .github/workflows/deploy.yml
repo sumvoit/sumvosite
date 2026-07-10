@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.164.0
+      EA_PASSWORD: ${{ secrets.EA_PASSWORD }}
     steps:
       - name: Install Hugo CLI
         run: |
@@ -45,15 +46,15 @@ jobs:
         run: hugo --gc --minify --baseURL "https://sumvo.site/"
 
       - name: Setup Node
-        if: ${{ secrets.EA_PASSWORD != '' }}
+        if: ${{ env.EA_PASSWORD != '' }}
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Password-protect Enterprise Architecture section
-        if: ${{ secrets.EA_PASSWORD != '' }}
+        if: ${{ env.EA_PASSWORD != '' }}
         env:
-          STATICRYPT_PASSWORD: ${{ secrets.EA_PASSWORD }}
+          STATICRYPT_PASSWORD: ${{ env.EA_PASSWORD }}
         run: npx --yes staticrypt@3.5.4 public/enterprise-architecture -r -d public --short --remember 30 -c false
 
       - name: Upload artifact
