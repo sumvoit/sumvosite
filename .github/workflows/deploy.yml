@@ -44,6 +44,18 @@ jobs:
           HUGO_ENVIRONMENT: production
         run: hugo --gc --minify --baseURL "https://sumvo.site/"
 
+      - name: Setup Node
+        if: ${{ secrets.EA_PASSWORD != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Password-protect Enterprise Architecture section
+        if: ${{ secrets.EA_PASSWORD != '' }}
+        env:
+          STATICRYPT_PASSWORD: ${{ secrets.EA_PASSWORD }}
+        run: npx --yes staticrypt@3.5.4 public/enterprise-architecture -r -d public --short --remember 30 -c false
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
