@@ -5,14 +5,15 @@
 <title>Hệ thống hóa · Enterprise Architecture (EA)</title>
 <style>
 :root{
-  --bg:#0f1419; --bg2:#161d26; --panel:#1c2530; --panel2:#232e3b;
-  --ink:#e8edf2; --muted:#9fb0c0; --line:#2c3846;
-  --teal:#22b8b0; --teal2:#0e7c7b; --amber:#d98c3a; --violet:#8b6fc7;
+  color-scheme:light;
+  --bg:#f7f9fb; --bg2:#eef2f6; --panel:#ffffff; --panel2:#f0f4f8;
+  --ink:#1c2733; --muted:#5a6b7c; --line:#d8e0e8;
+  --teal:#0e7c7b; --teal2:#0e7c7b; --amber:#b5651d; --violet:#5b3a8e;
   --P:#22b8b0; --D:#d98c3a; --F:#9d81d6;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:linear-gradient(180deg,#0f1419,#12181f);color:var(--ink);
+body{margin:0;background:linear-gradient(180deg,#f7f9fb,#eef2f6);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   line-height:1.65;font-size:16px}
 a{color:var(--teal)}
@@ -20,8 +21,8 @@ a{color:var(--teal)}
 
 /* HERO */
 header.hero{padding:56px 0 34px;border-bottom:1px solid var(--line);
-  background:radial-gradient(1200px 400px at 20% -10%,rgba(34,184,176,.13),transparent),
-             radial-gradient(900px 400px at 90% 0%,rgba(139,111,199,.10),transparent)}
+  background:radial-gradient(1200px 400px at 20% -10%,rgba(34,184,176,.10),transparent),
+             radial-gradient(900px 400px at 90% 0%,rgba(139,111,199,.08),transparent)}
 .eyebrow{color:var(--teal);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.74rem}
 .hero h1{font-size:2.5rem;line-height:1.12;margin:.35em 0 .3em;font-weight:800;letter-spacing:-.01em}
 .hero .lead{color:var(--muted);max-width:760px;font-size:1.08rem}
@@ -43,11 +44,11 @@ header.hero{padding:56px 0 34px;border-bottom:1px solid var(--line);
 .lens-card:hover{background:var(--panel2);transform:translateY(-2px)}
 .lens-card.active{background:var(--panel2);box-shadow:0 0 0 2px var(--lc) inset}
 .lens-card.dim{opacity:.42}
-.lc-key{width:38px;height:38px;flex:none;border-radius:10px;background:var(--lc);color:#0d1117;
+.lc-key{width:38px;height:38px;flex:none;border-radius:10px;background:var(--lc);color:#fff;
   font-weight:900;font-size:1.2rem;display:grid;place-items:center}
 .lc-name{font-weight:800;font-size:1.02rem}
 .lc-en{color:var(--muted);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
-.lc-body p{margin:0 0 8px;font-size:.88rem;color:#cdd8e2}
+.lc-body p{margin:0 0 8px;font-size:.88rem;color:#3d4d5c}
 .lc-comp{font-size:.76rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:7px}
 .filter-note{margin:14px 0 0;font-size:.85rem;color:var(--muted);min-height:1.2em}
 .filter-note b{color:var(--ink)}
@@ -56,7 +57,7 @@ header.hero{padding:56px 0 34px;border-bottom:1px solid var(--line);
 .clearf:hover{color:var(--ink);border-color:var(--muted)}
 
 /* STICKY NAV */
-.navbar{position:sticky;top:0;z-index:40;background:rgba(15,20,25,.92);
+.navbar{position:sticky;top:0;z-index:40;background:rgba(247,249,251,.92);
   backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .navbar .wrap{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
 .navbar a{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;
@@ -75,13 +76,13 @@ header.hero{padding:56px 0 34px;border-bottom:1px solid var(--line);
 .mod-head{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--teal2);padding-bottom:8px}
 .mod-head h2{font-size:1.6rem;margin:0;font-weight:800;letter-spacing:-.01em}
 .mrange{color:var(--muted);font-size:.85rem;font-weight:600}
-.msum{color:#cdd8e2;max-width:900px;margin:14px 0 18px}
+.msum{color:#3d4d5c;max-width:900px;margin:14px 0 18px}
 .mmeta{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:26px}
 .mkey,.mquiz{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
 .klabel{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
   color:var(--teal);margin-bottom:10px}
 .mkey ul{margin:0;padding-left:18px}
-.mkey li{margin-bottom:7px;font-size:.92rem;color:#d5dfe8}
+.mkey li{margin-bottom:7px;font-size:.92rem;color:#354453}
 
 /* CARDS */
 .cards{display:flex;flex-direction:column;gap:12px}
@@ -105,20 +106,20 @@ header.hero{padding:56px 0 34px;border-bottom:1px solid var(--line);
 .block{margin-bottom:15px}
 .blabel{display:block;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);margin-bottom:5px}
-.block p{margin:0;color:#dbe4ec;font-size:.94rem}
+.block p{margin:0;color:#2e3d4b;font-size:.94rem}
 .block.ex{background:rgba(34,184,176,.06);border-left:3px solid var(--teal2);
   border-radius:0 8px 8px 0;padding:10px 12px}
 .block.ex .blabel{color:var(--teal)}
 .ex-vis{color:var(--amber);font-weight:700;font-size:.68rem;letter-spacing:.04em;margin-left:6px}
 .faq{border:1px solid var(--line);border-radius:9px;margin-bottom:6px;background:var(--bg2)}
-.faq summary{cursor:pointer;padding:9px 12px;font-size:.9rem;font-weight:600;color:#e2eaf1;list-style:none}
+.faq summary{cursor:pointer;padding:9px 12px;font-size:.9rem;font-weight:600;color:#26343f;list-style:none}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::before{content:"›";color:var(--teal);font-weight:800;margin-right:8px;display:inline-block;transition:.2s}
 .faq[open] summary::before{transform:rotate(90deg)}
 .faq p{margin:0;padding:0 12px 11px 26px;font-size:.9rem;color:var(--muted)}
 .faq.q{background:var(--panel)}
 .thread{margin-top:8px;padding:11px 14px;background:var(--panel2);border-radius:9px;
-  font-size:.9rem;color:#cdd8e2}
+  font-size:.9rem;color:#3d4d5c}
 .tlabel{color:var(--teal);font-weight:700;margin-right:6px}
 .cside img{width:100%;border-radius:10px;border:1px solid var(--line);cursor:zoom-in;display:block;
   background:#fff}
@@ -149,48 +150,10 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 50px;colo
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">CIO Vietnam · Hệ thống hóa tài liệu môn học</div>
-    <h1>Enterprise Architecture — Kiến trúc Doanh nghiệp</h1>
-    <p class="lead">Toàn bộ 73 slide của khóa <em>“Enterprise Architecture: Introduction &amp; Example”</em> được hệ thống hóa theo 3 module, mỗi slide có mô tả, diễn giải chi tiết, ví dụ, câu hỏi thường gặp và mạch nối. Dùng 3 lăng kính bên dưới để lọc nội dung theo vai trò của một kiến trúc sư doanh nghiệp.</p>
-    <div class="thread-bar" aria-label="Sợi chỉ vàng của EA">
-      <span class="tstep"><b>Chiến lược</b></span><span class="arr">→</span>
-      <span class="tstep">Hiện trạng · <b>Baseline</b></span><span class="arr">→</span>
-      <span class="tstep">Khoảng cách · <b>Gap</b></span><span class="arr">→</span>
-      <span class="tstep">Mục tiêu · <b>Target</b></span><span class="arr">→</span>
-      <span class="tstep">Lộ trình · <b>Roadmap</b></span><span class="arr">→</span>
-      <span class="tstep"><b>Giá trị</b></span>
-    </div>
-    <div class="src">Nguồn: slide bài giảng EA v2026.1 · Tham chiếu chuẩn <a href="https://digital-portfolio.opengroup.org/togaf-standard/latest/home-page.html" target="_blank" rel="noopener">TOGAF 10 — The Open Group</a> </div>
+    <div class="eyebrow">CIO Vietnam · Hệ thống hóa tài liệu</div>
+    <h1>Enterprise Architecture</h1>    
   </div>
 </header>
-
-<div class="wrap lens-wrap">
-  <div class="sec-title">Ba lăng kính — Ba chiếc mũ của Kiến trúc sư Doanh nghiệp</div>
-  <p class="sec-sub">Một kiến trúc sư doanh nghiệp luân phiên đội ba chiếc mũ. Nhấn để lọc slide theo từng lăng kính (có thể chọn nhiều).</p>
-  <div class="lens-grid">
-  <button class="lens-card" data-lens="P" onclick="toggleLens(&#39;P&#39;)" style="--lc:#0e7c7b">
-    <div class="lc-key">P</div>
-    <div class="lc-body"><div class="lc-name">Nhà Quy hoạch</div>
-      <div class="lc-en">The Planner</div>
-      <p>Hiểu &amp; định nghĩa EA: khái niệm, giá trị, các miền kiến trúc và lộ trình.</p>
-      <div class="lc-comp">Năng lực: Kiến thức nền tảng EA</div></div>
-  </button>
-  <button class="lens-card" data-lens="D" onclick="toggleLens(&#39;D&#39;)" style="--lc:#b5651d">
-    <div class="lc-key">D</div>
-    <div class="lc-body"><div class="lc-name">Nhà Kiến tạo</div>
-      <div class="lc-en">The Architect</div>
-      <p>Phát triển kiến trúc qua TOGAF ADM và bốn miền BDAT.</p>
-      <div class="lc-comp">Năng lực: Kỹ năng Thiết kế EA</div></div>
-  </button>
-  <button class="lens-card" data-lens="F" onclick="toggleLens(&#39;F&#39;)" style="--lc:#5b3a8e">
-    <div class="lc-key">F</div>
-    <div class="lc-body"><div class="lc-name">Nhà Điều phối</div>
-      <div class="lc-en">The Facilitator</div>
-      <p>Gắn kết stakeholder và vận dụng các kỹ thuật ADM.</p>
-      <div class="lc-comp">Năng lực: Communication &amp; Stakeholder Engagement</div></div>
-  </button></div>
-  <div class="filter-note" id="filterNote"></div>
-</div>
 
 <nav class="navbar">
   <div class="wrap">
@@ -207,18 +170,13 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 50px;colo
     <section class="module" id="intro">
       <div class="mod-head">
         <h2>Mở đầu</h2>
-        <div class="mrange">Slide 1-2</div>
       </div>
-      <p class="msum">Trang bìa và bố cục ba module của khóa Enterprise Architecture — đặt ra 'sợi chỉ vàng' xuyên suốt: đi từ hiểu (What/Why) đến phương pháp (How) rồi công cụ (With what).</p>
-      <div class="mmeta">
-        <div class="mkey"><span class="klabel">Ý chính</span><ul><li>Khóa học gồm 3 module: Nền tảng EA → TOGAF &amp; ADM → Kỹ thuật ADM.</li><li>Ba module phản ánh logic học tập: hiểu khái niệm, học phương pháp, rồi trang bị công cụ.</li></ul></div>
-        <div class="mquiz"><span class="klabel">Kiểm tra nhanh — "Show What You Know"</span><details class="faq q"><summary>Khóa học gồm mấy module và tên là gì?</summary><p>Ba: (1) EA Introduction &amp; Fundamentals, (2) TOGAF &amp; ADM, (3) ADM Technique.</p></details><details class="faq q"><summary>Sợi chỉ vàng xuyên suốt EA là gì?</summary><p>Chiến lược → Hiện trạng (Baseline) → Khoảng cách (Gap) → Mục tiêu (Target) → Lộ trình (Roadmap) → Giá trị.</p></details></div>
-      </div>
-      <div class="cards">
     <article class="card" data-lens="P D F" data-n="1" data-search="trang bìa - enterprise architecture: introduction &amp; example trang bìa khóa học enterprise architecture (kiến trúc doanh nghiệp) của chương trình cio vietnam - cio coaching, phụ đề &#39;introduction &amp; example&#39;.">
       <div class="card-head" onclick="toggleCard(this)">
         <div class="cnum">01</div>
-        <div class="cttl"><h3>Trang bìa - Enterprise Architecture: Introduction &amp; Example</h3><div class="cbadges"><span class="lb lb-P" title="Nhà Quy hoạch">P</span><span class="lb lb-D" title="Nhà Kiến tạo">D</span><span class="lb lb-F" title="Nhà Điều phối">F</span></div></div>
+        <div class="cttl"><h3>Trang bìa - Enterprise Architecture: Introduction &amp; Example</h3>
+          <div class="cbadges"><span class="lb lb-P" title="Nhà Quy hoạch">P</span>
+            <span class="lb lb-D" title="Nhà Kiến tạo">D</span><span class="lb lb-F" title="Nhà Điều phối">F</span></div></div>
         <div class="chev">▾</div>
       </div>
       <div class="card-body">
@@ -228,7 +186,7 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 50px;colo
             <div class="block"><span class="blabel">Diễn giải chi tiết</span><p>Cái tên 'Enterprise Architecture' đã hàm chứa một lập trường: doanh nghiệp, giống như một thành phố, không nên để phát triển tự phát mà cần được 'quy hoạch' có chủ đích. Khóa học đi theo mạch của chuẩn TOGAF: trước hết là nền tảng khái niệm (EA là gì, vì sao cần), rồi đến phương pháp phát triển kiến trúc ADM, và cuối cùng là các kỹ thuật thực hành. Phụ đề 'Introduction &amp; Example' báo hiệu cách tiếp cận: không chỉ lý thuyết mà luôn gắn với ví dụ thực tế để người học hình dung được cách áp dụng.</p></div>
             <div class="block ex"><span class="blabel">Ví dụ</span><p>Một CIO không chỉ 'mua và vận hành hệ thống' mà còn vẽ ra 'bản quy hoạch tổng thể' cho toàn bộ nghiệp vụ, dữ liệu, ứng dụng và công nghệ của doanh nghiệp — đó chính là tinh thần EA.</p></div>
             <div class="block"><span class="blabel">Câu hỏi thường gặp</span><details class="faq"><summary>Tài liệu này nói về chủ đề gì?</summary><p>Đây là khóa giới thiệu Enterprise Architecture (Kiến trúc Doanh nghiệp - EA), cách định nghĩa, xây dựng và triển khai kiến trúc doanh nghiệp theo chuẩn TOGAF, kèm ví dụ minh họa.</p></details><details class="faq"><summary>EA viết tắt của cụm từ nào?</summary><p>Enterprise Architecture - Kiến trúc Doanh nghiệp.</p></details><details class="faq"><summary>Đối tượng học của khóa này là ai?</summary><p>Những người đảm nhiệm hoặc hướng tới vai trò kiến trúc sư doanh nghiệp, CIO/CTO, hoặc lãnh đạo cần hiểu cách gắn kết chiến lược kinh doanh với công nghệ.</p></details></div>
-            <div class="thread"><span class="tlabel">↳ Mạch nối</span> Trang bìa đã xác lập chủ đề. Slide tiếp theo mở ra bố cục ba module của toàn khóa để người học thấy lộ trình trước khi đi vào chi tiết.</div>
+            <div class="thread"><span class="tlabel">↳ Mạch nối</span> Thực tế EA nó là gì: Thực ra chúng ta đang làm nó hằng ngày, lát nữa em đi chi tiết mọi người sẽ thấy nó quen thuộc.</div>
           </div>
           
         </div>
@@ -237,20 +195,9 @@ footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 50px;colo
     <article class="card" data-lens="P D F" data-n="2" data-search="outlines - bố cục khóa học (3 module) liệt kê ba module: module 1 - ea introduction &amp; fundamentals; module 2 - togaf &amp; architecture development method (adm); module 3 - adm technique.">
       <div class="card-head" onclick="toggleCard(this)">
         <div class="cnum">02</div>
-        <div class="cttl"><h3>Outlines - Bố cục khóa học (3 Module)</h3><div class="cbadges"><span class="lb lb-P" title="Nhà Quy hoạch">P</span><span class="lb lb-D" title="Nhà Kiến tạo">D</span><span class="lb lb-F" title="Nhà Điều phối">F</span></div></div>
-        <div class="chev">▾</div>
-      </div>
-      <div class="card-body">
-        <div class="cgrid">
-          <div class="cmain">
-            <div class="block"><span class="blabel">Mô tả nội dung</span><p>Liệt kê ba module: Module 1 - EA Introduction &amp; Fundamentals; Module 2 - TOGAF &amp; Architecture Development Method (ADM); Module 3 - ADM Technique.</p></div>
-            <div class="block"><span class="blabel">Diễn giải chi tiết</span><p>Ba module phản ánh một logic học tập có chủ đích: đi từ 'hiểu' (What &amp; Why) sang 'phương pháp' (How) rồi tới 'công cụ' (With what). Module 1 đặt nền khái niệm — EA là gì, tạo giá trị gì, gồm những miền nào. Module 2 là trái tim của khóa học: phương pháp TOGAF ADM với chu trình Preliminary → A-H giúp phát triển kiến trúc một cách bài bản. Module 3 trang bị các kỹ thuật cụ thể (nguyên tắc kiến trúc, kịch bản nghiệp vụ, phân tích khoảng cách, quản lý stakeholder…) để thực thi ADM hiệu quả. Nắm bố cục này giúp người học biết mỗi kiến thức mới thuộc về chặng nào của hành trình.</p></div>
-            <div class="block ex"><span class="blabel">Ví dụ</span><p>Giống như học xây nhà: trước hết hiểu 'nhà là gì và để làm gì' (M1), rồi học 'quy trình thiết kế &amp; thi công' (M2), cuối cùng là 'bộ dụng cụ cụ thể' như thước, bản vẽ, phần mềm (M3).</p></div>
-            <div class="block"><span class="blabel">Câu hỏi thường gặp</span><details class="faq"><summary>Khóa học gồm mấy module?</summary><p>Ba module: (1) Giới thiệu &amp; Nền tảng EA, (2) TOGAF &amp; Phương pháp Phát triển Kiến trúc ADM, (3) Kỹ thuật ADM.</p></details><details class="faq"><summary>Vì sao lại sắp xếp theo trình tự này?</summary><p>Vì kiến thức xây dựng dần: hiểu khái niệm trước, rồi học phương pháp phát triển kiến trúc, cuối cùng là các kỹ thuật thực hành để áp dụng phương pháp đó.</p></details><details class="faq"><summary>ADM là gì?</summary><p>Architecture Development Method - Phương pháp Phát triển Kiến trúc, chu trình lõi của TOGAF gồm giai đoạn Preliminary và các Phase A đến H.</p></details></div>
-            <div class="thread"><span class="tlabel">↳ Mạch nối</span> Bố cục đã rõ. Khóa học bắt đầu bằng Module 1 — phần đặt nền khái niệm, trả lời câu hỏi EA là gì và vì sao doanh nghiệp cần đến nó.</div>
-          </div>
-          
+        <div class="cttl"><h3>Outlines - Bố cục khóa học (3 Module) KHÔNG NÓI</h3>
         </div>
+        <div class="chev">▾</div>
       </div>
     </article></div>
     </section>
