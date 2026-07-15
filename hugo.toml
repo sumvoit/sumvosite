@@ -2,7 +2,7 @@
 # Theme: hugo-book (giao diện docs/wiki kiểu BookStack)
 
 baseURL = 'https://sumvo.site/'
-title = 'Sumvo'
+title = 'sumvo'
 theme = 'hugo-book'
 locale = 'vi'
 defaultContentLanguage = 'vi'

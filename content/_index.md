@@ -2,7 +2,7 @@
 title: Trang chủ
 
 hero:
-  title: Xin chào, tôi là Sum Võ
+  title: Xin chào,
   subtitle: Ecommerce Developer — Magento, CsCart & More. Nơi tôi chia sẻ tài liệu, ghi chú kỹ thuật và bài viết.
   primaryText: Xem Tài liệu
   primaryUrl: /docs/
