@@ -100,4 +100,7 @@ stats:
 
 contactLead: Có câu hỏi hoặc muốn hợp tác? Gửi tin nhắn cho tôi.
 contactEmail: sumvo.it@gmail.com
+# Access key của Web3Forms (https://web3forms.com) - form gửi thẳng về contactEmail.
+# Khi để trống, form rơi về chế độ cũ: mở ứng dụng email của khách (mailto).
+contactWeb3formsKey: "059531b7-2bd4-4c0a-9c6a-9dcb12890a9b"
 ---

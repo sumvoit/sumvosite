@@ -202,6 +202,10 @@
     .contact-form textarea { min-height: 150px; resize: vertical; }
     .contact-form .submit { text-align: center; margin-top: 22px; }
     .contact-form button { border: none; cursor: pointer; }
+    .contact-form button:disabled { opacity: .6; cursor: default; }
+    .contact-form .form-status { text-align: center; margin: 14px 0 0; min-height: 1.3em; font-size: .95rem; }
+    .contact-form .form-status.ok { color: #2e7d32; }
+    .contact-form .form-status.err { color: #c0392b; }
 
     /* ===== Footer ===== */
     .site-footer {
@@ -394,16 +398,18 @@
       <div class="bar"></div>
       {{ with $p.contactLead }}<p>{{ . }}</p>{{ end }}
     </div>
-    <form class="contact-form reveal" onsubmit="return sendMail(this)">
+    <form class="contact-form reveal" onsubmit="return sendContact(this)">
       <div class="form-row">
         <input name="name" placeholder="Họ tên" required>
         <input name="email" type="email" placeholder="Email" required>
         <input name="subject" placeholder="Chủ đề" required>
       </div>
       <textarea name="message" placeholder="Nội dung tin nhắn" required></textarea>
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="submit">
         <button class="btn btn-solid" type="submit">Gửi tin nhắn</button>
       </div>
+      <p class="form-status" role="status"></p>
     </form>
   </div>
 </section>
@@ -453,12 +459,43 @@
     }
   })();
 
-  function sendMail(f) {
-    var to = {{ with $p.contactEmail }}"{{ . }}"{{ else }}"sumvo.it@gmail.com"{{ end }};
-    var body = "Từ: " + f.name.value + " <" + f.email.value + ">\n\n" + f.message.value;
-    location.href = "mailto:" + to +
-      "?subject=" + encodeURIComponent(f.subject.value) +
-      "&body=" + encodeURIComponent(body);
+  var CONTACT_EMAIL = {{ with $p.contactEmail }}"{{ . }}"{{ else }}"sumvo.it@gmail.com"{{ end }};
+  var WEB3FORMS_KEY = {{ with $p.contactWeb3formsKey }}"{{ . }}"{{ else }}""{{ end }};
+
+  function sendContact(f) {
+    if (!WEB3FORMS_KEY) {
+      // Chưa cấu hình key: rơi về mở ứng dụng email của khách
+      var body = "Từ: " + f.elements.name.value + " <" + f.elements.email.value + ">\n\n" + f.elements.message.value;
+      location.href = "mailto:" + CONTACT_EMAIL +
+        "?subject=" + encodeURIComponent(f.elements.subject.value) +
+        "&body=" + encodeURIComponent(body);
+      return false;
+    }
+    var status = f.querySelector(".form-status");
+    var btn = f.querySelector("button[type=submit]");
+    btn.disabled = true;
+    status.className = "form-status";
+    status.textContent = "Đang gửi...";
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        name: f.elements.name.value,
+        email: f.elements.email.value,
+        subject: f.elements.subject.value,
+        message: f.elements.message.value,
+        botcheck: f.elements.botcheck.checked
+      })
+    }).then(function (r) { return r.json(); }).then(function (res) {
+      if (!res.success) throw new Error(res.message);
+      status.textContent = "Đã gửi thành công. Cảm ơn bạn!";
+      status.className = "form-status ok";
+      f.reset();
+    }).catch(function () {
+      status.textContent = "Gửi không thành công. Bạn có thể email trực tiếp tới " + CONTACT_EMAIL + ".";
+      status.className = "form-status err";
+    }).then(function () { btn.disabled = false; });
     return false;
   }
 </script>
