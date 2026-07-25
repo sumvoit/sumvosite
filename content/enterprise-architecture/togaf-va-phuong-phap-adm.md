@@ -501,9 +501,19 @@ Vì chữ ký của lãnh đạo tạo ra cam kết nguồn lực chính thức 
 
 ### Phase B: Business Architecture (Objectives)
 
+**https://digital-portfolio.opengroup.org/togaf-standard-architecture-development-method/main/01-doc/chap04.html#tag_04_01**
+
 **Mô tả nội dung**
 
-Hai mục tiêu: (1) Phát triển Kiến trúc Nghiệp vụ Mục tiêu mô tả cách doanh nghiệp cần vận hành để đạt mục tiêu kinh doanh và đáp ứng động lực chiến lược trong Tầm nhìn, theo cách xử lý được Statement of Architecture Work và mối quan tâm của stakeholder; (2) Nhận diện các thành phần lộ trình kiến trúc ứng viên dựa trên khoảng cách giữa Kiến trúc Nghiệp vụ Baseline và Target.
+  * Phát triển Kiến trúc Nghiệp vụ Mục tiêu mô tả cách doanh nghiệp cần vận hành để đạt mục tiêu kinh doanh và đáp ứng động lực chiến lược trong Tầm nhìn, theo cách xử lý được Statement of Architecture Work và mối quan tâm của stakeholder;
+
+  * Develop the Target Business Architecture that describes how the enterprise needs to operate to achieve the business goals, and respond to the strategic drivers set out in the Architecture Vision, in a way that addresses the Statement of Architecture Work and stakeholder concerns;
+
+
+  * Nhận diện các thành phần lộ trình kiến trúc ứng viên dựa trên khoảng cách giữa Kiến trúc Nghiệp vụ Baseline và Target.
+
+  * Identify candidate Architecture Roadmap components based upon gaps between the Baseline and Target Business Architectures;
+
 
 **Diễn giải chi tiết**
 
@@ -548,7 +558,7 @@ Chúng là nguyên liệu cho Phase E khi lắp ráp Lộ trình Kiến trúc t�
 **Mạch nối:** Biết đầu ra rồi, slide tiếp theo trình bày các bước cụ thể để tạo ra chúng — quy trình 9 bước của Phase B.
 
 ### Phase B: Business Architecture (Steps)
-**https://digital-portfolio.opengroup.org/togaf-standard-architecture-development-method/main/01-doc/chap04.html#tag_04_01**
+
 **Mô tả nội dung**
 
 Chín bước (mẫu chung cho các phase kiến trúc B–D): (1) Chọn mô hình tham chiếu, viewpoint & công cụ; (2) Phát triển mô tả Kiến trúc Baseline; (3) Phát triển mô tả Kiến trúc Target; (4) Phân tích khoảng cách; (5) Định nghĩa thành phần lộ trình ứng viên; (6) Giải quyết tác động xuyên Architecture Landscape; (7) Rà soát chính thức với stakeholder; (8) Hoàn thiện Kiến trúc Nghiệp vụ; (9) Tạo/Cập nhật Architecture Definition Document.
@@ -1246,3 +1256,5 @@ Security Services Catalog là gì?
 Danh mục các dịch vụ an toàn tái sử dụng (như Quản lý Danh tính & Truy cập, Quản lý Liên tục, Tình báo An toàn, Quản lý Tuân thủ) để mọi dự án dùng chung thay vì tự làm lại.
 
 **Mạch nối:** Module 2 đã trình bày đầy đủ phương pháp TOGAF ADM và các phase. Khóa học bước vào Module 3 — bộ kỹ thuật cụ thể giúp thực thi ADM hiệu quả.
+
+
