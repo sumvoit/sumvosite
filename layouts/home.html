@@ -156,40 +156,11 @@
     .r-item h5 { font-size: 1rem; margin: 6px 0 8px; }
     .r-item p { color: var(--muted); font-size: .88rem; }
 
-    /* ===== Portfolio ===== */
-    .pf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-    .pf-item {
-      border-radius: 6px; overflow: hidden; position: relative;
-      aspect-ratio: 4 / 3; display: flex; align-items: flex-end;
-    }
-    .pf-item .pf-label {
-      width: 100%; padding: 14px 16px; font-size: .95rem; font-weight: 600;
-      background: linear-gradient(transparent, rgba(0,0,0,.75));
-    }
-    .pf-item .pf-label small { display: block; color: var(--accent); font-weight: 700; font-size: .75rem; letter-spacing: .5px; text-transform: uppercase; }
-    .g1 { background: linear-gradient(135deg, #3b4a6b, #1d2333); }
-    .g2 { background: linear-gradient(135deg, #6b3b3b, #331d1d); }
-    .g3 { background: linear-gradient(135deg, #3b6b55, #1d3329); }
-    .g4 { background: linear-gradient(135deg, #5d3b6b, #2a1d33); }
-    .g5 { background: linear-gradient(135deg, #6b5e3b, #33301d); }
-    .g6 { background: linear-gradient(135deg, #3b5d6b, #1d2c33); }
-
     /* ===== Stats ===== */
     .stats { background: linear-gradient(rgba(15,15,15,.85), rgba(15,15,15,.85)), var(--bg-alt); padding: 56px 0; }
     .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 26px; text-align: center; }
     .stat b { display: block; font-size: 2rem; color: var(--accent); font-weight: 800; }
     .stat span { color: var(--muted); font-size: .9rem; }
-
-    /* ===== Blog ===== */
-    .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-    .post-card { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; }
-    .post-thumb { aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: rgba(255,255,255,.35); }
-    .post-body { padding: 20px 22px 24px; display: flex; flex-direction: column; flex: 1; }
-    .post-meta { font-size: .78rem; color: var(--muted); margin-bottom: 8px; }
-    .post-meta em { font-style: normal; color: var(--accent); }
-    .post-body h4 { font-size: 1.05rem; margin-bottom: 10px; }
-    .post-body h4 a:hover { color: var(--accent); }
-    .post-body p { color: var(--muted); font-size: .88rem; flex: 1; margin-bottom: 18px; }
 
     /* ===== Contact ===== */
     .contact-form { max-width: 760px; margin: 0 auto; }
@@ -231,14 +202,11 @@
 
 <header class="site-header">
   <div class="wrap">
-    <a class="logo" href="/">{{ .Site.Title }}</a>
+    <a class="logo" href="#home">{{ .Site.Title }}</a>
     <nav class="nav">
-      <a href="/">Trang chủ</a>
-      <a href="#about">Giới thiệu</a>
-      <a href="#services">Dịch vụ</a>
-      <a href="#resume">Hồ sơ</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#blog">Blog</a>
+      <a href="#about">Tổng quan</a>
+      <a href="#skills">Năng lực</a>
+      <a href="#resume">Kinh nghiệm</a>
       <a href="#contact">Liên hệ</a>
     </nav>
   </div>
@@ -247,10 +215,10 @@
 <!-- Hero -->
 <div class="hero" id="home">
   <div class="hero-inner">
-    <h1>{{ with $p.hero }}{{ .title }}{{ else }}I Am Web Developer{{ end }}</h1>
+    <h1>{{ with $p.hero }}{{ .title }}{{ else }}Project Manager | Technical Lead | Digital Leader{{ end }}</h1>
     {{ with $p.hero }}{{ with .subtitle }}<p>{{ . }}</p>{{ end }}{{ end }}
     <div class="hero-actions">
-      <a class="btn btn-solid" href="{{ with $p.hero }}{{ default "/docs/" .primaryUrl }}{{ else }}/docs/{{ end }}">{{ with $p.hero }}{{ default "Xem Tài liệu" .primaryText }}{{ else }}Xem Tài liệu{{ end }}</a>
+      <a class="btn btn-solid" href="{{ with $p.hero }}{{ default "#resume" .primaryUrl }}{{ else }}#resume{{ end }}">{{ with $p.hero }}{{ default "Xem Kinh nghiệm" .primaryText }}{{ else }}Xem Kinh nghiệm{{ end }}</a>
       <a class="btn btn-line" href="{{ with $p.hero }}{{ default "#contact" .secondaryUrl }}{{ else }}#contact{{ end }}">{{ with $p.hero }}{{ default "Liên hệ" .secondaryText }}{{ else }}Liên hệ{{ end }}</a>
     </div>
   </div>
@@ -285,16 +253,16 @@
   </div>
 </section>
 
-<!-- Services -->
-<section id="services">
+<!-- Competencies -->
+<section id="skills">
   <div class="wrap">
     <div class="sec-head reveal">
-      <h2>Dịch vụ <em>của tôi</em></h2>
+      <h2>Năng lực <em>lãnh đạo</em></h2>
       <div class="bar"></div>
-      {{ with $p.servicesLead }}<p>{{ . }}</p>{{ end }}
+      {{ with $p.competenciesLead }}<p>{{ . }}</p>{{ end }}
     </div>
     <div class="cards">
-      {{ range $i, $svc := $p.services }}
+      {{ range $i, $svc := $p.competencies }}
       <div class="card reveal d{{ mod $i 3 }}">
         <div class="ico">{{ .icon | safeHTML }}</div>
         <h4>{{ .title }}</h4>
@@ -309,7 +277,7 @@
 <section id="resume">
   <div class="wrap">
     <div class="sec-head reveal">
-      <h2>Hồ sơ <em>của tôi</em></h2>
+      <h2>Kinh nghiệm <em>&amp; học vấn</em></h2>
       <div class="bar"></div>
       {{ with $p.resumeLead }}<p>{{ . }}</p>{{ end }}
     </div>
@@ -338,24 +306,6 @@
   </div>
 </section>
 
-<!-- Portfolio -->
-<section id="portfolio">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Portfolio <em>dự án</em></h2>
-      <div class="bar"></div>
-      {{ with $p.portfolioLead }}<p>{{ . }}</p>{{ end }}
-    </div>
-    <div class="pf-grid">
-      {{ range $i, $item := $p.portfolio }}
-      <a class="pf-item reveal d{{ mod $i 3 }} g{{ add (mod $i 6) 1 }}" {{ with $item.url }}href="{{ . }}"{{ end }} {{ with $item.image }}style="background:url('{{ . }}') center/cover"{{ end }}>
-        <span class="pf-label"><small>{{ $item.tag }}</small>{{ $item.title }}</span>
-      </a>
-      {{ end }}
-    </div>
-  </div>
-</section>
-
 <!-- Stats -->
 <div class="stats">
   <div class="wrap stats-row">
@@ -364,31 +314,6 @@
     {{ end }}
   </div>
 </div>
-
-<!-- Blog -->
-<section id="blog">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Blog <em>của tôi</em></h2>
-      <div class="bar"></div>
-      <p>Những bài viết mới nhất trên <a href="/posts/" style="color:var(--accent)">blog</a>.</p>
-    </div>
-    <div class="blog-grid">
-      {{ $posts := where .Site.RegularPages "Section" "posts" }}
-      {{ range $i, $post := first 3 $posts }}
-      <div class="post-card reveal d{{ mod $i 3 }}">
-        <div class="post-thumb g{{ add (mod $i 6) 1 }}">&#9998;</div>
-        <div class="post-body">
-          <div class="post-meta">{{ $post.Date.Format "02/01/2006" }}{{ with $post.Params.categories }} | <em>{{ index . 0 }}</em>{{ end }}</div>
-          <h4><a href="{{ $post.RelPermalink }}">{{ $post.Title }}</a></h4>
-          <p>{{ $post.Summary | plainify | truncate 120 }}</p>
-          <div><a class="btn btn-solid" href="{{ $post.RelPermalink }}">Đọc tiếp</a></div>
-        </div>
-      </div>
-      {{ end }}
-    </div>
-  </div>
-</section>
 
 <!-- Contact -->
 <section id="contact">
@@ -417,9 +342,8 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="links">
-      <a href="/docs/">Tài liệu</a>
-      <a href="/posts/">Blog</a>
-      <a href="/books/">Books</a>
+      {{ with $p.contactEmail }}<a href="mailto:{{ . }}">{{ . }}</a>{{ end }}
+      {{ range $p.about.info }}{{ if eq (index . 0) "LinkedIn" }}<a href="https://{{ index . 1 }}" target="_blank" rel="noopener">{{ index . 1 }}</a>{{ end }}{{ end }}
     </div>
     Copyright &copy; {{ now.Year }} {{ .Site.Title }}. All Rights Reserved.
   </div>
