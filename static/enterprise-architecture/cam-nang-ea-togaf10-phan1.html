@@ -150,7 +150,7 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:26px 0}
   <div class="kicker">Digital Leader Coaching · Enterprise Architecture</div>
   <h1>Cẩm nang Enterprise Architecture</h1>
   <p class="sub">TOGAF® Standard, 10th Edition - Bản Việt hoá có diễn giải</p>
-  <p class="vol">Quyển 1 · Nền tảng → Preliminary → Phase A → Phase B → Phase C → Phase D, kèm các kỹ thuật ADM liên quan</p>
+  <p class="vol">Quyển 1 · Nền tảng → Preliminary → Phase A → B → C → D → E → F → G → H → Requirements Management, kèm các kỹ thuật ADM liên quan</p>
   <div class="meta">
     <span class="chip">Module 1 · Nền tảng &amp; Khái niệm cốt lõi</span>
     <span class="chip">Module 2 · TOGAF &amp; ADM</span>
@@ -214,6 +214,16 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:26px 0}
         <li><a href="#s-C-app">Application Architecture <span style="color:#93a0ad">(slide 47)</span></a></li>
         <li><a href="#s-D-obj">Phase D - Objectives &amp; Inputs <span style="color:#93a0ad">(slide 48)</span></a></li>
         <li><a href="#s-D-out">Phase D - Outputs &amp; Artifacts <span style="color:#93a0ad">(slide 49)</span></a></li>
+        <li><a href="#s-E-obj">Phase E: Opportunities &amp; Solutions - Objectives &amp; Inputs <span style="color:#93a0ad">(slide 50)</span></a></li>
+        <li><a href="#s-E-steps">Phase E - Mười một bước &amp; Consolidation <span style="color:#93a0ad">(slide 51)</span></a></li>
+        <li><a href="#s-E-out">Phase E - Outputs <span style="color:#93a0ad">(slide 52, 53)</span></a></li>
+        <li><a href="#s-F-obj">Phase F: Migration Planning - Objectives &amp; Steps <span style="color:#93a0ad">(slide 54)</span></a></li>
+        <li><a href="#s-F-appr">Phase F - Approach &amp; Outputs <span style="color:#93a0ad">(slide 55)</span></a></li>
+        <li><a href="#s-G-obj">Phase G: Implementation Governance - Objectives &amp; Steps <span style="color:#93a0ad">(slide 56, 57)</span></a></li>
+        <li><a href="#s-G-appr">Phase G - Approach &amp; Architecture Contract <span style="color:#93a0ad">(slide 58)</span></a></li>
+        <li><a href="#s-H">Phase H: Architecture Change Management <span style="color:#93a0ad">(slide 59)</span></a></li>
+        <li><a href="#s-RM">ADM Architecture Requirements Management <span style="color:#93a0ad">(slide 60)</span></a></li>
+        <li><a href="#s-sec">Security Architecture <span style="color:#93a0ad">(slide 61, 62)</span></a></li>
       </ol>
     </li>
     <li><a href="#m3">Module 3 - Kỹ thuật ADM (ADM Techniques)</a>
@@ -227,6 +237,7 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:26px 0}
         <li><a href="#s-btra">Business Transformation Readiness Assessment <span style="color:#93a0ad">(bổ sung)</span></a></li>
         <li><a href="#s-risk">Risk Management <span style="color:#93a0ad">(bổ sung)</span></a></li>
         <li><a href="#s-procmod">Process Modelling <span style="color:#93a0ad">(slide 40 · chuyên đề)</span></a></li>
+        <li><a href="#s-alt">Architecture Alternatives &amp; Trade-offs <span style="color:#93a0ad">(slide 71)</span></a></li>
       </ol>
     </li>
     <li><a href="#apx">Phụ lục</a>
@@ -685,7 +696,7 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:26px 0}
 <div class="module" id="m2">
   <div class="m-tag">Module 2</div>
   <h2>TOGAF Framework &amp; Architecture Development Method</h2>
-  <p class="m-desc">Slide 15–49 · đối chiếu TOGAF Standard - Architecture Development Method, chương 1–8</p>
+  <p class="m-desc">Slide 15-62 · đối chiếu TOGAF Standard - Architecture Development Method, chương 1-13</p>
 </div>
 
 <section id="s-togaf">
@@ -3350,11 +3361,962 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:26px 0}
   <a class="totop" href="#m2">↑ đầu Module 2</a>
 </section>
 
+<section id="s-E-obj">
+  <h3>2.34 · Phase E: Opportunities &amp; Solutions - Objectives &amp; Inputs</h3>
+  <p class="srcref">Slide 50 · TOGAF - <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html" target="_blank" rel="noopener" title="TOGAF Standard - Architecture Development Method">ADM</a> <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap09.html#tag_09_01" target="_blank" rel="noopener" title="ADM §9.1 Objectives">§9.1</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap09.html#tag_09_02" target="_blank" rel="noopener" title="ADM §9.2 Inputs">§9.2</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap09.html#tag_09_05" target="_blank" rel="noopener" title="ADM §9.5 Approach">§9.5</a></p>
+
+  <p class="lead">Đây là bản lề của cả chu kỳ ADM. Phase B, C, D trả lời <b>“kiến trúc đích trông như thế nào”</b>.
+  Phase E là nơi đầu tiên trả lời <b>“làm sao đi tới đó”</b>. Chuẩn nói gọn:
+  <i>“Phase E concentrates on how to deliver the architecture.”</i></p>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">1</span>Ba mục tiêu của Phase E</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap09.html#tag_09_01" target="_blank" rel="noopener" title="ADM §9.1 Objectives">ADM §9.1</a></p>
+
+    <table>
+      <tr><th style="width:32%">Mục tiêu (nguyên văn chuẩn)</th><th>Ý nghĩa thực hành</th></tr>
+      <tr>
+        <td>Generate the <b>initial complete version</b> of the Architecture Roadmap, based upon the gap
+        analysis and candidate Architecture Roadmap components from Phases B, C, and D</td>
+        <td>Ba phase trước mỗi phase đẻ ra một mảnh roadmap rời rạc. Phase E là lần đầu tiên chúng được
+        <b>ghép thành một roadmap hoàn chỉnh</b>. Từ khoá là <span class="en">initial</span> - còn thô,
+        Phase F mới chốt.</td>
+      </tr>
+      <tr>
+        <td>Determine whether an <b>incremental approach</b> is required, and if so identify
+        <b>Transition Architectures</b> that will deliver continuous business value</td>
+        <td>Trả lời câu hỏi tiền tỷ: đi <b>một phát tới đích</b> hay <b>chia thành nhiều chặng</b>?
+        Mỗi chặng phải tự nó tạo ra giá trị nghiệp vụ, không phải chỉ là mốc kỹ thuật.</td>
+      </tr>
+      <tr>
+        <td>Define the overall <b>Solution Building Blocks (SBBs)</b> to finalize the Target Architecture
+        based on the ABBs</td>
+        <td>Chuyển từ <b>ABB</b> (cái gì cần có - độc lập nhà cung cấp) sang <b>SBB</b> (thứ cụ thể sẽ mua
+        hoặc xây). Đây là lần đầu tiên trong ADM được phép nói tên sản phẩm.</td>
+      </tr>
+    </table>
+
+    <div class="box def">
+      <div class="bx-t">ABB và SBB - phân biệt lại cho chắc</div>
+      <b>Architecture Building Block (ABB)</b>: mô tả <b>năng lực cần có</b>, độc lập với công nghệ và nhà
+      cung cấp. Ví dụ: “dịch vụ xác thực đa yếu tố”.<br>
+      <b>Solution Building Block (SBB)</b>: <b>hiện thực cụ thể</b> của ABB đó - sản phẩm mua, hệ thống tự
+      xây, dịch vụ thuê. Ví dụ: “Okta Adaptive MFA”.<br>
+      Phase B/C/D làm việc với ABB. <b>Phase E là ranh giới</b> nơi ABB được ánh xạ sang SBB. Nếu bạn thấy tên
+      sản phẩm xuất hiện ở Phase B thì kiến trúc đã bị “bẻ lái” bởi nhà cung cấp.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">2</span>Bốn khái niệm cốt lõi của việc chuyển giao</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap09.html#tag_09_05" target="_blank" rel="noopener" title="ADM §9.5 Approach">ADM §9.5</a></p>
+
+    <p>Chuẩn nêu đích danh <b>bốn khái niệm then chốt để chuyển từ “phát triển” sang “chuyển giao”</b> kiến trúc đích:</p>
+
+    <table>
+      <tr><th style="width:26%">Khái niệm</th><th style="width:38%">Định nghĩa chuẩn</th><th>Câu hỏi nó trả lời</th></tr>
+      <tr><td><span class="term">Architecture Roadmap</span></td>
+        <td>Liệt kê từng <b>work package trên một trục thời gian</b> để hiện thực hoá Target Architecture.</td>
+        <td><b>Khi nào</b> làm gì?</td></tr>
+      <tr><td><span class="term">Work Package</span></td>
+        <td>Một <b>nhóm thay đổi có logic</b> cần thiết để hiện thực hoá Target Architecture.</td>
+        <td><b>Cái gì</b> được gói lại thành một đơn vị công việc?</td></tr>
+      <tr><td><span class="term">Transition Architecture</span></td>
+        <td>Mô tả doanh nghiệp ở <b>một trạng thái có ý nghĩa kiến trúc</b> nằm giữa Baseline và Target.
+        Là các <b>Target Architecture tạm thời</b> mà tổ chức hội tụ dần về.</td>
+        <td>Các <b>trạm dừng</b> trên đường đi là gì?</td></tr>
+      <tr><td><span class="term">Implementation and Migration Plan</span></td>
+        <td>Cung cấp <b>lịch trình các dự án</b> sẽ hiện thực hoá Target Architecture.</td>
+        <td><b>Ai</b> làm, <b>bao lâu</b>, <b>bao nhiêu tiền</b>?</td></tr>
+    </table>
+
+    <div class="box tip">
+      <div class="bx-t">Nguyên tắc chỉ đạo của Phase E</div>
+      Chuẩn viết: <i>“The key is to focus on the final target while realizing incremental business value.”</i><br>
+      <b>Vừa nhìn đích cuối, vừa trả giá trị theo từng chặng.</b> Đây là câu trả lời cho hai thất bại kinh điển:
+      dự án big-bang 3 năm không ai thấy giá trị, và chuỗi cải tiến vụn vặt không dẫn tới đâu.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">3</span>Inputs - Phase E nhận gì</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap09.html#tag_09_02" target="_blank" rel="noopener" title="ADM §9.2 Inputs">ADM §9.2</a></p>
+    <div class="io">
+      <div>
+        <h5>Từ bên ngoài &amp; phi kiến trúc</h5>
+        <ul>
+          <li><b>Reference materials external to the enterprise</b> - mô hình tham chiếu ngành, sản phẩm khả dụng trên thị trường</li>
+          <li><b>Request for Architecture Work</b></li>
+          <li><b>Capability Assessment</b> - đánh giá năng lực nghiệp vụ và năng lực CNTT</li>
+          <li><b>Communications Plan</b> · <b>Planning methodologies</b> của doanh nghiệp</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Đầu vào kiến trúc (quan trọng nhất)</h5>
+        <ul>
+          <li><b>Architecture Vision</b> · <b>Statement of Architecture Work</b></li>
+          <li><b>Draft Architecture Definition Document</b> - Baseline &amp; Target của cả B, C, D</li>
+          <li><b>Draft Architecture Requirements Specification</b> gồm <b>toàn bộ kết quả gap analysis</b></li>
+          <li><b>Change Requests</b> cho các chương trình đang chạy</li>
+          <li><b>Candidate Architecture Roadmap components</b> từ Phase B, C, D</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box warn">
+      <div class="bx-t">Không có gap analysis đầy đủ thì không vào được Phase E</div>
+      Phase E <b>không tạo ra thông tin mới về kiến trúc</b> - nó chỉ hợp nhất và sắp xếp. Nếu Phase B/C/D chưa
+      cho ra gap analysis rõ ràng cho từng domain, Phase E sẽ biến thành một buổi “đoán xem nên làm dự án gì”,
+      và roadmap sinh ra sẽ không truy vết được về bất kỳ mục tiêu nghiệp vụ nào.
+    </div>
+  </div>
+
+  <a class="totop" href="#m2">↑ đầu Module 2</a>
+</section>
+
+<section id="s-E-steps">
+  <h3>2.35 · Phase E - Mười một bước &amp; Consolidation and Aggregation</h3>
+  <p class="srcref">Slide 51 · TOGAF - <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html" target="_blank" rel="noopener" title="TOGAF Standard - Architecture Development Method">ADM</a> <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap09.html#tag_09_03" target="_blank" rel="noopener" title="ADM §9.3 Steps">§9.3</a> (§9.3.1-§9.3.11)</p>
+
+  <p>Slide 51 liệt kê đúng <b>11 bước của Phase E theo chuẩn</b> - đây không phải danh sách gợi ý mà là
+  <span class="en">§9.3.1</span> đến <span class="en">§9.3.11</span>. Chuẩn nhấn mạnh hai điều trước khi vào bước:
+  <b>mức độ chi tiết tuỳ scope và goals</b> của nỗ lực kiến trúc, và <b>thứ tự các bước có thể điều chỉnh</b>
+  theo tình huống, miễn tuân thủ Architecture Governance đã thiết lập.</p>
+
+  <ol class="steps">
+    <li><span class="st">Determine/confirm key corporate change attributes <span class="gloss">(§9.3.1)</span></span>
+    Xác định Enterprise Architecture nên được triển khai thế nào để <b>tận dụng văn hoá doanh nghiệp</b>.
+    Sản phẩm: <b>Implementation Factor catalog</b> - kho lưu mọi quyết định về triển khai và chuyển đổi.</li>
+
+    <li><span class="st">Determine business constraints for implementation <span class="gloss">(§9.3.2)</span></span>
+    Rà soát chiến lược và kế hoạch nghiệp vụ, kiến trúc doanh nghiệp, và các ràng buộc thực tế:
+    ngân sách, chu kỳ tài khoá, mùa vụ kinh doanh, quy định pháp lý sắp có hiệu lực.</li>
+
+    <li><span class="st">Review and consolidate gap analysis results from Phases B to D <span class="gloss">(§9.3.3)</span></span>
+    Hợp nhất toàn bộ gap của bốn domain vào <b>Consolidated Gaps, Solutions, and Dependencies Matrix</b>.
+    Khi gom nhóm gap, phải đối chiếu lại <b>Implementation Factor catalog</b>; phát hiện yếu tố mới thì bổ sung vào đó.</li>
+
+    <li><span class="st">Review consolidated requirements across related business functions <span class="gloss">(§9.3.4)</span></span>
+    Soi các yêu cầu <b>xuyên chức năng</b> - nơi hai đơn vị cùng cần một năng lực nhưng đang tự làm riêng.
+    Đây là mỏ vàng của việc gộp dự án.</li>
+
+    <li><span class="st">Consolidate and reconcile interoperability requirements <span class="gloss">(§9.3.5)</span></span>
+    Đối chiếu yêu cầu liên thông trong Architecture Vision và Target Architecture với Implementation Factor
+    catalog và Consolidated Gaps matrix. <b>Mâu thuẫn về liên thông phải được giải quyết ở đây</b>, không để
+    xuống tới dự án.</li>
+
+    <li><span class="st">Refine and validate dependencies <span class="gloss">(§9.3.6)</span></span>
+    Làm mịn và kiểm chứng các phụ thuộc. Phụ thuộc sai là nguyên nhân số một khiến roadmap vỡ lịch.</li>
+
+    <li><span class="st">Confirm readiness and risk for business transformation <span class="gloss">(§9.3.7)</span></span>
+    Xem lại kết quả <a href="#s-btra">Business Transformation Readiness Assessment</a> làm ở Phase A, cập nhật
+    theo hiểu biết mới, và gắn rủi ro vào từng nhóm thay đổi.</li>
+
+    <li><span class="st">Formulate Implementation and Migration Strategy <span class="gloss">(§9.3.8)</span></span>
+    Chọn <b>chiến lược chuyển đổi tổng thể</b>: thay thế toàn bộ, chạy song song, hay chuyển dần theo miền.
+    Rủi ro lớn nhất trong Consolidated Gaps matrix chi phối lựa chọn này.</li>
+
+    <li><span class="st">Identify and group major work packages <span class="gloss">(§9.3.9)</span></span>
+    Dùng Consolidated Gaps matrix cùng Implementation Factor catalog để <b>gom các hoạt động thành work package</b>,
+    rồi điền cột <b>“Solution”</b> trong ma trận.</li>
+
+    <li><span class="st">Identify Transition Architectures <span class="gloss">(§9.3.10)</span></span>
+    Xác định các trạng thái trung gian. Mỗi Transition Architecture phải là một <b>trạng thái có ý nghĩa kiến trúc</b>
+    và tự nó tạo ra giá trị - không phải chỉ là “đã xong giai đoạn 1”.</li>
+
+    <li><span class="st">Create the Architecture Roadmap &amp; Implementation and Migration Plan <span class="gloss">(§9.3.11)</span></span>
+    <b>Bước đóng</b>. Chuẩn quy định rõ: mọi hoạt động khởi động ở các bước trên <b>phải được kết thúc tại bước này</b>.</li>
+  </ol>
+
+  <div class="box key">
+    <div class="bx-t">“Consolidation and Aggregation” - tên gọi khác của toàn bộ Phase E</div>
+    Tiêu đề slide 51 mô tả đúng bản chất: Phase E không sáng tạo, nó <b>hợp nhất</b> (consolidate) và
+    <b>gom nhóm</b> (aggregate). Nguyên liệu đã có sẵn từ B, C, D. Giá trị mà kiến trúc sư tạo ra ở đây là
+    <b>nhìn thấy điểm chung, phụ thuộc và thứ tự</b> mà từng phase riêng lẻ không thể thấy.
+  </div>
+
+  <h4>Ba công cụ đặc thù của Phase E</h4>
+  <table>
+    <tr><th style="width:28%">Công cụ</th><th>Nội dung &amp; cách dùng</th></tr>
+    <tr><td><span class="term">Implementation Factor Catalog</span><br><span class="gloss">Danh mục yếu tố triển khai</span></td>
+      <td>Kho lưu <b>mọi quyết định và ràng buộc về triển khai/chuyển đổi</b>: văn hoá doanh nghiệp, năng lực
+      đội ngũ, chu kỳ ngân sách, quy định, mùa vụ. Mỗi mục ghi <b>Factor - Description - Deduction</b>
+      (yếu tố, mô tả, suy luận kéo theo). Là bộ lọc để giải thích <b>vì sao roadmap phải xếp theo thứ tự này</b>.</td></tr>
+    <tr><td><span class="term">Consolidated Gaps, Solutions &amp; Dependencies Matrix</span></td>
+      <td>Hàng = từng gap từ B, C, D. Cột = <b>Architecture domain · Gap · Potential solution · Dependencies</b>.
+      Đây là <b>hiện vật trung tâm của Phase E</b>: nó biến hàng trăm gap rời rạc thành một bảng có thể gom nhóm,
+      xếp hạng và giao việc.</td></tr>
+    <tr><td><span class="term">Architecture Definition Increments Table</span> &amp;<br>
+      <span class="term">Transition Architecture State Evolution Table</span></td>
+      <td>Bảng tăng dần theo <b>từng đợt (increment)</b>: mỗi cột là một Transition Architecture, mỗi hàng là một
+      capability/dịch vụ, ô ghi trạng thái (mới · giữ nguyên · thay thế · loại bỏ). Cho lãnh đạo thấy
+      <b>doanh nghiệp trông ra sao sau mỗi chặng</b>.</td></tr>
+  </table>
+
+  <div class="box src">
+    <div class="bx-t">Lưu ý về nguồn của ba công cụ trên</div>
+    Ba kỹ thuật này thuộc chương <b>Migration Planning Techniques</b> của
+    <i>TOGAF Standard - ADM Techniques</i> trong <b>bản PDF 2022</b> (Chapter 6). Chương này
+    <b>không còn trong bản trực tuyến hiện hành</b> - đó cũng là lý do các chương sau nó bị lùi một bậc
+    (Business Transformation Readiness Assessment từ Chapter 8 thành
+    <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap07.html" target="_blank" rel="noopener" title="ADM Techniques Chapter 7">Chapter 7</a>,
+    Risk Management từ Chapter 9 thành
+    <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap08.html" target="_blank" rel="noopener" title="ADM Techniques Chapter 8">Chapter 8</a>).
+    Bản thân các công cụ vẫn được ADM
+    <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap09.html#tag_09_03" target="_blank" rel="noopener" title="ADM §9.3 Steps">§9.3</a> và
+    <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap10.html#tag_10_03" target="_blank" rel="noopener" title="ADM §10.3 Steps">§10.3</a> gọi tên và yêu cầu tạo ra.
+  </div>
+
+  <a class="totop" href="#m2">↑ đầu Module 2</a>
+</section>
+
+<section id="s-E-out">
+  <h3>2.36 · Phase E - Outputs</h3>
+  <p class="srcref">Slide 52, 53 · TOGAF - <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html" target="_blank" rel="noopener" title="TOGAF Standard - Architecture Development Method">ADM</a> <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap09.html#tag_09_04" target="_blank" rel="noopener" title="ADM §9.4 Outputs">§9.4</a></p>
+
+  <p>Slide 52 nêu hai đầu ra chính. Chuẩn liệt kê đầy đủ hơn nhiều - dưới đây là bản đối chiếu:</p>
+
+  <table>
+    <tr><th style="width:30%">Output</th><th>Nội dung chi tiết theo chuẩn</th></tr>
+    <tr><td><b>Các deliverable của Phase A được tinh chỉnh</b></td>
+      <td>Architecture Vision - <b>bổ sung định nghĩa các loại và mức độ interoperability</b> ·
+      Statement of Architecture Work (cập nhật nếu cần)</td></tr>
+    <tr><td><b>Draft Architecture Definition Document</b></td>
+      <td>Baseline &amp; Target của cả bốn domain (Business, Data, Application, Technology) đã duyệt và cập nhật ·
+      <b>Transition Architecture - số lượng và phạm vi theo nhu cầu</b> · các View tương ứng viewpoint đã chọn</td></tr>
+    <tr><td><b>Draft Architecture Requirements Specification</b></td>
+      <td><b>Consolidated Gaps, Solutions, and Dependencies Assessment</b></td></tr>
+    <tr><td><b>Capability Assessments</b></td>
+      <td>Business Capability Assessment · IT Capability Assessment</td></tr>
+    <tr><td><b>Architecture Roadmap</b> <span class="gloss">(sản phẩm chính)</span></td>
+      <td><b>Work package portfolio</b>, mỗi work package gồm: mô tả (tên, mô tả, mục tiêu) · functional
+      requirements · dependencies · quan hệ với cơ hội · quan hệ với ADD và Architecture Requirements
+      Specification · quan hệ với các capability increment · <b>business value</b> · Implementation Factor
+      catalog · impact.<br>
+      <b>Identification of Transition Architectures</b> (nếu có), kèm quan hệ với ADD.<br>
+      <b>Implementation recommendations</b>: criteria measures of effectiveness · risks and issues ·
+      <b>Solution Building Blocks (SBBs)</b>.</td></tr>
+    <tr><td><b>Implementation and Migration Plan (Draft)</b></td>
+      <td>Bao gồm <b>Implementation and Migration Strategy</b></td></tr>
+  </table>
+
+  <div class="box key">
+    <div class="bx-t">Nội dung bắt buộc của một work package</div>
+    Nếu bạn chỉ nhớ một thứ từ mục này: work package <b>không phải là một dòng trong bảng Excel</b>.
+    Theo chuẩn nó phải có <b>business value</b>, <b>dependencies</b>, và <b>đường truy vết ngược về ADD và
+    Architecture Requirements Specification</b>. Thiếu ba thứ đó thì không ai bảo vệ được nó trước hội đồng đầu tư.
+  </div>
+
+  <h4>Risk management trong Phase E <span class="gloss">(slide 53)</span></h4>
+  <p>Slide 53 chèn một trang về <span class="term">Risk management</span> ngay giữa Phase E và Phase F, với
+  thông điệp: <i>“Maximizing business benefit and minimizing business loss”</i>. Vị trí này không ngẫu nhiên -
+  bước <b>§9.3.7 Confirm readiness and risk for business transformation</b> và bước
+  <b>§10.3.4 Prioritize the migration projects … and risk validation</b> là hai điểm mà rủi ro trực tiếp
+  quyết định thứ tự làm việc.</p>
+  <div class="box tip">
+    <div class="bx-t">Rủi ro đi xuyên suốt ADM</div>
+    Rủi ro được <b>nhận diện ở Phase A</b> (bước A10), <b>kiểm chứng lại ở Phase E</b> khi gom work package,
+    <b>định lượng ở Phase F</b> qua cost/benefit assessment, và <b>giám sát ở Phase G</b>. Nội dung đầy đủ về
+    phân loại rủi ro, thang Effect/Frequency, initial vs residual risk xem
+    <a href="#s-risk">mục 3.8 · Risk Management</a>.
+  </div>
+
+  <a class="totop" href="#m2">↑ đầu Module 2</a>
+</section>
+
+<section id="s-F-obj">
+  <h3>2.37 · Phase F: Migration Planning - Objectives &amp; Steps</h3>
+  <p class="srcref">Slide 54 · TOGAF - <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html" target="_blank" rel="noopener" title="TOGAF Standard - Architecture Development Method">ADM</a> <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap10.html#tag_10_01" target="_blank" rel="noopener" title="ADM §10.1 Objectives">§10.1</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap10.html#tag_10_03" target="_blank" rel="noopener" title="ADM §10.3 Steps">§10.3</a></p>
+
+  <p class="lead">Chuẩn mở đầu chương 10 rất gọn: <i>“how to move from the Baseline to the Target Architectures
+  by finalizing a detailed Implementation and Migration Plan”</i>. Phase E cho ra roadmap <b>chưa hoàn chỉnh</b>;
+  Phase F <b>tích hợp nó vào toàn bộ hoạt động thay đổi của doanh nghiệp</b> và chốt lại.</p>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">1</span>Ba mục tiêu</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap10.html#tag_10_01" target="_blank" rel="noopener" title="ADM §10.1 Objectives">ADM §10.1</a></p>
+    <ol class="body">
+      <li><b>Finalize</b> the Architecture Roadmap and the supporting Implementation and Migration Plan</li>
+      <li>Ensure that the Implementation and Migration Plan is <b>co-ordinated with the enterprise's approach
+      to managing and implementing change</b> in the enterprise's overall change portfolio</li>
+      <li>Ensure that the <b>business value và cost</b> của các work package và Transition Architecture
+      <b>được các stakeholder chủ chốt hiểu rõ</b></li>
+    </ol>
+    <div class="box key">
+      <div class="bx-t">Điểm khác biệt cốt lõi giữa Phase E và Phase F</div>
+      <b>Phase E</b> nhìn từ <b>bên trong kiến trúc</b>: gap nào, gom thành gói gì, đi qua trạm nào.<br>
+      <b>Phase F</b> nhìn từ <b>bên ngoài</b>: doanh nghiệp còn hàng chục chương trình khác đang chạy, ngân sách
+      có hạn, nguồn lực có hạn. Chuẩn nói rõ Phase F được làm <b>“in co-operation with the project and portfolio
+      managers”</b> - kiến trúc sư không còn ngồi một mình.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">2</span>Bảy bước của Phase F</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap10.html#tag_10_03" target="_blank" rel="noopener" title="ADM §10.3 Steps">ADM §10.3</a> (§10.3.1-§10.3.7)</p>
+
+    <ol class="steps">
+      <li><span class="st">Confirm management framework interactions for the Implementation and Migration Plan <span class="gloss">(§10.3.1)</span></span>
+      Đồng bộ kế hoạch với các <b>management framework</b> của tổ chức. Chuẩn nêu điển hình có <b>bốn framework</b>
+      cần phối hợp: Business Planning, Enterprise Architecture, Portfolio/Project Management, và Operations Management -
+      cùng bộ đã bàn ở <a href="#s-interop">mục 1.5</a>.</li>
+
+      <li><span class="st">Assign a business value to each work package <span class="gloss">(§10.3.2)</span></span>
+      Trước hết phải <b>định nghĩa thế nào là giá trị</b> trong doanh nghiệp này và <b>đo bằng cách nào</b>,
+      rồi mới áp cho từng dự án. Chuẩn nêu năm thành phần bắt buộc - xem bảng ngay dưới.</li>
+
+      <li><span class="st">Estimate resource requirements, project timings, and availability/delivery vehicle <span class="gloss">(§10.3.3)</span></span>
+      Ước lượng nguồn lực, thời điểm, và <b>phương tiện chuyển giao</b> (dự án nội bộ, thuê ngoài, mua sản phẩm,
+      chương trình hiện có).</li>
+
+      <li><span class="st">Prioritize the migration projects through the conduct of a cost/benefit assessment and risk validation <span class="gloss">(§10.3.4)</span></span>
+      Xếp thứ tự dựa trên <b>đánh giá chi phí/lợi ích</b> cộng với <b>kiểm chứng rủi ro</b> đã nhận diện trong
+      Consolidated Gaps, Solutions, and Dependencies Matrix từ Phase E. Ước lượng business value dùng
+      <b>Business Value Assessment Technique</b>.</li>
+
+      <li><span class="st">Confirm Architecture Roadmap and update Architecture Definition Document <span class="gloss">(§10.3.5)</span></span>
+      Chốt roadmap; cập nhật ADD. Ở bước này chuẩn gọi tên hai bảng:
+      <b>Transition Architecture State Evolution Table</b> và <b>Architecture Definition Increments Table</b>.</li>
+
+      <li><span class="st">Complete the Implementation and Migration Plan <span class="gloss">(§10.3.6)</span></span>
+      Hoàn tất kế hoạch với chi tiết ở mức <b>portfolio và project</b>.</li>
+
+      <li><span class="st">Complete the architecture development cycle and document lessons learned <span class="gloss">(§10.3.7)</span></span>
+      <b>Bước đóng của cả chu kỳ.</b> Mọi hoạt động mở ở các bước trên phải kết thúc tại đây. Bài học kinh nghiệm
+      được ghi lại để cải tiến liên tục - thứ hầu như luôn bị bỏ qua trong thực tế.</li>
+    </ol>
+
+    <h5>Năm thành phần của việc gán business value <span class="gloss">(§10.3.2)</span></h5>
+    <table class="compact">
+      <tr><th style="width:30%">Thành phần</th><th>Vai trò theo chuẩn</th></tr>
+      <tr><td><b>Performance Evaluation Criteria</b></td>
+        <td>Dùng bởi portfolio và capability manager để <b>phê duyệt và theo dõi tiến độ</b> chuyển đổi kiến trúc</td></tr>
+      <tr><td><b>Return-on-Investment Criteria</b></td>
+        <td>Phải được <b>chi tiết hoá và ký duyệt</b> bởi các stakeholder cấp điều hành</td></tr>
+      <tr><td><b>Business Value</b></td>
+        <td>Phải được định nghĩa, kèm kỹ thuật minh hoạ (ví dụ <b>value chain</b>). Dùng để phân bổ nguồn lực; khi
+        cắt giảm, business value kết hợp ROI quyết định dự án <b>tiếp tục, hoãn hay huỷ</b></td></tr>
+      <tr><td><b>Critical Success Factors (CSFs)</b></td>
+        <td>Định nghĩa <b>thế nào là thành công</b> cho một dự án hoặc một increment</td></tr>
+      <tr><td><b>Measures of Effectiveness (MOE)</b></td>
+        <td>Thường là tiêu chí hiệu năng; nhiều doanh nghiệp gộp vào CSF. Nếu tách riêng thì <b>phải nói rõ cách nhóm</b></td></tr>
+    </table>
+  </div>
+
+  <a class="totop" href="#m2">↑ đầu Module 2</a>
+</section>
+
+<section id="s-F-appr">
+  <h3>2.38 · Phase F - Approach &amp; Outputs</h3>
+  <p class="srcref">Slide 55 · TOGAF - <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html" target="_blank" rel="noopener" title="TOGAF Standard - Architecture Development Method">ADM</a> <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap10.html#tag_10_04" target="_blank" rel="noopener" title="ADM §10.4 Outputs">§10.4</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap10.html#tag_10_05" target="_blank" rel="noopener" title="ADM §10.5 Approach">§10.5</a></p>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">1</span>Approach - Phase F thực chất làm gì</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap10.html#tag_10_05" target="_blank" rel="noopener" title="ADM §10.5 Approach">ADM §10.5</a></p>
+    <div class="box def">
+      Chuẩn viết: trọng tâm của Phase F là tạo ra Implementation and Migration Plan
+      <b>“in co-operation with the project and portfolio managers”</b>. Phase E cho ra roadmap và kế hoạch
+      <b>chưa đầy đủ</b>; ở Phase F chúng được <b>tích hợp với các hoạt động thay đổi khác của doanh nghiệp</b>.
+      Các hoạt động gồm <b>đánh giá phụ thuộc, chi phí và lợi ích</b> của từng dự án chuyển đổi
+      <b>trong bối cảnh mọi việc khác doanh nghiệp đang làm</b>. Sau đó chu kỳ phát triển kiến trúc được
+      <b>hoàn tất và ghi nhận bài học</b> để cải tiến liên tục.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">2</span>Bốn góc nhìn của slide 55</div>
+    <p class="blk-src">Nguồn: Slide 55 · đối chiếu <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap10.html#tag_10_03_01" target="_blank" rel="noopener" title="ADM §10.3.1">ADM §10.3.1</a> và <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap07.html" target="_blank" rel="noopener" title="ADM Techniques Chapter 7 - Business Transformation Readiness Assessment">ADM Techniques Chapter 7</a></p>
+
+    <table>
+      <tr><th style="width:22%">Góc nhìn</th><th>Câu hỏi phải trả lời trước khi chốt kế hoạch</th></tr>
+      <tr><td><b>Migration planning</b></td>
+        <td>Chuyển theo <b>chiến lược nào</b>: thay thế toàn bộ (big bang), chạy song song rồi cắt, hay chuyển dần
+        theo miền/khu vực? Thứ tự các Transition Architecture đã tối ưu chưa? Có <b>đường lùi</b> ở mỗi chặng không?</td></tr>
+      <tr><td><b>People</b></td>
+        <td>Ai bị ảnh hưởng, mất/được gì? Cần <b>kỹ năng mới nào</b>, đào tạo bao lâu? Ai là người phản đối và vì sao?
+        Đây là nơi kết quả <a href="#s-btra">Business Transformation Readiness Assessment</a> được dùng lại.</td></tr>
+      <tr><td><b>Physical and data</b></td>
+        <td><b>Di trú dữ liệu</b> là rủi ro bị đánh giá thấp nhất trong mọi dự án chuyển đổi: làm sạch, ánh xạ,
+        đối soát, chạy song song, và <b>xử lý dữ liệu lịch sử</b>. Cùng với đó là tài sản vật lý: thiết bị, mặt bằng,
+        data center.</td></tr>
+      <tr><td><b>The matrix of change</b></td>
+        <td>Kỹ thuật soi <b>tương tác giữa các thay đổi</b>: cặp thay đổi nào <b>bổ trợ</b> nhau (nên làm cùng lúc),
+        cặp nào <b>xung khắc</b> (không được làm song song), cái nào phải đi trước. Trả lời hai câu:
+        <b>thứ tự nào</b> và <b>tốc độ nào</b>.</td></tr>
+    </table>
+
+    <div class="box warn">
+      <div class="bx-t">Cái bẫy hay gặp nhất ở Phase F</div>
+      Roadmap được sắp <b>theo logic kiến trúc</b> (hạ tầng trước, ứng dụng sau, nghiệp vụ cuối) thay vì
+      <b>theo giá trị nghiệp vụ</b>. Kết quả: 18 tháng đầu chỉ toàn việc nền tảng, không stakeholder nào thấy
+      lợi ích, ngân sách bị cắt ở kỳ review đầu tiên. Chuẩn đã cảnh báo từ Phase E:
+      <b>mỗi Transition Architecture phải tự nó tạo ra giá trị nghiệp vụ</b>.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">3</span>Outputs - sản phẩm cuối của chu kỳ kiến trúc</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap10.html#tag_10_04" target="_blank" rel="noopener" title="ADM §10.4 Outputs">ADM §10.4</a></p>
+    <table>
+      <tr><th style="width:34%">Output</th><th>Nội dung</th></tr>
+      <tr><td><b>Implementation and Migration Plan (Approved)</b></td>
+        <td>Implementation and Migration Strategy · <b>phân rã theo project và portfolio</b>: phân bổ work package
+        vào dự án/danh mục, capability mà mỗi dự án giao, quan hệ với Target và Transition Architecture,
+        <b>milestone và thời điểm</b>, work breakdown structure.<br>
+        <b>Project charters</b> (tuỳ chọn): work package liên quan · business value · risk, issues, assumptions,
+        dependencies · yêu cầu nguồn lực và chi phí · lợi ích của việc chuyển đổi · chi phí ước tính của các phương án.</td></tr>
+      <tr><td><b>Finalized Architecture Definition Document</b></td><td>Gồm các <b>Transition Architecture đã chốt</b></td></tr>
+      <tr><td><b>Finalized Architecture Requirements Specification</b></td><td>-</td></tr>
+      <tr><td><b>Finalized Architecture Roadmap</b></td><td>-</td></tr>
+      <tr><td><b>Re-Usable ABBs</b></td><td>Các building block tái sử dụng được, nạp vào Architecture Repository</td></tr>
+      <tr><td><b>Requests for Architecture Work</b></td><td>Cho <b>một vòng ADM mới</b> (nếu có)</td></tr>
+      <tr><td><b>Implementation Governance Model</b></td><td>Nếu có - đầu vào trực tiếp cho Phase G</td></tr>
+      <tr><td><b>Change Requests cho Architecture Capability</b></td><td>Phát sinh từ <b>bài học kinh nghiệm</b> của chu kỳ vừa xong</td></tr>
+    </table>
+
+    <div class="box tip">
+      <div class="bx-t">Hai output dễ bị quên nhất</div>
+      <b>Re-Usable ABBs</b> và <b>Change Requests cho Architecture Capability</b>. Cái đầu làm chu kỳ sau nhanh hơn,
+      cái sau làm <b>năng lực kiến trúc</b> của tổ chức tốt lên. Bỏ qua cả hai thì mỗi chu kỳ ADM đều bắt đầu lại
+      từ con số không.
+    </div>
+  </div>
+
+  <a class="totop" href="#m2">↑ đầu Module 2</a>
+</section>
+
+<section id="s-G-obj">
+  <h3>2.39 · Phase G: Implementation Governance - Objectives &amp; Steps</h3>
+  <p class="srcref">Slide 56, 57 · TOGAF - <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html" target="_blank" rel="noopener" title="TOGAF Standard - Architecture Development Method">ADM</a> <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap11.html#tag_11_01" target="_blank" rel="noopener" title="ADM §11.1 Objectives">§11.1</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap11.html#tag_11_03" target="_blank" rel="noopener" title="ADM §11.3 Steps">§11.3</a></p>
+
+  <p class="lead">Chuẩn mô tả chương 11 bằng một câu: <i>“provides an architectural oversight of the
+  implementation”</i>. Phase G <b>không phải là nơi làm ra sản phẩm</b> - việc phát triển thực tế chạy song song
+  theo quy trình riêng của tổ chức. Phase G là <b>lớp giám sát kiến trúc</b> đặt lên trên quá trình đó.</p>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">1</span>Hai mục tiêu</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap11.html#tag_11_01" target="_blank" rel="noopener" title="ADM §11.1 Objectives">ADM §11.1</a></p>
+    <ol class="body">
+      <li>Ensure <b>conformance with the Target Architecture</b> by implementation projects</li>
+      <li>Perform appropriate <b>Architecture Governance functions</b> for the solution and any
+      implementation-driven <b>architecture Change Requests</b></li>
+    </ol>
+    <div class="box key">
+      <div class="bx-t">Slide 58 diễn đạt hai mục tiêu này bằng ngôn ngữ đời thường</div>
+      <b>“Make sure that people are following the plan”</b> - tuân thủ kế hoạch.<br>
+      <b>“Make sure that their work matches target architecture”</b> - tuân thủ kiến trúc.<br>
+      <b>“Problem can happen when people misunderstand the plan”</b> - và đây là lý do
+      <b>Implementation Reviews</b> tồn tại: sai lệch phần lớn đến từ <i>hiểu nhầm</i>, không phải từ cố ý.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">2</span>Sáu bước của Phase G</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap11.html#tag_11_03" target="_blank" rel="noopener" title="ADM §11.3 Steps">ADM §11.3</a> (§11.3.1-§11.3.6)</p>
+    <ol class="steps">
+      <li><span class="st">Confirm scope and priorities for deployment with development management <span class="gloss">(§11.3.1)</span></span>
+      Chốt phạm vi và thứ tự triển khai <b>cùng với bộ phận phát triển</b> - không áp đặt một chiều.</li>
+      <li><span class="st">Identify deployment resources and skills <span class="gloss">(§11.3.2)</span></span>
+      Xác định nguồn lực và <b>kỹ năng</b> cần cho việc triển khai.</li>
+      <li><span class="st">Guide development of solutions deployment <span class="gloss">(§11.3.3)</span></span>
+      <b>Hướng dẫn</b>, không phải làm thay. Kiến trúc sư đồng hành để giải thích ý đồ kiến trúc khi đội phát triển
+      gặp tình huống mà tài liệu chưa phủ.</li>
+      <li><span class="st">Perform Enterprise Architecture Compliance reviews <span class="gloss">(§11.3.4)</span></span>
+      <b>Bước quan trọng nhất.</b> Rà soát mức độ tuân thủ kiến trúc - chi tiết ở khối 3 bên dưới.</li>
+      <li><span class="st">Implement business and IT operations <span class="gloss">(§11.3.5)</span></span>
+      Đưa vào vận hành cả phía nghiệp vụ lẫn phía CNTT. <b>Không chỉ go-live hệ thống</b> - quy trình nghiệp vụ mới
+      cũng phải chạy.</li>
+      <li><span class="st">Perform post-implementation review and close the implementation <span class="gloss">(§11.3.6)</span></span>
+      Rà soát sau triển khai và đóng. Đây là nguồn của <b>Change Requests</b> và bài học đi vào Phase H.</li>
+    </ol>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">3</span>Architecture Compliance - mức độ tuân thủ</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap11.html#tag_11_03_04" target="_blank" rel="noopener" title="ADM §11.3.4 Perform Enterprise Architecture Compliance Reviews">ADM §11.3.4</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/ea-capability-and-governance/chap06.html" target="_blank" rel="noopener" title="EA Capability and Governance, Chapter 6 - Architecture Compliance">EA Capability and Governance Chapter 6</a></p>
+
+    <p>Chuẩn nhấn mạnh: một khía cạnh then chốt của Phase G là đảm bảo tuân thủ kiến trúc
+    <b>không chỉ bởi các dự án triển khai, mà còn bởi các dự án khác đang chạy trong doanh nghiệp</b>.</p>
+
+    <table>
+      <tr><th style="width:22%">Mức tuân thủ</th><th>Định nghĩa</th></tr>
+      <tr><td><b>Irrelevant</b></td><td>Giải pháp không có đặc tính nào liên quan tới đặc tả kiến trúc</td></tr>
+      <tr><td><b>Consistent</b></td><td>Có một số đặc tính giống đặc tả, phần còn lại <b>không mâu thuẫn</b> - nhưng chưa đầy đủ</td></tr>
+      <tr><td><b>Compliant</b></td><td>Một số đặc tính <b>giống hệt</b>, phần còn lại không mâu thuẫn</td></tr>
+      <tr><td><b>Conformant</b></td><td><b>Mọi đặc tính</b> của đặc tả đều được hiện thực, có thể có thêm phần mở rộng</td></tr>
+      <tr><td><b>Fully conformant</b></td><td>Trùng khớp hoàn toàn với đặc tả, <b>không thừa không thiếu</b></td></tr>
+      <tr><td><b>Non-conformant</b></td><td>Có ít nhất một đặc tính <b>mâu thuẫn</b> với đặc tả</td></tr>
+    </table>
+
+    <div class="box tip">
+      <div class="bx-t">Dispensation - van xả áp của governance</div>
+      Khi một dự án không thể tuân thủ, cơ chế đúng <b>không phải là làm ngơ</b> mà là cấp
+      <span class="term">dispensation</span> - một ngoại lệ <b>có thời hạn, có điều kiện, được ghi nhận</b>,
+      kèm kế hoạch quay về tuân thủ. Không có cơ chế này, governance sẽ bị né tránh thay vì được tuân thủ.
+    </div>
+  </div>
+
+  <a class="totop" href="#m2">↑ đầu Module 2</a>
+</section>
+
+<section id="s-G-appr">
+  <h3>2.40 · Phase G - Approach, Architecture Contract &amp; Outputs</h3>
+  <p class="srcref">Slide 58 · TOGAF - <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html" target="_blank" rel="noopener" title="TOGAF Standard - Architecture Development Method">ADM</a> <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap11.html#tag_11_04" target="_blank" rel="noopener" title="ADM §11.4 Outputs">§11.4</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap11.html#tag_11_05" target="_blank" rel="noopener" title="ADM §11.5 Approach">§11.5</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/ea-capability-and-governance/chap05.html" target="_blank" rel="noopener" title="EA Capability and Governance, Chapter 5 - Architecture Contracts">EA Capability and Governance Chapter 5</a></p>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">1</span>Năm điểm của Approach</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap11.html#tag_11_05" target="_blank" rel="noopener" title="ADM §11.5 Approach">ADM §11.5</a></p>
+
+    <p>Slide 58 liệt kê đúng năm điểm của chuẩn. Trước đó chuẩn nêu <b>lý do</b>: để hiện thực hoá giá trị sớm và
+    giảm thiểu rủi ro của chương trình chuyển đổi, <b>cách làm được ưu tiên là triển khai Target Architecture
+    thành một chuỗi transition</b>, mỗi transition là một bước tiến và <b>tự nó mang lại lợi ích nghiệp vụ</b>.</p>
+
+    <ol class="body">
+      <li><b>Establish an implementation program</b> để chuyển giao các Transition Architecture đã thống nhất ở Phase F</li>
+      <li><b>Adopt a phased deployment schedule</b> phản ánh <b>ưu tiên nghiệp vụ</b> trong Architecture Roadmap</li>
+      <li><b>Follow the organization's standard</b> cho corporate, IT, và Architecture Governance</li>
+      <li><b>Use the organization's established portfolio/program management approach</b>, nếu đã có</li>
+      <li><b>Define an operations framework</b> để đảm bảo giải pháp đã triển khai <b>sống lâu và hiệu quả</b></li>
+    </ol>
+
+    <div class="box def">
+      <div class="bx-t">Architecture Contract - mắt xích giữa kiến trúc và triển khai</div>
+      Chuẩn nói thẳng: <i>“Phase G establishes the connection between architecture and implementation
+      organization, through the Architecture Contract.”</i><br>
+      Đây là <b>thoả thuận có chữ ký</b> giữa đội kiến trúc và đội triển khai (hoặc nhà thầu), ràng buộc rằng
+      sản phẩm giao ra sẽ tuân thủ kiến trúc đích. Chi tiết dự án kèm theo gồm: <b>tên, mô tả, mục tiêu</b> ·
+      <b>phạm vi, deliverable, ràng buộc</b> · <b>measures of effectiveness</b> · <b>tiêu chí nghiệm thu</b> ·
+      <b>rủi ro và vấn đề</b>.
+    </div>
+
+    <div class="box warn">
+      <div class="bx-t">Vì sao governance không có hợp đồng thì vô nghĩa</div>
+      Không có Architecture Contract, compliance review chỉ là <b>một ý kiến</b> - đội dự án có thể bỏ qua vì không
+      có ràng buộc nào. Có hợp đồng, kết quả review trở thành <b>căn cứ nghiệm thu và thanh toán</b>. Đó là toàn bộ
+      sự khác biệt giữa “kiến trúc sư khuyên” và “kiến trúc có hiệu lực”.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">2</span>Outputs của Phase G</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap11.html#tag_11_04" target="_blank" rel="noopener" title="ADM §11.4 Outputs">ADM §11.4</a></p>
+    <table>
+      <tr><th style="width:32%">Output</th><th>Nội dung</th></tr>
+      <tr><td><b>Architecture Contract (đã ký)</b></td><td>Theo khuyến nghị trong các kiến trúc đã triển khai tuân thủ</td></tr>
+      <tr><td><b>Compliance Assessments</b></td><td>Kết quả rà soát tuân thủ</td></tr>
+      <tr><td><b>Change Requests</b></td><td>Phát sinh từ thực tế triển khai</td></tr>
+      <tr><td><b>Architecture-compliant solutions deployed</b></td>
+        <td>Hệ thống đã triển khai tuân thủ kiến trúc<sup>*</sup> · <b>Architecture Repository đã được nạp dữ liệu</b> ·
+        khuyến nghị và <b>dispensation</b> về tuân thủ · khuyến nghị về yêu cầu chất lượng dịch vụ · khuyến nghị về
+        chỉ số hiệu năng · <b>SLA</b> · Architecture Vision và ADD <b>cập nhật sau triển khai</b> ·
+        mô hình vận hành nghiệp vụ và CNTT của giải pháp · <b>ABBs</b></td></tr>
+    </table>
+    <div class="box src">
+      <sup>*</sup> Chuẩn ghi chú rõ: <i>hệ thống đã triển khai thực ra là đầu ra của quy trình phát triển, không phải
+      của ADM. Do tầm quan trọng của nó, chuẩn vẫn liệt kê ở đây.</i> Mức độ tham gia trực tiếp của đội kiến trúc vào
+      việc triển khai <b>tuỳ chính sách từng tổ chức</b>.
+    </div>
+  </div>
+
+  <a class="totop" href="#m2">↑ đầu Module 2</a>
+</section>
+
+<section id="s-H">
+  <h3>2.41 · Phase H: Architecture Change Management</h3>
+  <p class="srcref">Slide 59 · TOGAF - <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html" target="_blank" rel="noopener" title="TOGAF Standard - Architecture Development Method">ADM</a> <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap12.html#tag_12_01" target="_blank" rel="noopener" title="ADM §12.1 Objectives">§12.1</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap12.html#tag_12_03" target="_blank" rel="noopener" title="ADM §12.3 Steps">§12.3</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap12.html#tag_12_05" target="_blank" rel="noopener" title="ADM §12.5 Approach">§12.5</a></p>
+
+  <p class="lead">Hai câu trích trên slide 59 nói đúng tinh thần của phase này:
+  <i>“Plans are worthless, but planning is everything”</i> và <i>“Chaos and complexity drive the universe,
+  so you'd better have a plan for it”</i>. Phase H không bảo vệ <b>bản kế hoạch</b> - nó bảo vệ
+  <b>năng lực lập kế hoạch lại</b>.</p>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">1</span>Ba mục tiêu &amp; bảy bước</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap12.html#tag_12_01" target="_blank" rel="noopener" title="ADM §12.1 Objectives">ADM §12.1</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap12.html#tag_12_03" target="_blank" rel="noopener" title="ADM §12.3 Steps">§12.3</a></p>
+    <div class="io">
+      <div>
+        <h5>Ba mục tiêu <span class="gloss">(§12.1)</span></h5>
+        <ol class="body">
+          <li>Ensure that the <b>architecture development cycle is maintained</b></li>
+          <li>Ensure that the <b>Architecture Governance Framework is executed</b></li>
+          <li>Ensure that the <b>Enterprise Architecture Capability meets current requirements</b></li>
+        </ol>
+      </div>
+      <div>
+        <h5>Bảy bước <span class="gloss">(§12.3.1-§12.3.7)</span></h5>
+        <ol class="body">
+          <li>Establish <b>value realization process</b></li>
+          <li>Deploy <b>monitoring tools</b></li>
+          <li><b>Manage risks</b></li>
+          <li>Provide <b>analysis</b> for architecture change management</li>
+          <li>Develop <b>change requirements</b> to meet performance targets</li>
+          <li><b>Manage governance process</b></li>
+          <li><b>Activate the process</b> to implement change</li>
+        </ol>
+      </div>
+    </div>
+    <div class="box key">
+      <div class="bx-t">Bước 1 là bước hay bị bỏ nhất</div>
+      <b>Establish value realization process</b> - tác động để các dự án nghiệp vụ <b>khai thác Enterprise
+      Architecture nhằm hiện thực hoá giá trị</b>. Nếu không có bước này, doanh nghiệp không bao giờ biết
+      khoản đầu tư vào EA có sinh lợi hay không, và EA sẽ là mục đầu tiên bị cắt khi ngân sách eo hẹp.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">2</span>Ba loại thay đổi - và cách quyết định</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap12.html#tag_12_05_02" target="_blank" rel="noopener" title="ADM §12.5.2 Enterprise Architecture Change Management Process">ADM §12.5.2</a></p>
+
+    <p>Đây là <b>nội dung có giá trị thực hành cao nhất của Phase H</b>. Chuẩn phân loại mọi yêu cầu thay đổi
+    kiến trúc vào <b>một trong ba nhóm</b>:</p>
+
+    <table>
+      <tr><th style="width:20%">Loại thay đổi</th><th style="width:34%">Xử lý thế nào</th><th>Động cơ đằng sau</th></tr>
+      <tr><td><b>Simplification change</b><br><span class="gloss">Đơn giản hoá</span></td>
+        <td>Xử lý được bằng <b>kỹ thuật quản lý thay đổi thông thường</b> - không cần vào ADM</td>
+        <td>Xuất phát từ yêu cầu <b>giảm đầu tư</b></td></tr>
+      <tr><td><b>Incremental change</b><br><span class="gloss">Thay đổi tăng dần</span></td>
+        <td>Có thể xử lý bằng change management, <b>hoặc</b> cần <b>tái kiến trúc một phần</b> - tuỳ bản chất thay đổi</td>
+        <td>Xuất phát từ yêu cầu <b>khai thác thêm giá trị từ khoản đầu tư hiện có</b></td></tr>
+      <tr><td><b>Re-architecting change</b><br><span class="gloss">Tái kiến trúc</span></td>
+        <td><b>Đưa toàn bộ kiến trúc qua lại chu kỳ ADM</b> - phát hành Request for Architecture Work mới</td>
+        <td>Xuất phát từ yêu cầu <b>tăng đầu tư để tạo giá trị mới</b></td></tr>
+    </table>
+
+    <div class="box def">
+      <div class="bx-t">Nguyên tắc phân loại của chuẩn <span class="gloss">(§12.5.3)</span></div>
+      <b>Nếu thay đổi tác động tới hai stakeholder trở lên</b> → nhiều khả năng phải <b>tái thiết kế kiến trúc và
+      quay lại ADM</b>.<br>
+      <b>Nếu chỉ tác động một stakeholder</b> → nhiều khả năng là ứng viên cho <b>change management</b>.<br>
+      <b>Nếu có thể cho phép bằng dispensation</b> → nhiều khả năng là ứng viên cho <b>change management</b>.
+    </div>
+
+    <p>Chuẩn đưa ba ví dụ minh hoạ rất rõ:</p>
+    <ul>
+      <li>Tác động lớn tới <b>chiến lược kinh doanh</b> → có thể phải làm lại toàn bộ EA → <b>re-architecting</b></li>
+      <li>Xuất hiện <b>công nghệ hoặc chuẩn mới</b> → có thể chỉ cần làm mới Technology Architecture,
+      không phải toàn bộ EA → <b>incremental</b></li>
+      <li>Thay đổi ở <b>tầng hạ tầng</b> (ví dụ gộp mười hệ thống thành một) → không đổi kiến trúc phía trên tầng
+      vật lý, chỉ đổi Baseline Description của Technology Architecture → <b>simplification</b></li>
+    </ul>
+
+    <div class="box tip">
+      <div class="bx-t">Khi nào bắt buộc phải có refreshment cycle</div>
+      Chuẩn nêu ba điều kiện cần một chu kỳ làm mới (tái kiến trúc một phần hoặc toàn bộ):<br>
+      ① <b>Foundation Architecture</b> cần được căn chỉnh lại với chiến lược kinh doanh · ② cần <b>thay đổi đáng kể</b>
+      các thành phần và hướng dẫn triển khai · ③ các <b>chuẩn quan trọng</b> dùng trong kiến trúc sản phẩm thay đổi
+      và <b>tác động lớn tới người dùng cuối</b> (ví dụ thay đổi pháp lý).<br>
+      Khi cần refreshment cycle thì <b>phải phát hành một Request for Architecture Work mới</b>.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">3</span>Ba nguồn thay đổi &amp; vai trò Architecture Board</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap12.html#tag_12_05_01" target="_blank" rel="noopener" title="ADM §12.5.1 Drivers for Change">ADM §12.5.1</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/ea-capability-and-governance/chap04.html" target="_blank" rel="noopener" title="EA Capability and Governance, Chapter 4 - Architecture Board">EA Capability and Governance Chapter 4</a></p>
+
+    <p>Chuẩn chỉ ra <b>ba cách thay đổi hạ tầng hiện có</b> mà governance phải điều phối cùng lúc:</p>
+    <ul>
+      <li><b>Strategic, top-down</b> - thay đổi có chủ đích để nâng cấp hoặc tạo năng lực mới <span class="gloss">(vốn đầu tư)</span></li>
+      <li><b>Bottom-up</b> - sửa lỗi hoặc cải thiện năng lực của hạ tầng đang vận hành
+      <span class="gloss">(chi phí vận hành và bảo trì)</span></li>
+      <li><b>Kinh nghiệm từ các increment đã bàn giao</b> - đang do vận hành quản lý nhưng vẫn được các dự án
+      tiếp tục chuyển giao</li>
+    </ul>
+
+    <table class="compact">
+      <tr><th style="width:32%">Nhóm driver</th><th>Ví dụ theo chuẩn</th></tr>
+      <tr><td><b>Technology-related</b></td>
+        <td>Báo cáo công nghệ mới · giảm chi phí quản lý tài sản · <b>công nghệ bị khai tử</b> · sáng kiến chuẩn hoá.<br>
+        Loại này thường xử lý được bằng quy trình change management và Architecture Governance sẵn có.</td></tr>
+      <tr><td><b>Business-related</b></td>
+        <td>Business-as-usual developments · <b>business exceptions</b> · business innovations ·
+        business technology innovations · <b>strategic change</b>.<br>
+        Loại này <b>thường dẫn tới làm lại kiến trúc</b> hoặc ít nhất một vòng lặp của chu kỳ phát triển.</td></tr>
+    </table>
+
+    <div class="box key">
+      <div class="bx-t">Architecture Board và bài toán khó nhất của nó</div>
+      <b>Architecture Board đánh giá và phê duyệt Request for Change (RFC)</b>. Thách thức của họ, theo chuẩn:
+      quyết định RFC này <b>nên được duyệt</b>, hay <b>một dự án trong Transition Architecture sắp tới sẽ tự giải
+      quyết vấn đề đó</b>. Duyệt vội thì phá vỡ roadmap; chờ quá lâu thì nghiệp vụ tự tìm đường vòng.<br>
+      Chuẩn cũng lưu ý chiều ngược lại: <b>một giải pháp sáng tạo hoặc một RFC có thể dẫn dắt thay đổi kiến trúc</b> -
+      không phải mọi thứ đều đi từ trên xuống.
+    </div>
+
+    <h5>Outputs của Phase H <span class="gloss">(§12.4)</span></h5>
+    <table class="compact">
+      <tr><th style="width:34%">Với thay đổi bảo trì</th><th>Với thay đổi lớn</th></tr>
+      <tr>
+        <td><b>Architecture updates</b> · <b>thay đổi architecture framework và principles</b></td>
+        <td><b>New Request for Architecture Work</b> để chuyển sang một chu kỳ khác</td>
+      </tr>
+      <tr>
+        <td colspan="2">Cả hai trường hợp: <b>Statement of Architecture Work</b>, <b>Architecture Contract</b>,
+        và <b>Compliance Assessments</b> - cập nhật nếu cần</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="box tip">
+    <div class="bx-t">Lời cảnh báo đắt giá nhất trong chương 12</div>
+    <i>“All too often the business has been left with an Enterprise Architecture that works for the organization of
+    yesterday but may not give back sufficient capability to meet the needs of the enterprise of today and
+    tomorrow.”</i><br>
+    Chuẩn nói thêm: nhiều trường hợp <b>kiến trúc vẫn còn phù hợp, nhưng các giải pháp bên dưới thì không</b> -
+    và kiến trúc sư phải nhận ra sự khác biệt đó. Đây chính là lý do bước <b>“Deploy monitoring tools”</b> tồn tại.
+  </div>
+
+  <a class="totop" href="#m2">↑ đầu Module 2</a>
+</section>
+
+<section id="s-RM">
+  <h3>2.42 · ADM Architecture Requirements Management</h3>
+  <p class="srcref">Slide 60 · TOGAF - <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html" target="_blank" rel="noopener" title="TOGAF Standard - Architecture Development Method">ADM</a> <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap13.html#tag_13_01" target="_blank" rel="noopener" title="ADM §13.1 Objectives">§13.1</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap13.html#tag_13_03" target="_blank" rel="noopener" title="ADM §13.3 Steps">§13.3</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap13.html#tag_13_05" target="_blank" rel="noopener" title="ADM §13.5 Approach">§13.5</a></p>
+
+  <p class="lead">Requirements Management là <b>vòng tròn ở tâm sơ đồ ADM</b> - không phải một phase chạy một lần
+  mà là <b>quy trình chạy liên tục và điều khiển mọi phase</b>. Chuẩn viết:
+  <i>“the ADM is continuously driven by the Requirements Management process.”</i></p>
+
+  <div class="box def">
+    <div class="bx-t">Câu trích trên slide 60 - và vì sao nó quan trọng</div>
+    <i>“It is important to note that the Requirements Management circle denotes <b>not a static set of
+    requirements</b>, but a <b>dynamic process</b> whereby requirements for enterprise architecture and subsequent
+    changes to those requirements are <b>identified, stored and fed into and out of</b> the relevant ADM phases,
+    <b>and also between cycles of the ADM</b>.”</i><br><br>
+    Ba từ khoá: <b>identified</b> (nhận diện) - <b>stored</b> (lưu trữ) - <b>fed into and out of</b> (bơm vào và
+    rút ra). Requirements Management <b>không quyết định</b> yêu cầu nào được chấp nhận - việc đó thuộc về từng
+    phase. Nó đảm bảo <b>yêu cầu không bị mất, không bị mâu thuẫn, và luôn sẵn có khi phase cần</b>.
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">1</span>Ba mục tiêu</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap13.html#tag_13_01" target="_blank" rel="noopener" title="ADM §13.1 Objectives">ADM §13.1</a></p>
+    <ol class="body">
+      <li>Ensure that the Requirements Management process is <b>sustained and operates for all relevant ADM phases</b></li>
+      <li><b>Manage architecture requirements</b> identified during any execution of the ADM cycle or a phase</li>
+      <li>Ensure that relevant architecture requirements <b>are available for use by each phase as the phase is executed</b></li>
+    </ol>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">2</span>Sáu bước - hai làn chạy song song</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap13.html#tag_13_03" target="_blank" rel="noopener" title="ADM §13.3 Steps">ADM §13.3</a></p>
+
+    <p>Chuẩn trình bày các bước dưới dạng <b>bảng hai cột</b> - một bên là việc của quy trình Requirements
+    Management, một bên là việc của phase ADM đang chạy. Đây là cách duy nhất hiểu đúng cơ chế:</p>
+
+    <table>
+      <tr><th style="width:8%">Bước</th><th style="width:46%">Requirements Management làm</th><th>Phase ADM đang chạy làm</th></tr>
+      <tr><td class="c"><b>1</b></td><td>-</td>
+        <td><b>Nhận diện yêu cầu</b> - thường bằng cách phân tích xem business goals/objectives có thể đạt được ra
+        sao qua thiết kế <b>value stream, business scenario, trải nghiệm người dùng</b>, hoặc việc cung cấp thông tin
+        quản trị - rồi <b>ghi vào Architecture Requirements Specification và Requirements Repository</b></td></tr>
+      <tr><td class="c"><b>2</b></td>
+        <td><b>Thiết lập baseline requirements</b>: xác định thứ tự ưu tiên, <b>xác nhận stakeholder đồng thuận</b>
+        về thứ tự đó, ghi vào Architecture Requirements Specification và Requirements Repository</td><td>-</td></tr>
+      <tr><td class="c"><b>3</b></td><td><b>Giám sát baseline requirements</b></td><td>-</td></tr>
+      <tr><td class="c"><b>4</b></td><td>-</td>
+        <td><b>Nhận diện yêu cầu mới và yêu cầu thay đổi</b>: (a) loại bỏ hoặc đánh giá lại độ ưu tiên ·
+        (b) thêm yêu cầu và đánh giá lại độ ưu tiên · (c) sửa yêu cầu hiện có</td></tr>
+      <tr><td class="c"><b>5</b></td>
+        <td><b>Nhận diện yêu cầu thay đổi và ghi nhận độ ưu tiên</b>: (a) đảm bảo yêu cầu được
+        <b>chính kiến trúc sư phụ trách phase hiện tại</b> và các stakeholder liên quan xếp ưu tiên ·
+        (b) ghi nhận độ ưu tiên mới · (c) <b>đảm bảo mọi mâu thuẫn được nhận diện và xử lý</b> xuyên các phase tới
+        khi kết thúc · (d) <b>sinh Requirements Impact Statement</b> để dẫn hướng đội kiến trúc</td><td>-</td></tr>
+      <tr><td class="c"><b>6</b></td>
+        <td><b>Đánh giá tác động</b> của các yêu cầu thay đổi: (a) lên <b>phase đang chạy</b> ·
+        (b) lên <b>các phase trước đó</b> · (c) quyết định có chấp nhận hay không · (d) ghi vào Architecture
+        Requirements Specification</td><td>-</td></tr>
+    </table>
+
+    <div class="box key">
+      <div class="bx-t">Hai ghi chú của chuẩn thường bị bỏ qua</div>
+      ① <b>Yêu cầu thay đổi có thể đến từ bất kỳ đường nào.</b> Để chúng được đánh giá và xếp ưu tiên đúng, quy trình
+      này <b>phải điều hướng được các phase ADM</b> và <b>ghi lại các quyết định</b> liên quan tới yêu cầu.<br>
+      ② <b>Requirements Management phải xác định mức độ hài lòng của stakeholder</b> với các quyết định đã ra.
+      Khi có bất mãn, quy trình này <b>vẫn chịu trách nhiệm</b> đảm bảo vấn đề được giải quyết và xác định bước tiếp theo.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">3</span>Outputs &amp; hai hiện vật cốt lõi</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap13.html#tag_13_04" target="_blank" rel="noopener" title="ADM §13.4 Outputs">ADM §13.4</a>, <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap13.html#tag_13_05_02" target="_blank" rel="noopener" title="ADM §13.5.2 Requirements Development">§13.5.2</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/architecture-content/chap04.html#tag_04_02_18" target="_blank" rel="noopener" title="Architecture Content §4.2.18 Requirements Impact Assessment">Architecture Content §4.2.18</a></p>
+
+    <table>
+      <tr><th style="width:30%">Hiện vật</th><th>Vai trò</th></tr>
+      <tr><td><span class="term">Architecture Requirements Specification</span></td>
+        <td>Tập hợp <b>chính thức các yêu cầu kiến trúc</b> của chu kỳ hiện tại. Được cập nhật liên tục; chốt lại
+        khi yêu cầu của chu kỳ đã hoàn tất.</td></tr>
+      <tr><td><span class="term">Requirements Repository</span></td>
+        <td>Kho lưu <b>toàn bộ thông tin về yêu cầu</b>, xuyên các chu kỳ ADM. Được cập nhật như một phần của
+        Requirements Management.</td></tr>
+      <tr><td><span class="term">Requirements Impact Assessment / Statement</span></td>
+        <td>Khi có yêu cầu mới hoặc thay đổi, một <b>Requirements Impact Statement</b> được sinh ra, <b>chỉ rõ những
+        phase nào của ADM phải quay lại</b> để xử lý. Tài liệu này đi qua <b>nhiều vòng chỉnh sửa</b> tới bản cuối,
+        trong đó nêu đầy đủ hệ quả (<b>chi phí, tiến độ, chỉ số nghiệp vụ</b>) lên việc phát triển kiến trúc.</td></tr>
+    </table>
+
+    <div class="box tip">
+      <div class="bx-t">Business Scenarios là công cụ chính để phát triển yêu cầu</div>
+      Chuẩn nêu đích danh ở <b>§13.5.3.1</b>: <b>Business Scenarios</b> là kỹ thuật thích hợp để <b>khám phá và
+      ghi nhận yêu cầu nghiệp vụ</b>, và có thể dùng lặp lại ở nhiều mức chi tiết khác nhau. Xem
+      <a href="#s-scenarios">mục 3.2 · Business Scenarios</a>.
+    </div>
+
+    <div class="box warn">
+      <div class="bx-t">Sai lầm phổ biến khi vẽ lại sơ đồ ADM</div>
+      Nhiều người vẽ Requirements Management như một <b>phase thứ chín nằm trong vòng tròn</b>, chạy sau Phase H.
+      Sai. Nó nằm ở <b>tâm</b> vì nó <b>trao đổi hai chiều với mọi phase, ở mọi thời điểm, và cả giữa các chu kỳ ADM</b>.
+      Nó không có “lượt” riêng.
+    </div>
+  </div>
+
+  <a class="totop" href="#m2">↑ đầu Module 2</a>
+</section>
+
+<section id="s-sec">
+  <h3>2.43 · Security Architecture - mối quan tâm xuyên suốt</h3>
+  <p class="srcref">Slide 61, 62 · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/integrating-risk-and-security/" target="_blank" rel="noopener" title="TOGAF Series Guide: Integrating Risk and Security within a TOGAF Enterprise Architecture">TOGAF® Series Guide: Integrating Risk and Security within a TOGAF® Enterprise Architecture</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/introduction/chap03.html#sec-03_19" target="_blank" rel="noopener" title="Introduction and Core Concepts §3.18 Risk Management">Introduction §3.18</a></p>
+
+  <div class="box def">
+    <div class="bx-t">Định nghĩa Security Architecture <span class="gloss">(slide 61)</span></div>
+    <i>“A structure of <b>organizational, conceptual, logical, and physical components</b> that interact in a
+    coherent fashion in order to <b>achieve and maintain a state of managed risk</b> and security (or information
+    security).”</i><br><br>
+    Nó vừa là <b>driver</b> vừa là <b>enabler</b> của hành vi an toàn, bền vững và tin cậy, đồng thời là phương tiện
+    xử lý các vùng rủi ro trên toàn doanh nghiệp.
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">1</span>Cross-cutting - vì sao Security không phải domain thứ năm</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/integrating-risk-and-security/chap04.html" target="_blank" rel="noopener" title="Integrating Risk and Security, Chapter 4 - Security as a Cross-Cutting Concern">Integrating Risk and Security Chapter 4</a></p>
+
+    <p>Security Architecture <b>tương tác với cả bốn domain</b> - Business, Data, Application, Technology - nên được
+    gọi là <span class="term">cross-cutting</span>. Đây là điểm khác biệt căn bản so với cách hiểu sai phổ biến rằng
+    “bảo mật là một tầng nằm dưới cùng”.</p>
+
+    <table>
+      <tr><th style="width:24%">Domain</th><th>Security xuất hiện dưới dạng gì</th></tr>
+      <tr><td><span class="sw sw-biz"></span><b>Business</b></td>
+        <td>Rủi ro nghiệp vụ, nghĩa vụ pháp lý và quy định, phân tách trách nhiệm, quy trình phê duyệt,
+        <b>khẩu vị rủi ro</b> của lãnh đạo</td></tr>
+      <tr><td><span class="sw sw-app"></span><b>Data</b></td>
+        <td>Phân loại dữ liệu, chủ sở hữu dữ liệu, quyền riêng tư, mã hoá, lưu trữ và huỷ dữ liệu</td></tr>
+      <tr><td><span class="sw sw-app"></span><b>Application</b></td>
+        <td>Xác thực, phân quyền, ghi nhật ký, an toàn giao diện tích hợp</td></tr>
+      <tr><td><span class="sw sw-tec"></span><b>Technology</b></td>
+        <td>Phân vùng mạng, cứng hoá hệ thống, quản lý lỗ hổng, giám sát và ứng phó sự cố</td></tr>
+    </table>
+
+    <div class="box key">
+      <div class="bx-t">Ba luận điểm của slide 61</div>
+      ① <b>EA và ESA bổ trợ và làm mạnh lẫn nhau</b> - không phải hai chương trình cạnh tranh.<br>
+      ② Có <b>hai quy trình cốt lõi</b>: <span class="term">Information Security Management (ISM)</span> và
+      <span class="term">Enterprise Risk Management (ERM)</span>.<br>
+      ③ <b>Mỗi security artifact được nhúng vào một phase cụ thể của ADM</b>, từ Preliminary qua A đến H -
+      không dồn hết vào cuối.
+    </div>
+
+    <div class="box tip">
+      <div class="bx-t">Rủi ro luôn được dẫn dắt từ trên xuống</div>
+      Slide 61 kết bằng một câu đáng nhớ: <i>rủi ro có thể nhìn thấy ở bất kỳ tầng nào của doanh nghiệp,
+      <b>nhưng luôn được dẫn dắt từ trên xuống, xuất phát từ việc đánh giá giá trị nghiệp vụ và tối ưu hoá nó</b>.</i><br>
+      Nghĩa là: không bắt đầu từ danh sách lỗ hổng kỹ thuật, mà bắt đầu từ câu hỏi <b>tài sản nào có giá trị bao nhiêu
+      với doanh nghiệp</b>. Doanh nghiệp không thể quyết định chi bao nhiêu để bảo vệ một tài sản khi chưa hiểu
+      giá trị của tài sản đó.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">2</span>Hai quy trình cốt lõi: ERM và ISM</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/integrating-risk-and-security/chap03.html" target="_blank" rel="noopener" title="Integrating Risk and Security, Chapter 3 - Enterprise Security Architecture">Integrating Risk and Security Chapter 3</a> (§3.1 ERM, §3.2 ISM)</p>
+
+    <div class="io">
+      <div>
+        <h5>Enterprise Risk Management (ERM)</h5>
+        <p>Theo <b>ISO 31000</b>: quy trình quản lý rủi ro <b>hỗ trợ việc ra quyết định</b> bằng cách tính đến
+        sự bất định và khả năng xảy ra các sự kiện tương lai cùng tác động của chúng lên các mục tiêu đã thống nhất.</p>
+        <ul>
+          <li>Phải được <b>nhúng sâu và chắc vào mọi hoạt động nghiệp vụ</b></li>
+          <li>Là <b>vòng đời liên tục</b>, không phải hoạt động riêng lẻ</li>
+          <li>Bản chất: <b>quản lý hướng tới mục tiêu kỳ vọng</b> - mọi bước đều có rủi ro, mọi kết quả đều bất định.
+          <b>ERM là việc giảm bất định.</b></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Information Security Management (ISM)</h5>
+        <p>Theo <b>ISO/IEC 27001</b>: hệ thống ISM <b>bảo toàn các khía cạnh an toàn của thông tin</b> bằng cách áp
+        dụng một quy trình quản lý rủi ro, và tạo <b>niềm tin cho các bên liên quan</b> rằng rủi ro đang được quản
+        lý thoả đáng.</p>
+        <ul>
+          <li>ISM <b>là một phần của và được tích hợp với</b> quy trình và cấu trúc quản trị chung của tổ chức</li>
+          <li>Hướng dẫn khuyến nghị <b>vượt qua bộ ba CIA</b> (Confidentiality, Integrity, Availability) vì các
+          thuật ngữ này quá tải nghĩa, chuyển sang <b>SABSA Business Attribute model</b> - vừa cụ thể vừa dễ hiểu
+          với chủ sở hữu nghiệp vụ và <b>đo lường được hiệu lực</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">3</span>The Risk Management Process <span class="gloss">(slide 62)</span></div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/integrating-risk-and-security/chap03.html" target="_blank" rel="noopener" title="Integrating Risk and Security §3.1.2 Core Concepts for Enterprise Risk Management">Integrating Risk and Security §3.1.2</a> (mô hình ISO 31000) · đối chiếu <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap08.html" target="_blank" rel="noopener" title="ADM Techniques Chapter 8 - Risk Management">ADM Techniques Chapter 8</a></p>
+
+    <ol class="steps">
+      <li><span class="st">Establishing the Context</span>
+      Xác định bối cảnh nội bộ và bên ngoài, phạm vi, <b>tiêu chí đánh giá rủi ro</b> và <b>khẩu vị rủi ro</b>.
+      Bỏ qua bước này thì mọi đánh giá sau đó không có thước đo.</li>
+      <li><span class="st">Risk Assessment: Identification → Analysis → Evaluation</span>
+      <b>Nhận diện</b> điều gì có thể xảy ra và vì sao → <b>phân tích</b> khả năng xảy ra và mức tác động →
+      <b>đánh giá</b> so với tiêu chí đã đặt để quyết định rủi ro nào cần xử lý và theo thứ tự nào.</li>
+      <li><span class="st">Risk Treatment</span>
+      Chọn và triển khai biện pháp: <b>tránh · giảm · chuyển giao · chấp nhận</b>. Phần rủi ro còn lại sau xử lý là
+      <span class="term">residual risk</span> và phải được <b>chấp nhận một cách tường minh</b>.</li>
+      <li><span class="st">Xuyên suốt: Communication &amp; Consultation</span>
+      Trao đổi hai chiều với stakeholder ở <b>mọi bước</b>, không phải chỉ báo cáo kết quả cuối.</li>
+      <li><span class="st">Xuyên suốt: Monitoring &amp; Review</span>
+      Rủi ro và hiệu lực của biện pháp <b>thay đổi theo thời gian</b> - phải giám sát và rà soát liên tục.</li>
+    </ol>
+
+    <div class="box def">
+      <div class="bx-t">Security Services Catalog - nơi biện pháp kiểm soát trở thành kiến trúc</div>
+      Hướng dẫn nêu rõ: các biện pháp kiểm soát (controls) được <b>đóng gói thành các dịch vụ an ninh tái sử dụng
+      được</b>, nằm trong <span class="term">Security Services Catalog</span>. Nhờ đó chúng trở thành
+      <b>building block</b> thực thụ thay vì các yêu cầu rời rạc gắn vào từng dự án.
+    </div>
+
+    <table>
+      <tr><th style="width:34%">Nhóm dịch vụ <span class="gloss">(slide 62)</span></th><th>Kiểm soát điều gì</th></tr>
+      <tr><td><b>Identity &amp; Access Management</b></td><td><b>Ai được làm gì, và khi nào</b></td></tr>
+      <tr><td><b>Continuity Management</b></td><td><b>Giữ cho hoạt động không gián đoạn</b></td></tr>
+      <tr><td><b>Security Intelligence</b></td><td><b>Phân tích, đo lường và báo cáo</b> - cung cấp phương tiện xử lý
+        khối lượng dữ liệu lớn và đưa thông tin sự cố có ý nghĩa tới đúng người trong tổ chức</td></tr>
+      <tr><td><b>Compliance Management</b></td><td><b>Đáp ứng nghĩa vụ pháp lý và các biện pháp kiểm soát</b></td></tr>
+    </table>
+
+    <div class="box key">
+      <div class="bx-t">Quy trình an ninh vận hành được thiết kế ở đâu trong ADM</div>
+      Theo hướng dẫn: các <b>operational control</b> được thiết kế ở <b>Phase B, C, D và E</b>;
+      <b>Phase F và G</b> đưa ra hướng dẫn về <b>định nghĩa các chỉ số (metrics)</b> sẽ dùng khi vận hành sau này.
+      Đó là lý do các quy trình an ninh vận hành - như <b>digital forensics, security intelligence, security
+      analytics</b> - được đưa vào ngay từ giai đoạn thiết kế, dưới dạng thành phần của Security Services Catalog.
+    </div>
+
+    <div class="box warn">
+      <div class="bx-t">Hệ quả thực hành</div>
+      Nếu bảo mật chỉ được mời vào ở <b>Phase G</b> (lúc kiểm thử trước go-live), thì mọi phát hiện đều trở thành
+      <b>thay đổi tốn kém hoặc ngoại lệ được chấp nhận miễn cưỡng</b>. Chi phí sửa một quyết định kiến trúc ở Phase B
+      gần bằng không; sửa cùng quyết định đó ở Phase G có thể bằng cả dự án.
+    </div>
+  </div>
+
+  <a class="totop" href="#m2">↑ đầu Module 2</a>
+</section>
+
 <!-- ============ MODULE 3 ============ -->
 <div class="module" id="m3">
   <div class="m-tag">Module 3</div>
   <h2>Kỹ thuật ADM (ADM Techniques)</h2>
-  <p class="m-desc">Slide 65–70 theo thứ tự deck · đối chiếu TOGAF Standard - ADM Techniques, chương 2, 3, 5, 8, 9</p>
+  <p class="m-desc">Slide 65-71 theo thứ tự deck · đối chiếu TOGAF Standard - ADM Techniques, chương 2, 3, 5, 7, 8, 9</p>
 </div>
 
 <section id="s-principles">
@@ -4729,6 +5691,235 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:26px 0}
   <a class="totop" href="#m3">↑ đầu Module 3</a>
 </section>
 
+<section id="s-alt">
+  <h3>3.10 · Architecture Alternatives &amp; Trade-offs</h3>
+  <p class="srcref">Slide 71 · TOGAF - <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap01.html" target="_blank" rel="noopener" title="TOGAF Standard - ADM Techniques">ADM Techniques</a> <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap09.html" target="_blank" rel="noopener" title="ADM Techniques Chapter 9 - Architecture Alternatives and Trade-Offs">Chapter 9</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html#tag_01_06" target="_blank" rel="noopener" title="ADM §1.6 Architecture Alternatives">ADM §1.6</a> · Dùng ở Phase A, B, C, D, E</p>
+
+  <p class="lead">Chuẩn mở đầu bằng một sự thật mà nhiều kiến trúc sư né tránh:
+  <i>“There is often <b>more than one possible Target Architecture</b> that would conform to the Architecture
+  Vision, Architecture Principles, and Requirements.”</i> Nếu bạn chỉ trình bày <b>một</b> phương án cho
+  stakeholder, bạn đã âm thầm thay họ ra quyết định.</p>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">1</span>Concept - vì sao phải có phương án thay thế</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap09.html#tag_10_01" target="_blank" rel="noopener" title="ADM Techniques §9.1 Concept">ADM Techniques §9.1</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap01.html#tag_01_06" target="_blank" rel="noopener" title="ADM §1.6 Architecture Alternatives">ADM §1.6</a></p>
+
+    <div class="box def">
+      Chuẩn nêu ba luận điểm:<br>
+      ① Cần <b>nhận diện các Target Architecture thay thế</b> và xây dựng hiểu biết về những khả năng khác nhau,
+      đồng thời <b>nhận diện các đánh đổi</b> giữa chúng.<br>
+      ② <b>Tạo ra một kiến trúc thường đòi hỏi đánh đổi giữa các lực đối kháng</b>
+      (<i>trade-offs among competing forces</i>).<br>
+      ③ Việc trình bày các phương án và đánh đổi cho stakeholder giúp kiến trúc sư
+      <b>rút ra được những agenda ngầm, nguyên tắc và yêu cầu chưa nói ra</b> - những thứ có thể tác động tới
+      kiến trúc đích cuối cùng.
+    </div>
+
+    <div class="box key">
+      <div class="bx-t">Giá trị thật nằm ở luận điểm thứ ba</div>
+      Kỹ thuật này <b>không chỉ để chọn phương án tốt hơn</b>. Khi đặt ba phương án lên bàn, stakeholder buộc phải
+      giải thích <b>vì sao họ ghét phương án B</b> - và trong lời giải thích đó lộ ra những ràng buộc, ưu tiên và
+      lợi ích mà không cuộc phỏng vấn yêu cầu nào moi ra được. <b>Phương án thay thế là công cụ khai thác yêu cầu,
+      không chỉ là công cụ ra quyết định.</b>
+    </div>
+
+    <p>Chuẩn cũng lưu ý về <b>cách tổ chức phân tích</b>: thông thường các phương án được <b>định nghĩa theo từng
+    domain</b> để đơn giản hoá việc phân tích; sau đó các phương án theo domain <b>có thể được gộp lại</b> thành một
+    phân tích tổng thể cho toàn kiến trúc. Phương pháp <b>dùng được ở bất kỳ phase nào và bất kỳ mức trừu tượng nào</b>.</p>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">2</span>Ba phần của phương pháp <span class="gloss">(slide 71)</span></div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap09.html#tag_10_02" target="_blank" rel="noopener" title="ADM Techniques §9.2 Method">ADM Techniques §9.2</a></p>
+
+    <figure>
+      <svg viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" style="max-width:720px;width:100%;background:#fff;border:1px solid #dde5ee;border-radius:10px">
+        <defs>
+          <marker id="altA" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6 z" fill="#7f8b98"/>
+          </marker>
+        </defs>
+        <rect x="60" y="18" width="150" height="34" rx="6" fill="#eef6ff" stroke="#1b6cae" stroke-width="1.6"/>
+        <text x="135" y="40" text-anchor="middle" font-size="13" fill="#0f3355">Vision</text>
+        <rect x="285" y="18" width="150" height="34" rx="6" fill="#eef6ff" stroke="#1b6cae" stroke-width="1.6"/>
+        <text x="360" y="40" text-anchor="middle" font-size="13" fill="#0f3355">Principles</text>
+        <rect x="510" y="18" width="150" height="34" rx="6" fill="#eef6ff" stroke="#1b6cae" stroke-width="1.6"/>
+        <text x="585" y="40" text-anchor="middle" font-size="13" fill="#0f3355">Requirements</text>
+
+        <line x1="135" y1="54" x2="135" y2="96" stroke="#7f8b98" stroke-width="1.4" marker-end="url(#altA)"/>
+        <line x1="360" y1="54" x2="360" y2="96" stroke="#7f8b98" stroke-width="1.4" marker-end="url(#altA)"/>
+        <line x1="585" y1="54" x2="585" y2="96" stroke="#7f8b98" stroke-width="1.4" marker-end="url(#altA)"/>
+
+        <rect x="60" y="100" width="150" height="32" rx="6" fill="#fff8ea" stroke="#d97a2b" stroke-width="1.6"/>
+        <text x="135" y="121" text-anchor="middle" font-size="12.5" fill="#a8791f">Criteria A</text>
+        <rect x="285" y="100" width="150" height="32" rx="6" fill="#fff8ea" stroke="#d97a2b" stroke-width="1.6"/>
+        <text x="360" y="121" text-anchor="middle" font-size="12.5" fill="#a8791f">Criteria B</text>
+        <rect x="510" y="100" width="150" height="32" rx="6" fill="#fff8ea" stroke="#d97a2b" stroke-width="1.6"/>
+        <text x="585" y="121" text-anchor="middle" font-size="12.5" fill="#a8791f">Criteria C</text>
+
+        <line x1="135" y1="134" x2="135" y2="172" stroke="#7f8b98" stroke-width="1.4" marker-end="url(#altA)"/>
+        <line x1="360" y1="134" x2="360" y2="172" stroke="#7f8b98" stroke-width="1.4" marker-end="url(#altA)"/>
+        <line x1="585" y1="134" x2="585" y2="172" stroke="#7f8b98" stroke-width="1.4" marker-end="url(#altA)"/>
+
+        <rect x="60" y="176" width="150" height="36" rx="6" fill="#e9f3fb" stroke="#0f3355" stroke-width="1.8"/>
+        <text x="135" y="199" text-anchor="middle" font-size="13" fill="#0f3355">Alternative A</text>
+        <rect x="285" y="176" width="150" height="36" rx="6" fill="#e9f3fb" stroke="#0f3355" stroke-width="1.8"/>
+        <text x="360" y="199" text-anchor="middle" font-size="13" fill="#0f3355">Alternative B</text>
+        <rect x="510" y="176" width="150" height="36" rx="6" fill="#e9f3fb" stroke="#0f3355" stroke-width="1.8"/>
+        <text x="585" y="199" text-anchor="middle" font-size="13" fill="#0f3355">Alternative C</text>
+
+        <path d="M135 214 L135 236 L360 236" fill="none" stroke="#7f8b98" stroke-width="1.4"/>
+        <path d="M585 214 L585 236 L360 236" fill="none" stroke="#7f8b98" stroke-width="1.4"/>
+        <line x1="360" y1="214" x2="360" y2="248" stroke="#7f8b98" stroke-width="1.4" marker-end="url(#altA)"/>
+
+        <rect x="285" y="252" width="150" height="32" rx="6" fill="#eefaf3" stroke="#1a7f55" stroke-width="1.8"/>
+        <text x="360" y="273" text-anchor="middle" font-size="13" font-weight="700" fill="#1a7f55">Select</text>
+        <line x1="360" y1="284" x2="360" y2="300" stroke="#7f8b98" stroke-width="1.4" marker-end="url(#altA)"/>
+        <rect x="240" y="304" width="240" height="32" rx="6" fill="#0f3355"/>
+        <text x="360" y="325" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Selected Alternative</text>
+      </svg>
+      <figcaption><span class="fig-label">Hình 3.10-1</span><br>
+      Architecture Trade-Off Method - dựng lại theo Figure 9-1 của TOGAF Standard - ADM Techniques</figcaption>
+    </figure>
+
+    <table>
+      <tr><th style="width:9%">Phần</th><th style="width:32%">Nội dung theo chuẩn</th><th>Điều cần chú ý</th></tr>
+      <tr><td class="c"><b>1</b></td>
+        <td>Dùng <b>vision, principles, requirements</b> và các thông tin khác để <b>chọn ra các bộ tiêu chí</b>
+        phù hợp với các phương án khác nhau</td>
+        <td>Tiêu chí phải <b>đến trước</b> phương án. Làm ngược lại - nghĩ ra phương án rồi mới tìm tiêu chí -
+        chính là cách hợp thức hoá một lựa chọn đã định sẵn.</td></tr>
+      <tr><td class="c"><b>2</b></td>
+        <td><b>Định nghĩa các phương án</b> dựa trên tiêu chí và <b>xây dựng hiểu biết</b> về từng phương án</td>
+        <td>Mỗi phương án phải là <b>một ứng viên nghiêm túc</b>. Đặt hai phương án bù nhìn cạnh phương án đã chọn
+        là thao túng, không phải phân tích.</td></tr>
+      <tr><td class="c"><b>3</b></td>
+        <td><b>Chọn một phương án</b>, hoặc <b>kết hợp đặc điểm từ nhiều phương án</b> để tạo ra kiến trúc đích
+        đề xuất</td>
+        <td>Chuẩn nhấn mạnh: chỉ làm <b>đủ chi tiết để ra được quyết định</b>
+        (<i>“in just enough detail to support that decision”</i>).</td></tr>
+    </table>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">3</span>Criteria - tiêu chí lấy từ đâu</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap09.html#tag_10_02_01" target="_blank" rel="noopener" title="ADM Techniques §9.2.1 Criteria">ADM Techniques §9.2.1</a></p>
+
+    <p>Tiêu chí được <b>dẫn xuất từ nhiều đầu vào khác nhau</b> của kiến trúc. Chuẩn yêu cầu cân nhắc ảnh hưởng của
+    <b>architecture principles, requirements, vision và stakeholder concerns</b>. Mỗi phương án sẽ có
+    <b>ưu và nhược điểm riêng biệt cần được thảo luận và thống nhất với stakeholder</b>; có thể cần
+    <b>thêm viewpoint và view</b> để stakeholder khám phá các phương án và hiểu được phụ thuộc, rủi ro và bất định.</p>
+
+    <h5>Các loại tiêu chí điển hình theo chuẩn</h5>
+    <table class="compact">
+      <tr><th style="width:34%">Tiêu chí</th><th>Câu hỏi tương ứng</th></tr>
+      <tr><td><b>Flexible alternative</b></td><td>Phương án nào <b>dễ đổi hướng</b> nhất khi giả định thay đổi?</td></tr>
+      <tr><td><b>Thời gian &amp; chi phí hiện thực hoá</b>, gồm mọi transition và plateau
+        <span class="gloss">("islands of stability")</span></td>
+        <td>Tổng chi phí đi tới đích là bao nhiêu, kể cả các trạng thái trung gian?</td></tr>
+      <tr><td><b>Khoảng thời gian để đạt lợi ích ước tính</b></td><td><b>Bao lâu</b> thì thấy tiền về?</td></tr>
+      <tr><td><b>Tuân thủ architecture style hoặc guideline</b></td><td>Có phù hợp với định hướng kiến trúc đã công bố?</td></tr>
+      <tr><td><b>Phương thức chuyển giao giải pháp</b>
+        <span class="gloss">(tái sử dụng · tự xây · mua)</span></td><td>Re-use, develop, hay buy?</td></tr>
+      <tr><td><b>Tác động tối thiểu lên business capability</b> trong lúc triển khai</td>
+        <td>Nghiệp vụ bị gián đoạn tới mức nào khi đang chuyển đổi?</td></tr>
+      <tr><td><b>Rủi ro tối thiểu</b> và các hành động giảm thiểu cần thiết</td>
+        <td>Rủi ro nào còn lại, và giảm thiểu tốn bao nhiêu?</td></tr>
+    </table>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">4</span>Identify Alternatives - bốn việc cho mỗi phương án</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap09.html#tag_10_02_02" target="_blank" rel="noopener" title="ADM Techniques §9.2.2 Identify Alternatives">ADM Techniques §9.2.2</a></p>
+
+    <ol class="steps">
+      <li><span class="st">Định nghĩa tiêu chí tổng quan cho phương án</span>
+      Dùng Architecture Vision, Principles và Requirements. Tiêu chí <b>có thể áp ở các mức trừu tượng và các phase
+      ADM khác nhau</b> để nhận diện các phương án khác nhau.</li>
+
+      <li><span class="st">Mô tả kiến trúc của phương án</span>
+      Tạo <b>bộ view cần thiết</b> để hiểu đúng tác động của phương án. <b>Không đi quá sâu vào chi tiết</b> -
+      nhưng phải <b>đánh giá tác động cho tốt</b>, nhận diện <b>phụ thuộc lẫn nhau giữa các phương án và bối cảnh
+      hiện hữu</b>, và có bức tranh đầy đủ về hệ quả khi triển khai phương án đó.</li>
+
+      <li><span class="st">Ước lượng gap giữa baseline và phương án này</span>
+      Dựa trên hiểu biết hiện tại về trạng thái baseline. <b>Nếu baseline chưa được định nghĩa thì gap analysis này
+      mang tính phi chính thức</b> - chuẩn chấp nhận điều đó. Xem <a href="#s-gap">mục 3.6 · Gap Analysis</a>.</li>
+
+      <li><span class="st">Hiểu tác động và đánh đổi trên toàn Architecture Landscape</span>
+      Sáu việc cụ thể:
+        <ul>
+          <li>Tác động lên <b>các kiến trúc hiện có</b> và lên <b>bất kỳ Transition Architecture</b> nào trong landscape</li>
+          <li>Tác động lên <b>các dự án triển khai đang chạy hoặc đã lên kế hoạch</b></li>
+          <li><b>Ràng buộc mà các dự án đó áp ngược lại</b> lên phương án này</li>
+          <li>Tác động lên <b>kiến trúc ở các phase ADM khác</b> trong cùng dự án kiến trúc</li>
+          <li><b>Architecture Requirements / Change Requests</b> mà kiến trúc này sẽ <b>ràng buộc lên các kiến trúc khác</b></li>
+          <li><b>Giá trị cuối cùng</b> phương án mang lại, nó <b>phủ được bao nhiêu phần gap</b> để đạt trạng thái
+          tương lai, và <b>mục đích của vòng lặp</b> này</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">5</span>Choose from Alternatives - sáu bước ra quyết định</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm-techniques/chap09.html#tag_10_02_03" target="_blank" rel="noopener" title="ADM Techniques §9.2.3 Choose from Alternatives and Define in Detail">ADM Techniques §9.2.3</a></p>
+
+    <p>Bước này dùng <b>trade-off analysis để giải quyết mâu thuẫn giữa các phương án</b>:</p>
+    <ol class="body">
+      <li>Hiểu <b>điểm mạnh và điểm yếu</b> của từng phương án</li>
+      <li><b>So sánh các phương án</b> theo mức độ phù hợp với bộ tiêu chí đã định</li>
+      <li><b>Chọn phương án phù hợp nhất</b>, hoặc <b>kết hợp đặc điểm</b> từ nhiều phương án để tạo ra một phương án
+      mới - <b>cùng với stakeholder</b>, không phải thay họ</li>
+      <li><b>Lắp ráp phương án</b>: hoàn tất mô tả · đảm bảo <b>mọi viewpoint đã nhận diện đều được xử lý</b> ·
+      đảm bảo phương án <b>đủ chi tiết để hỗ trợ ra quyết định</b></li>
+      <li><b>Resolve impacts across the Architecture Landscape</b></li>
+      <li><b>Conduct formal stakeholder review</b> để chốt quyết định phương án <b>và nguồn vốn</b></li>
+    </ol>
+
+    <div class="box tip">
+      <div class="bx-t">Câu chốt của chuẩn</div>
+      <i>“The impact analysis of the alternatives was done in just enough detail to choose between them.”</i><br>
+      Phân tích tác động chỉ cần <b>đủ để phân biệt các phương án với nhau</b>. Sau khi chọn xong mới đi sâu.
+      Đây là liều thuốc cho căn bệnh phân tích cả ba phương án tới mức thiết kế chi tiết rồi vứt bỏ hai phần ba
+      công sức.
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><span class="blk-n">6</span>Dùng ở đâu trong ADM</div>
+    <p class="blk-src">Nguồn: <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap04.html#tag_04_03_03" target="_blank" rel="noopener" title="ADM §4.3.3 Develop Target Business Architecture Description">ADM §4.3.3</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap06.html#tag_06_03" target="_blank" rel="noopener" title="ADM §6.3 Steps - Data Architecture">§6.3</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap07.html#tag_07_03" target="_blank" rel="noopener" title="ADM §7.3 Steps - Application Architecture">§7.3</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap08.html#tag_08_03" target="_blank" rel="noopener" title="ADM §8.3 Steps - Technology Architecture">§8.3</a> · <a class="tgl" href="https://pubs.opengroup.org/togaf-standard/adm/chap09.html#tag_09_03" target="_blank" rel="noopener" title="ADM §9.3 Steps - Phase E">§9.3</a></p>
+
+    <p>Đây không phải kỹ thuật dùng một lần. Trong bước <b>“Develop Target Architecture Description”</b> của
+    <b>cả Phase B, C, D</b> và trong <b>Phase E</b>, chuẩn đều lặp lại đúng một câu:</p>
+    <div class="box def">
+      <i>“If appropriate, investigate different Target Architecture alternatives and discuss these with stakeholders
+      using the <b>Architecture Alternatives and Trade-offs technique</b>.”</i>
+    </div>
+    <table class="compact">
+      <tr><th style="width:22%">Phase</th><th>Phương án thay thế thường là gì</th></tr>
+      <tr><td><b>Phase A</b></td><td>Các <b>mức tham vọng</b> khác nhau của Architecture Vision và phạm vi tương ứng</td></tr>
+      <tr><td><b>Phase B</b></td><td>Các cách <b>tổ chức lại value stream và capability</b>: tập trung hay phân tán,
+        tự vận hành hay thuê ngoài</td></tr>
+      <tr><td><b>Phase C</b></td><td><b>Mô hình dữ liệu tập trung vs phân tán</b>; mua giải pháp trọn gói vs ghép nhiều
+        ứng dụng chuyên biệt</td></tr>
+      <tr><td><b>Phase D</b></td><td><b>On-premise vs cloud vs hybrid</b>; chuẩn công nghệ và nhà cung cấp</td></tr>
+      <tr><td><b>Phase E</b></td><td>Các <b>lộ trình khác nhau</b> tới cùng một đích: số lượng và ranh giới các
+        Transition Architecture</td></tr>
+    </table>
+
+    <div class="box warn">
+      <div class="bx-t">Ba dấu hiệu kỹ thuật này đang bị dùng sai</div>
+      ① Phương án được nghĩ ra <b>sau khi</b> đã chọn - tiêu chí được viết ngược để khớp.<br>
+      ② Hai phương án bù nhìn cạnh một phương án thật.<br>
+      ③ Không có <b>formal stakeholder review</b> ở cuối - phương án được “thông báo” chứ không được duyệt,
+      nên khi dự án gặp khó, không ai nhận trách nhiệm về lựa chọn ban đầu.
+    </div>
+  </div>
+
+  <a class="totop" href="#m3">↑ đầu Module 3</a>
+</section>
+
 <!-- ============ PHỤ LỤC ============ -->
 <div class="module" id="apx">
   <div class="m-tag">Phụ lục</div>
@@ -4785,16 +5976,31 @@ hr.soft{border:none;border-top:1px solid var(--line);margin:26px 0}
     <tr><td class="c">47</td><td>Application Architecture</td><td><a href="#s-C-app">2.31 · Application Architecture</a></td></tr>
     <tr><td class="c">48</td><td>Phase D: Technology Architecture</td><td><a href="#s-D-obj">2.32 · Phase D - Objectives &amp; Inputs</a></td></tr>
     <tr><td class="c">49</td><td>Phase C: Technology Architecture (Outputs) <span class="gloss">(lỗi tiêu đề - đúng là Phase D)</span></td><td><a href="#s-D-out">2.33 · Phase D - Outputs</a></td></tr>
+    <tr><td class="c">50</td><td>Phase E: Opportunities &amp; Solutions (Objectives)</td><td><a href="#s-E-obj">2.34 · Phase E - Objectives &amp; Inputs</a></td></tr>
+    <tr><td class="c">51</td><td>Consolidation and Aggregation</td><td><a href="#s-E-steps">2.35 · Phase E - 11 bước &amp; Consolidation</a></td></tr>
+    <tr><td class="c">52</td><td>Phase E: Opportunities &amp; Solutions (Outputs)</td><td><a href="#s-E-out">2.36 · Phase E - Outputs</a></td></tr>
+    <tr><td class="c">53</td><td>Risk management</td><td><a href="#s-E-out">2.36 · Phase E - Outputs</a></td></tr>
+    <tr><td class="c">54</td><td>Phase F: Migration Planning</td><td><a href="#s-F-obj">2.37 · Phase F - Objectives &amp; Steps</a></td></tr>
+    <tr><td class="c">55</td><td>Approach (Migration planning · People · Physical and data · Matrix of change)</td><td><a href="#s-F-appr">2.38 · Phase F - Approach &amp; Outputs</a></td></tr>
+    <tr><td class="c">56</td><td>Phase G: Implementation Governance (Objectives)</td><td><a href="#s-G-obj">2.39 · Phase G - Objectives &amp; Steps</a></td></tr>
+    <tr><td class="c">57</td><td>Implementation Governance</td><td><a href="#s-G-obj">2.39 · Phase G - Objectives &amp; Steps</a></td></tr>
+    <tr><td class="c">58</td><td>Implementation/Governance</td><td><a href="#s-G-appr">2.40 · Phase G - Approach &amp; Architecture Contract</a></td></tr>
+    <tr><td class="c">59</td><td>Phase H: Architecture Change Management</td><td><a href="#s-H">2.41 · Phase H: Architecture Change Management</a></td></tr>
+    <tr><td class="c">60</td><td>ADM Requirement Management Phase</td><td><a href="#s-RM">2.42 · ADM Architecture Requirements Management</a></td></tr>
+    <tr><td class="c">61</td><td>Security Architecture</td><td><a href="#s-sec">2.43 · Security Architecture</a></td></tr>
+    <tr><td class="c">62</td><td>Security Architecture - The Risk Management Process</td><td><a href="#s-sec">2.43 · Security Architecture</a></td></tr>
     <tr><td class="c">65</td><td>Architecture Principles</td><td><a href="#s-principles">3.1 · Architecture Principles</a></td></tr>
     <tr><td class="c">66</td><td>Business Scenarios are a source for business requirements</td><td><a href="#s-scenarios">3.2 · Business Scenarios</a></td></tr>
     <tr><td class="c">67</td><td>Retailer Business Model Diagram</td><td><a href="#s-bmc">3.3 · Business Model Diagram</a></td></tr>
     <tr><td class="c">68</td><td>Capability Based Planning</td><td><a href="#s-cbp">3.4 · Capability-Based Planning</a></td></tr>
     <tr><td class="c">69</td><td>Stakeholder management</td><td><a href="#s-stake">3.5 · Stakeholder Management</a></td></tr>
     <tr><td class="c">70</td><td>GAP Analysis</td><td><a href="#s-gap">3.6 · Gap Analysis</a></td></tr>
+<tr><td class="c">71</td><td>Architecture Alternatives &amp; Trade-offs -Technique</td><td><a href="#s-alt">3.10 · Architecture Alternatives &amp; Trade-offs</a></td></tr>
   </table>
   <div class="box src"><div class="bx-t">Các slide chưa nằm trong Quyển 1</div>
-  Slide 50–62 (Phase E, F, G, H, Requirements Management, Security Architecture) và slide 71
-  (Architecture Alternatives &amp; Trade-offs) sẽ thuộc <b>Quyển 2</b>.</div>
+  Slide 1-2 (bìa, outline), 15, 63-64 (trang phân cách module) và 72-73 (Q&amp;A, cảm ơn) là slide dẫn dắt,
+  không có nội dung chuẩn tương ứng. Các mục <b>3.7 · Business Transformation Readiness Assessment</b>,
+  <b>3.8 · Risk Management</b> và <b>3.9 · Process Modelling</b> là phần bổ sung ngoài deck.</div>
 </section>
 
 <section id="a-deliv">
