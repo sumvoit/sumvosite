@@ -24,6 +24,7 @@ jobs:
     env:
       HUGO_VERSION: 0.164.0
       EA_PASSWORD: ${{ secrets.EA_PASSWORD }}
+      REPORT_PASSWORD: ${{ secrets.REPORT_PASSWORD || secrets.EA_PASSWORD }}
     steps:
       - name: Install Hugo CLI
         run: |
@@ -46,7 +47,7 @@ jobs:
         run: hugo --gc --minify --baseURL "https://sumvo.site/"
 
       - name: Setup Node
-        if: ${{ env.EA_PASSWORD != '' }}
+        if: ${{ env.EA_PASSWORD != '' || env.REPORT_PASSWORD != '' }}
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -56,6 +57,16 @@ jobs:
         env:
           STATICRYPT_PASSWORD: ${{ env.EA_PASSWORD }}
         run: npx --yes staticrypt@3.5.4 public/enterprise-architecture -r -d public --short --remember 30 -c false
+
+      - name: Password-protect MaoTrung work reports
+        if: ${{ env.REPORT_PASSWORD != '' }}
+        env:
+          STATICRYPT_PASSWORD: ${{ env.REPORT_PASSWORD }}
+        run: npx --yes staticrypt@3.5.4 public/maotrungwork -r -d public --short --remember 30 -c false
+
+      - name: Remove MaoTrung reports if no password is set
+        if: ${{ env.REPORT_PASSWORD == '' }}
+        run: rm -rf public/maotrungwork
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
