@@ -46,6 +46,9 @@ jobs:
           HUGO_ENVIRONMENT: production
         run: hugo --gc --minify --baseURL "https://sumvo.site/"
 
+      - name: Generate MaoTrung report index pages
+        run: bash scripts/gen-report-index.sh public/maotrungwork/report
+
       - name: Setup Node
         if: ${{ env.EA_PASSWORD != '' || env.REPORT_PASSWORD != '' }}
         uses: actions/setup-node@v4
