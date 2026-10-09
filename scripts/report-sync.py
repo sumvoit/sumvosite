@@ -108,15 +108,22 @@ def sync_file(path, items, dry):
         # đã có đúng câu, hoặc đã có dòng cùng ngày (biên bản thường ghi dài hơn TASKS.md) thì giữ nguyên
         if it["text"].rstrip(".").lower() in plain.lower():
             return m.group(0)
-        # ô đã có dòng ghi ngày bằng hoặc mới hơn thì giữ nguyên (biên bản thường ghi dài hơn TASKS.md)
+        # ô đã có dòng ngày mới hơn thì giữ nguyên; dòng cùng ngày thì thay bằng câu mới nhất của TASKS.md
         def key(d):
             dd, mm = d.split("/")
             return mm + dd
         have = re.findall(r"(?:^|<br>)\s*(\d{2}/\d{2}):", cell)
-        if any(key(h) >= key(it["date"]) for h in have):
+        if any(key(h) > key(it["date"]) for h in have):
+            return m.group(0)
+        # dòng ghi đúng ngày họp là của biên bản, không đụng; chỉ thay dòng cùng ngày cho các ngày sau họp
+        if it["date"] == f"{it['day']}/{it['month']}" and it["date"] in have:
             return m.group(0)
         changed.append((it["id"], it["stt"], line))
-        new_cell = (cell.rstrip() + "<br>" + line) if cell.strip() else line
+        same = re.compile(r"(^|<br>)\s*" + re.escape(it["date"]) + r":[^<]*(?=<br>|$)")
+        if same.search(cell):
+            new_cell = same.sub(lambda s: s.group(1) + line, cell, count=1)
+        else:
+            new_cell = (cell.rstrip() + "<br>" + line) if cell.strip() else line
         return m.group(1) + new_cell + m.group(4)
 
     tail2 = ROW.sub(fix, tail)
