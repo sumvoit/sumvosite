@@ -45,7 +45,7 @@ def status_of(done, body):
         m = DONE.match(body)
         if not m:
             return None
-        note = m.group(5).strip().rstrip(".")
+        note = LINK.sub("", m.group(5)).strip().rstrip(".;, ").strip()
         return f"{m.group(4)}/{m.group(3)}", "Xong." + (f" {note}." if note else "")
     # câu trạng thái là mệnh đề cuối cùng có dạng "dd/mm: ..."
     parts = re.split(r"(?<=\.)\s+", body)
