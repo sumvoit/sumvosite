@@ -64,13 +64,13 @@ Cập nhật cột Trạng thái biên bản weekly từ TASKS.md: `python3 scri
 
 ## Chia sẻ /maotrungwork/ và /edm/ theo Gmail
 
-Mỗi request vô `/maotrungwork/` hoặc `/edm/` nginx hỏi workgate: chưa đăng nhập thì chuyển qua Google, email chưa được chia sẻ thì báo chưa có quyền. `/maotrungwork/` liệt kê các trang người đang đăng nhập được xem, gồm cả trang trong `/edm/`.
+Mỗi request vô `/maotrungwork/` hoặc `/edm/` nginx hỏi workgate: chưa đăng nhập thì chuyển qua Google, email chưa được chia sẻ thì báo chưa có quyền. `/maotrungwork/` và `/edm/` liệt kê các trang trong mục đó người đang đăng nhập được xem.
 
 Trang `/edm/` là file `.html` nằm chung thư mục với ảnh, nên chia sẻ theo thư mục: chọn `Toàn bộ /edm/`. Chia sẻ đúng một file `.html` thì người nhận không tải được ảnh `slides/`.
 
 Owner (email trong `OWNER_EMAILS`) xem mọi trang. Chia sẻ:
 
-1. Mở `https://sumvo.site/_auth/share`, hoặc bấm Chia sẻ cạnh trang ở `/maotrungwork/`.
+1. Mở `https://sumvo.site/_auth/share`, hoặc bấm Chia sẻ cạnh trang ở `/maotrungwork/`, `/edm/`.
 2. Nhập email, chọn trang, `Toàn bộ /maotrungwork/` hoặc `Toàn bộ /edm/`, bấm Chia sẻ.
 3. Gửi link hiện ra cho người nhận. Họ đăng nhập Google bằng đúng email đó.
 

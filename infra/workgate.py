@@ -42,6 +42,9 @@ CONTENT_ROOT = env("CONTENT_ROOT", "/var/www/sumvosite/private")
 PREFIXES = ["/" + p.strip().strip("/") + "/"
             for p in env("PROTECTED_PREFIXES", "/maotrungwork/,/edm/").split(",") if p.strip().strip("/")]
 PREFIX = PREFIXES[0]
+# Tên hiện trên đầu trang của từng mục, mục không có tên dùng SITE_NAME
+SITE_NAME = "sumvo.site"
+SECTION_NAMES = {"/maotrungwork/": "Mao Trung · Work", "/edm/": "sumvo.site · EDM"}
 SESSION_DAYS = int(env("SESSION_DAYS", "7"))
 LISTEN = env("LISTEN", "127.0.0.1:8090")
 
@@ -84,6 +87,16 @@ def share_path(p):
     elif not p.endswith("/") and "." not in posixpath.basename(p):
         p += "/"
     return p if p.startswith(tuple(PREFIXES)) else None
+
+
+def section(path):
+    """Mục chứa path, không thuộc mục nào thì trả mục đầu tiên."""
+    path = norm_path(path or "/")
+    return next((x for x in PREFIXES if path.startswith(x) or path == x[:-1]), PREFIX)
+
+
+def section_name(prefix):
+    return SECTION_NAMES.get(prefix, SITE_NAME)
 
 
 def covers(share, path):
@@ -304,7 +317,7 @@ def esc(s):
     return html.escape(str(s), quote=True)
 
 
-def layout(title, body, kicker="Mao Trung · Work"):
+def layout(title, body, kicker=SITE_NAME):
     return (f'<!doctype html><html lang="vi"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<meta name="robots" content="noindex,nofollow"><title>{esc(title)}</title>'
@@ -312,9 +325,9 @@ def layout(title, body, kicker="Mao Trung · Work"):
             f'<h1>{esc(title)}</h1>{body}</main></body></html>')
 
 
-def account_bar(email, extra=""):
+def account_bar(email, extra="", nxt=PREFIX):
     return (f'<div class="bar"><span>Đăng nhập: {esc(email)}</span>{extra}'
-            f'<a href="/_auth/login?next={urllib.parse.quote(PREFIX)}">Đổi tài khoản</a>'
+            f'<a href="/_auth/login?next={urllib.parse.quote(nxt)}">Đổi tài khoản</a>'
             f'<a href="/_auth/logout">Đăng xuất</a></div>')
 
 
@@ -371,8 +384,8 @@ class Handler(BaseHTTPRequestHandler):
         if data and self.command != "HEAD":
             self.wfile.write(data)
 
-    def page(self, code, title, body, cookies=()):
-        self.send(code, layout(title, body), {
+    def page(self, code, title, body, cookies=(), kicker=SITE_NAME):
+        self.send(code, layout(title, body, kicker), {
             "Content-Type": "text/html; charset=utf-8",
             "Cache-Control": "no-store",
             "Content-Security-Policy": CSP,
@@ -485,28 +498,41 @@ class Handler(BaseHTTPRequestHandler):
         target = safe_next(self.headers.get("X-Original-URI") or q.get("next"))
         if not email:
             return self.to_google(target)
+        sec = section(target)
+        home = f'<a class="btn ghost" href="{esc(sec)}">Trang được chia sẻ với tôi</a>'
+        # Có quyền mà vẫn tới đây là 403 của nginx (thư mục không có index.html), không phải thiếu quyền
+        if allowed(email, norm_path(target)):
+            return self.page(404, "Không có trang này", f"<p>{home}</p>", kicker=section_name(sec))
         self.page(403, "Chưa được chia sẻ trang này",
                   f"<p>Tài khoản <b>{esc(who)}</b> chưa có quyền xem trang này. "
                   "Nhờ người gửi link chia sẻ cho email của bạn, hoặc đăng nhập bằng tài khoản khác.</p>"
                   f'<p><a class="btn" href="/_auth/login?next={urllib.parse.quote(target)}">Đăng nhập tài khoản khác</a> '
-                  f'<a class="btn ghost" href="{PREFIX}">Trang được chia sẻ với tôi</a></p>')
+                  f"{home}</p>", kicker=section_name(sec))
 
     def home(self, q):
+        """Trang đầu của một mục: các trang trong mục đó người đang đăng nhập được xem."""
+        sec = section(self.headers.get("X-Original-URI") or q.get("s"))
         email, _, who = self.session()
         if not email:
-            return self.to_google(PREFIX)
+            return self.to_google(sec)
         owner = email in OWNERS
         mine = [p for p in pages() if allowed(email, p["path"])]
+        here = [p for p in mine if p["path"].startswith(sec)]
         rows = "".join(
             f'<li><a class="row" href="{esc(p["path"])}"><span class="t">{esc(p["title"])}</span>'
-            f'<span class="d">{esc(p["path"].strip("/"))}</span></a>'
+            f'<span class="d">{esc(p["path"][len(sec):])}</span></a>'
             + (f'<a class="sh" href="/_auth/share?{urllib.parse.urlencode({"path": p["share"]})}">Chia sẻ</a>' if owner else "")
-            + "</li>" for p in mine
+            + "</li>" for p in here
         ) or '<li class="empty">Chưa có trang nào được chia sẻ với email này.</li>'
-        extra = '<a href="/_auth/share">Quản lý chia sẻ</a>' if owner else ""
-        log("home", who, len(mine), self.ip())
+        # Mục khác người này cũng xem được
+        extra = "".join(f'<a href="{esc(x)}">{esc(section_name(x))}</a>' for x in PREFIXES
+                        if x != sec and any(p["path"].startswith(x) for p in mine))
+        if owner:
+            extra += '<a href="/_auth/share">Quản lý chia sẻ</a>'
+        log("home", who, sec, len(here), self.ip())
         self.page(200, "Trang được chia sẻ với bạn",
-                  f'<div class="card"><ul class="list">{rows}</ul></div>' + account_bar(who, extra))
+                  f'<div class="card"><ul class="list">{rows}</ul></div>' + account_bar(who, extra, sec),
+                  kicker=section_name(sec))
 
     # ---- quản lý chia sẻ (owner) ----
 
@@ -519,7 +545,8 @@ class Handler(BaseHTTPRequestHandler):
             self.to_google("/_auth/share")
             return None, None
         if email not in OWNERS:
-            self.page(403, "Chỉ chủ trang được quản lý chia sẻ", f'<p><a href="{PREFIX}">Về trang chính</a></p>')
+            self.page(403, "Chỉ chủ trang được quản lý chia sẻ",
+                      "<p>" + " ".join(f'<a href="{esc(x)}">{esc(section_name(x))}</a>' for x in PREFIXES) + "</p>")
             return None, None
         return who, tok
 
@@ -574,7 +601,7 @@ class Handler(BaseHTTPRequestHandler):
         self.page(200, "Quản lý chia sẻ",
                   msg + form + f"<h2>Đang chia sẻ</h2>{table}"
                   f'<p class="mute">Owner xem được mọi trang: {esc(owners)}. Đổi owner trong file env của workgate.</p>'
-                  + account_bar(email, f'<a href="{PREFIX}">Trang chính</a>'))
+                  + account_bar(email, "".join(f'<a href="{esc(x)}">{esc(section_name(x))}</a>' for x in PREFIXES)))
 
     def share_post(self):
         email, tok = self.owner_or_stop()
