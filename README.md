@@ -35,6 +35,7 @@ content/
 | Cấu hình workgate | VPS `/etc/sumvosite/workgate.env` |
 | Danh sách chia sẻ | VPS `/var/lib/workgate/acl.json` |
 | vhost nginx, SSL | `infra/setup-sumvosite.sh`, Let's Encrypt tự gia hạn |
+| `maotrung.sumvo.site` | Domain phụ, chuyển 301 về `https://sumvo.site` cùng đường dẫn |
 | Kết nối deploy | `.deploy.env` trên máy Mac, không commit, mẫu ở `.deploy.env.example` |
 | Google OAuth client | Google Cloud project `sumvosite` của sumvo.it@gmail.com, client `workgate` |
 | Trang quyền riêng tư (link trên màn hình đăng nhập Google) | `content/privacy.md`, ra `/privacy/` |
@@ -45,6 +46,7 @@ DNS tại GoDaddy:
 |---|---|---|
 | A | @ | IP VPS |
 | CNAME | www | @ |
+| A | maotrung | IP VPS |
 | MX, TXT, TXT `zmail._domainkey` | | Email Zoho, không sửa |
 
 ## Deploy
@@ -99,8 +101,8 @@ Cần nền của repo `maotrung-web` (`setup-server.sh`): nginx, certbot, snipp
 5. Server: điền `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `OWNER_EMAILS` trong `/etc/sumvosite/workgate.env`, chạy `sudo systemctl restart workgate`.
 6. Máy Mac: `scripts/deploy-vps.sh`.
 
-Test trên domain khác trước (vd staging): `sudo bash ~/infra/setup-sumvosite.sh <domain>`, thêm `https://<domain>/_auth/callback` vô redirect URI, đặt `BASE_URL=https://<domain>/` trong `.deploy.env`. Vhost chỉ phục vụ domain của lần chạy gần nhất.
+`setup-sumvosite.sh` không có param thì dựng `sumvo.site` kèm domain phụ `maotrung.sumvo.site`. Domain khác: `sudo bash ~/infra/setup-sumvosite.sh <domain> [domain phụ...]`; domain chính mới cần thêm `https://<domain>/_auth/callback` vô redirect URI và `BASE_URL=https://<domain>/` trong `.deploy.env`.
 
 ## Lịch sử
 
-- 2026-10-22: chuyển từ GitHub Pages sang VPS để chia sẻ `/maotrungwork/` theo email Google thay cho mật khẩu chung. Repo `sumvoit/sumvosite` public nên báo cáo được gỡ khỏi git; các commit trước ngày này vẫn chứa báo cáo cũ. Staging `maotrung.sumvo.site` dùng lúc dựng, không còn phục vụ.
+- 2026-10-22: chuyển từ GitHub Pages sang VPS để chia sẻ `/maotrungwork/` theo email Google thay cho mật khẩu chung. Repo `sumvoit/sumvosite` public nên báo cáo được gỡ khỏi git; các commit trước ngày này vẫn chứa báo cáo cũ. Staging `maotrung.sumvo.site` dùng lúc dựng, giữ lại làm domain phụ chuyển 301 về `sumvo.site`.
