@@ -1,0 +1,28 @@
+[Unit]
+Description=workgate: đăng nhập Google và chia sẻ theo email cho sumvo.site/maotrungwork
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=workgate
+Group=workgate
+EnvironmentFile=/etc/sumvosite/workgate.env
+ExecStart=/usr/bin/python3 -I /usr/local/lib/workgate/workgate.py
+Restart=on-failure
+RestartSec=3
+StateDirectory=workgate
+StateDirectoryMode=0750
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+MemoryMax=128M
+
+[Install]
+WantedBy=multi-user.target

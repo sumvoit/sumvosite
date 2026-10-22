@@ -2,7 +2,7 @@
 # Sinh trang danh sách báo cáo MaoTrung từ thư mục report/<năm>/rp-<loại>-<dd>-<mm>/.
 #   report/<năm>/                -> tất cả báo cáo của năm
 #   report/<loại>/<năm>/         -> báo cáo theo loại (weekly, monthly, daily) của năm
-# Chạy sau khi Hugo build, trước bước staticrypt.
+# Chạy sau khi Hugo build, trước bước staticrypt. scripts/deploy-vps.sh cũng gọi script này.
 # Cách dùng: scripts/gen-report-index.sh [public/maotrungwork/report]
 set -euo pipefail
 
@@ -42,6 +42,7 @@ write_index() {
 <!doctype html>
 <html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="generator" content="gen-report-index">
 <title>$heading</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
