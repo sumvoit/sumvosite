@@ -8,7 +8,8 @@ và nối `<br>dd/mm: câu trạng thái` vô cuối ô Trạng thái nếu câu
 Cách dùng (chạy trong ~/Projects/sumvosite hoặc bất kỳ đâu):
     python3 scripts/report-sync.py            # sửa file, in thay đổi
     python3 scripts/report-sync.py --dry-run  # chỉ in, không ghi
-    python3 scripts/report-sync.py --commit   # sửa rồi git commit (không push)
+    python3 scripts/report-sync.py --deploy   # sửa rồi đẩy báo cáo lên VPS (scripts/deploy-vps.sh reports)
+Báo cáo không nằm trong git (repo public), nên không commit; --commit cũ chạy như --deploy.
 """
 import argparse
 import html
@@ -137,7 +138,8 @@ def sync_file(path, items, dry):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--commit", action="store_true")
+    ap.add_argument("--deploy", action="store_true")
+    ap.add_argument("--commit", action="store_true", help=argparse.SUPPRESS)
     a = ap.parse_args()
     tasks = find_tasks()
     links = read_links(tasks)
@@ -156,14 +158,8 @@ def main():
         if n:
             touched.append((f, d, mth))
     print(f"{'Sẽ sửa' if a.dry_run else 'Đã sửa'} {total} ô trạng thái.")
-    if a.commit and touched and not a.dry_run:
-        import datetime
-        today = datetime.date.today().strftime("%d/%m")
-        names = ", ".join(f"rp-weekly-{d}-{m}" for _, d, m in touched)
-        subprocess.run(["git", "-C", SITE, "add"] + [f for f, _, _ in touched], check=True)
-        subprocess.run(["git", "-C", SITE, "commit", "-q", "-m", f"Cập nhật trạng thái {names} tới {today}"], check=True)
-        sha = subprocess.run(["git", "-C", SITE, "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
-        print(f"Đã commit {sha}, chưa push.")
+    if (a.deploy or a.commit) and touched and not a.dry_run:
+        subprocess.run(["bash", os.path.join(HERE, "deploy-vps.sh"), "reports"], check=True)
 
 
 if __name__ == "__main__":

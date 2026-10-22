@@ -1,6 +1,6 @@
 # sumvo.site
 
-Site tài liệu + blog cá nhân chạy [Hugo](https://gohugo.io/) với theme [hugo-book](https://github.com/alex-shpak/hugo-book) (giao diện docs/wiki kiểu BookStack).
+Site tài liệu + blog cá nhân chạy [Hugo](https://gohugo.io/) với theme [hugo-book](https://github.com/alex-shpak/hugo-book) (giao diện docs/wiki kiểu BookStack). Chạy trên VPS bằng nginx; mục `/maotrungwork/` chỉ mở cho email Google được chia sẻ.
 
 ## Chạy local
 
@@ -25,98 +25,82 @@ content/
 - Thứ tự sidebar: chỉnh `weight` trong front matter.
 - Section gập được: `bookCollapseSection: true` trong `_index.md`.
 
-## Deploy — GitHub Pages + domain sumvo.site
-
-1. Tạo repo trên GitHub (vd `sumvo/sumvosite`), push code:
-
-   ```bash
-   git remote add origin git@github.com:sumvo/sumvosite.git
-   git push -u origin main
-   ```
-
-2. Trên GitHub: **Settings → Pages → Source: GitHub Actions**. Workflow `.github/workflows/deploy.yml` sẽ tự build + deploy mỗi lần push lên `main`.
-
-3. **Settings → Pages → Custom domain**: nhập `sumvo.site`, bật **Enforce HTTPS** (file `static/CNAME` đã có sẵn).
-
-4. Cấu hình DNS tại nhà cung cấp domain:
-
-   | Type  | Name | Value |
-   |-------|------|-------|
-   | A     | @    | 185.199.108.153 |
-   | A     | @    | 185.199.109.153 |
-   | A     | @    | 185.199.110.153 |
-   | A     | @    | 185.199.111.153 |
-   | CNAME | www  | `<username>.github.io` |
-
-5. Nếu repo không phải `sumvo/sumvosite`, sửa lại `BookRepo` trong `hugo.toml`.
-
-## Khoá mật khẩu mục Enterprise Architecture
-
-Site 100% tĩnh (GitHub Pages) nên không có login/session thật ở server. Mục `/enterprise-architecture/` được khoá bằng [staticrypt](https://github.com/robinmoisson/staticrypt): sau khi Hugo build xong, các trang HTML trong mục này được mã hoá bằng mật khẩu, chỉ giải mã được ở trình duyệt (client-side) khi nhập đúng mật khẩu. Đây là hàng rào "khách vãng lai/công cụ tìm kiếm không đọc được", không phải bảo mật cấp doanh nghiệp.
-
-**Thiết lập:**
-
-1. Trên GitHub: **Settings → Secrets and variables → Actions → New repository secret**, tạo secret tên `EA_PASSWORD` với giá trị là mật khẩu bạn muốn dùng.
-2. Push lên `main` — bước "Password-protect Enterprise Architecture section" trong `deploy.yml` sẽ tự chạy nếu secret tồn tại; nếu không đặt secret, mục này vẫn build công khai như bình thường.
-3. Khi vào `sumvo.site/enterprise-architecture/`, nhập mật khẩu và tick **Remember me** để không phải nhập lại ở các trang con khác trong cùng mục (lưu 30 ngày trong localStorage của trình duyệt).
-
-**Test ở local trước khi push:**
-
-```bash
-hugo --gc --minify --baseURL "https://sumvo.site/"
-STATICRYPT_PASSWORD='mat-khau-thu' npx --yes staticrypt@3.5.4 public/enterprise-architecture -r -d public --short --remember 30 -c false
-hugo server -s public   # hoặc: python3 -m http.server -d public 8080
-```
-
-Lưu ý: RSS feed của mục này đã bị tắt (`outputs: ["html"]` trong `_index.md`) để tránh lộ nội dung qua `/enterprise-architecture/index.xml`.
-
-## VPS và chia sẻ /maotrungwork/ theo Gmail
-
-Đang dựng song song. sumvo.site vẫn chạy GitHub Pages tới bước Chuyển DNS.
+## Hạ tầng
 
 | Phần | Chỗ |
 |---|---|
 | Site Hugo | VPS `/var/www/sumvosite/site` |
-| Báo cáo `/maotrungwork/` | VPS `/var/www/sumvosite/private`, bản gốc ở `static/maotrungwork/` trên máy Mac |
+| Báo cáo `/maotrungwork/` | VPS `/var/www/sumvosite/private`. Bản gốc ở `static/maotrungwork/` trên máy Mac, không nằm trong git |
 | workgate: đăng nhập Google, kiểm quyền | `infra/workgate.py`, systemd `workgate`, `127.0.0.1:8090` |
 | Cấu hình workgate | VPS `/etc/sumvosite/workgate.env` |
 | Danh sách chia sẻ | VPS `/var/lib/workgate/acl.json` |
-| Kết nối deploy | `.deploy.env` trên máy Mac, không commit |
+| vhost nginx, SSL | `infra/setup-sumvosite.sh`, Let's Encrypt tự gia hạn |
+| Kết nối deploy | `.deploy.env` trên máy Mac, không commit, mẫu ở `.deploy.env.example` |
 | Google OAuth client | Google Cloud project `sumvosite` của sumvo.it@gmail.com, client `workgate` |
 | Trang quyền riêng tư (link trên màn hình đăng nhập Google) | `content/privacy.md`, ra `/privacy/` |
 
-Mỗi request vô `/maotrungwork/` nginx hỏi workgate: chưa đăng nhập thì chuyển qua Google, email chưa được chia sẻ thì báo chưa có quyền. `/maotrungwork/` liệt kê các trang người đang đăng nhập được xem. Log xem, chặn, chia sẻ: `journalctl -u workgate`.
+DNS tại GoDaddy:
 
-### Chia sẻ
+| Loại | Tên | Giá trị |
+|---|---|---|
+| A | @ | IP VPS |
+| CNAME | www | @ |
+| MX, TXT, TXT `zmail._domainkey` | | Email Zoho, không sửa |
 
-Owner (email trong `OWNER_EMAILS`) mở `/_auth/share`, nhập email, chọn trang hoặc `/maotrungwork/` cho toàn bộ, bấm Chia sẻ, gửi link cho người nhận. Ở `/maotrungwork/`, owner bấm Chia sẻ cạnh từng trang. Thu hồi có hiệu lực ngay request kế tiếp.
+## Deploy
 
-Gmail bỏ qua dấu chấm và phần `+nhãn`: chia sẻ `a.b@gmail.com` thì người đăng nhập `ab@gmail.com` cũng xem được.
+Push lên `main` không deploy. Deploy bằng lệnh trên máy Mac:
 
-### Dựng lần đầu
-
-1. Google Cloud Console > Google Auth Platform: tạo project. Branding: tên app, email hỗ trợ, home page `https://sumvo.site/`, privacy `https://sumvo.site/privacy/`, Authorized domain `sumvo.site`. Audience: External, bấm Publish app. Clients > Create client > Web application, Authorized redirect URIs: `https://sumvo.site/_auth/callback` và `https://maotrung.sumvo.site/_auth/callback`. Client secret chỉ hiện một lần lúc tạo.
-2. GoDaddy: thêm A record `maotrung` trỏ IP VPS.
-3. Máy Mac: `scripts/deploy-vps.sh infra`.
-4. Server: `sudo bash ~/infra/setup-sumvosite.sh maotrung.sumvo.site`.
-5. Server: điền `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `OWNER_EMAILS` trong `/etc/sumvosite/workgate.env`, chạy `sudo systemctl restart workgate`.
-6. Máy Mac: lưu mật khẩu EA vô Keychain (`security add-generic-password -s sumvosite-ea -a sumvo -w`), đặt `BASE_URL=https://maotrung.sumvo.site/` trong `.deploy.env`, chạy `scripts/deploy-vps.sh`.
-
-### Deploy
-
-| Việc | Lệnh trên máy Mac |
+| Việc | Lệnh |
 |---|---|
 | Báo cáo mới hoặc sửa báo cáo | `scripts/deploy-vps.sh reports` |
 | Site Hugo | `scripts/deploy-vps.sh site` |
 | Cả hai | `scripts/deploy-vps.sh` |
-| `infra/` đổi | `scripts/deploy-vps.sh infra`, rồi chạy lại `setup-sumvosite.sh` trên server |
+| `infra/` đổi | `scripts/deploy-vps.sh infra`, rồi trên server `sudo bash ~/infra/setup-sumvosite.sh` |
 
-### Chuyển DNS, tắt bản GitHub Pages
+Cập nhật cột Trạng thái biên bản weekly từ TASKS.md: `python3 scripts/report-sync.py --deploy`.
 
-1. GoDaddy: A `@` trỏ IP VPS, xoá 4 A record của GitHub; `www` đổi CNAME thành `sumvo.site`. Giữ nguyên MX, TXT của Zoho.
-2. Server: `sudo bash ~/infra/setup-sumvosite.sh` để lấy SSL cho sumvo.site.
-3. Máy Mac: đặt `BASE_URL=https://sumvo.site/` trong `.deploy.env`, chạy `scripts/deploy-vps.sh`.
-4. Gỡ báo cáo khỏi git: `git rm -r --cached static/maotrungwork`, thêm `static/maotrungwork/` vô `.gitignore`, commit, push.
-5. GitHub > Settings > Pages: tắt Pages, xoá workflow `deploy.yml`.
+## Chia sẻ /maotrungwork/ theo Gmail
 
-Giữa bước 1 và bước 2, sumvo.site chạy HTTP vài phút. Sau bước 4, `report-sync.py --commit` không còn tác dụng: cập nhật báo cáo bằng `scripts/deploy-vps.sh reports`.
+Mỗi request vô `/maotrungwork/` nginx hỏi workgate: chưa đăng nhập thì chuyển qua Google, email chưa được chia sẻ thì báo chưa có quyền. `/maotrungwork/` liệt kê các trang người đang đăng nhập được xem.
+
+Owner (email trong `OWNER_EMAILS`) xem mọi trang. Chia sẻ:
+
+1. Mở `https://sumvo.site/_auth/share`, hoặc bấm Chia sẻ cạnh trang ở `/maotrungwork/`.
+2. Nhập email, chọn trang hoặc `/maotrungwork/` cho toàn bộ, bấm Chia sẻ.
+3. Gửi link hiện ra cho người nhận. Họ đăng nhập Google bằng đúng email đó.
+
+Thu hồi: bấm Thu hồi trong bảng, có hiệu lực ngay request kế tiếp. Gmail bỏ qua dấu chấm và phần `+nhãn`: chia sẻ `a.b@gmail.com` thì người đăng nhập `ab@gmail.com` cũng xem được.
+
+Đổi owner: sửa `OWNER_EMAILS` (cách nhau dấu phẩy) trong `/etc/sumvosite/workgate.env`, chạy `sudo systemctl restart workgate`. Log xem, chặn, chia sẻ: `sudo journalctl -u workgate`.
+
+## Khoá mật khẩu mục Enterprise Architecture
+
+Mục `/enterprise-architecture/` được mã hoá bằng [staticrypt](https://github.com/robinmoisson/staticrypt) lúc deploy, chỉ giải mã ở trình duyệt khi nhập đúng mật khẩu. Đây là hàng rào chặn khách vãng lai và công cụ tìm kiếm, không phải bảo mật cấp doanh nghiệp.
+
+`scripts/deploy-vps.sh` lấy mật khẩu từ biến `EA_PASSWORD` hoặc Keychain. Lưu vô Keychain một lần:
+
+```bash
+security add-generic-password -s sumvosite-ea -a sumvo -w
+```
+
+Đổi mật khẩu: xoá bằng `security delete-generic-password -s sumvosite-ea`, lưu lại, chạy `scripts/deploy-vps.sh site`.
+
+RSS feed của mục này đã tắt (`outputs: ["html"]` trong `_index.md`) để không lộ nội dung qua `/enterprise-architecture/index.xml`.
+
+## Dựng lại server từ đầu
+
+Cần nền của repo `maotrung-web` (`setup-server.sh`): nginx, certbot, snippet `acme-challenge`, `security-headers`, `static-site`.
+
+1. Google Cloud Console > Google Auth Platform: tạo project. Branding: tên app, email hỗ trợ, home page `https://sumvo.site/`, privacy `https://sumvo.site/privacy/`, Authorized domain `sumvo.site`. Audience: External, bấm Publish app. Clients > Create client > Web application, Authorized redirect URI `https://sumvo.site/_auth/callback`. Client secret chỉ hiện một lần lúc tạo.
+2. GoDaddy: A `@` và CNAME `www` như bảng DNS ở trên.
+3. Máy Mac: `scripts/deploy-vps.sh infra`.
+4. Server: `sudo bash ~/infra/setup-sumvosite.sh`. Domain chưa trỏ về server thì chỉ chạy HTTP; trỏ xong chạy lại để lấy SSL.
+5. Server: điền `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `OWNER_EMAILS` trong `/etc/sumvosite/workgate.env`, chạy `sudo systemctl restart workgate`.
+6. Máy Mac: `scripts/deploy-vps.sh`.
+
+Test trên domain khác trước (vd staging): `sudo bash ~/infra/setup-sumvosite.sh <domain>`, thêm `https://<domain>/_auth/callback` vô redirect URI, đặt `BASE_URL=https://<domain>/` trong `.deploy.env`. Vhost chỉ phục vụ domain của lần chạy gần nhất.
+
+## Lịch sử
+
+- 2026-10-22: chuyển từ GitHub Pages sang VPS để chia sẻ `/maotrungwork/` theo email Google thay cho mật khẩu chung. Repo `sumvoit/sumvosite` public nên báo cáo được gỡ khỏi git; các commit trước ngày này vẫn chứa báo cáo cũ. Staging `maotrung.sumvo.site` dùng lúc dựng, không còn phục vụ.
