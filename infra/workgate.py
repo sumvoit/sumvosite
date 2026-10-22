@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """workgate: đăng nhập Google và chia sẻ trang theo email cho sumvo.site.
 
-nginx gọi /_auth/check (auth_request) trước mỗi request vô PROTECTED_PREFIX:
+nginx gọi /_auth/check (auth_request) trước mỗi request vô các mục trong PROTECTED_PREFIXES:
 200 cho xem, 401 chưa đăng nhập, 403 email chưa được chia sẻ.
 Danh sách chia sẻ lưu ở ACL_FILE, sửa tay file này cũng có hiệu lực ngay.
 Email trong OWNER_EMAILS xem mọi trang và quản lý chia sẻ tại /_auth/share.
@@ -38,7 +38,10 @@ TOKEN_URL = env("GOOGLE_TOKEN_URL", "https://oauth2.googleapis.com/token")
 SECRET = env("SESSION_SECRET").encode()
 ACL_FILE = env("ACL_FILE", "/var/lib/workgate/acl.json")
 CONTENT_ROOT = env("CONTENT_ROOT", "/var/www/sumvosite/private")
-PREFIX = "/" + env("PROTECTED_PREFIX", "/maotrungwork/").strip("/") + "/"
+# Mục cần đăng nhập, cách nhau dấu phẩy. Mục đầu tiên là trang chính liệt kê các trang được chia sẻ.
+PREFIXES = ["/" + p.strip().strip("/") + "/"
+            for p in env("PROTECTED_PREFIXES", "/maotrungwork/,/edm/").split(",") if p.strip().strip("/")]
+PREFIX = PREFIXES[0]
 SESSION_DAYS = int(env("SESSION_DAYS", "7"))
 LISTEN = env("LISTEN", "127.0.0.1:8090")
 
@@ -80,7 +83,7 @@ def share_path(p):
         p = p[: -len("index.html")]
     elif not p.endswith("/") and "." not in posixpath.basename(p):
         p += "/"
-    return p if p.startswith(PREFIX) else None
+    return p if p.startswith(tuple(PREFIXES)) else None
 
 
 def covers(share, path):
@@ -209,23 +212,27 @@ def allowed(email, path):
 
 
 def pages():
-    """Các trang trong PREFIX (thư mục có index.html), trừ trang danh sách do gen-report-index sinh."""
-    root = os.path.join(CONTENT_ROOT, PREFIX.strip("/"))
+    """Các trang trong PREFIXES, trừ trang danh sách do gen-report-index sinh.
+    Thư mục có index.html là một trang, chia sẻ theo thư mục.
+    File .html khác là một trang, chia sẻ theo thư mục chứa nó để kèm ảnh và file đi cùng."""
     out = []
-    for d, dirs, files in os.walk(root):
-        dirs.sort()
-        if "index.html" not in files:
-            continue
-        with open(os.path.join(d, "index.html"), encoding="utf-8", errors="replace") as f:
-            head = f.read(8192)
-        if 'content="gen-report-index"' in head:
-            continue
-        path = "/" + os.path.relpath(d, CONTENT_ROOT).replace(os.sep, "/").strip("/") + "/"
-        m = TITLE_RE.search(head)
-        title = html.unescape(m.group(1).strip()) if m else path
-        r = REPORT_RE.search(path)
-        key = r.group(1) + r.group(3) + r.group(2) if r else "0" + path
-        out.append({"path": path, "title": title, "key": key})
+    for prefix in PREFIXES:
+        for d, dirs, files in os.walk(os.path.join(CONTENT_ROOT, prefix.strip("/"))):
+            dirs.sort()
+            share = "/" + os.path.relpath(d, CONTENT_ROOT).replace(os.sep, "/").strip("/") + "/"
+            for name in sorted(files):
+                if not name.endswith(".html"):
+                    continue
+                with open(os.path.join(d, name), encoding="utf-8", errors="replace") as f:
+                    head = f.read(8192)
+                if 'content="gen-report-index"' in head:
+                    continue
+                path = share if name == "index.html" else share + name
+                m = TITLE_RE.search(head)
+                title = html.unescape(m.group(1).strip()) if m else path
+                r = REPORT_RE.search(path)
+                key = r.group(1) + r.group(3) + r.group(2) if r else "0" + path
+                out.append({"path": path, "share": share, "title": title, "key": key})
     out.sort(key=lambda p: p["key"], reverse=True)
     return out
 
@@ -492,8 +499,8 @@ class Handler(BaseHTTPRequestHandler):
         mine = [p for p in pages() if allowed(email, p["path"])]
         rows = "".join(
             f'<li><a class="row" href="{esc(p["path"])}"><span class="t">{esc(p["title"])}</span>'
-            f'<span class="d">{esc(p["path"][len(PREFIX):])}</span></a>'
-            + (f'<a class="sh" href="/_auth/share?{urllib.parse.urlencode({"path": p["path"]})}">Chia sẻ</a>' if owner else "")
+            f'<span class="d">{esc(p["path"].strip("/"))}</span></a>'
+            + (f'<a class="sh" href="/_auth/share?{urllib.parse.urlencode({"path": p["share"]})}">Chia sẻ</a>' if owner else "")
             + "</li>" for p in mine
         ) or '<li class="empty">Chưa có trang nào được chia sẻ với email này.</li>'
         extra = '<a href="/_auth/share">Quản lý chia sẻ</a>' if owner else ""
@@ -521,8 +528,9 @@ class Handler(BaseHTTPRequestHandler):
         if not email:
             return
         all_pages = pages()
-        titles = {p["path"]: p["title"] for p in all_pages}
-        titles[PREFIX] = "Toàn bộ " + PREFIX
+        titles = {x: "Toàn bộ " + x for x in PREFIXES}
+        for p in all_pages:
+            titles.setdefault(p["share"], p["title"])
 
         msg = ""
         m = q.get("m")
@@ -536,11 +544,11 @@ class Handler(BaseHTTPRequestHandler):
         elif m == "exists":
             msg = '<div class="msg">Email này đã có quyền với trang đó.</div>'
         elif m == "bad":
-            msg = f'<div class="msg bad">Email hoặc đường dẫn không hợp lệ. Đường dẫn phải bắt đầu bằng {esc(PREFIX)}.</div>'
+            msg = (f'<div class="msg bad">Email hoặc đường dẫn không hợp lệ. Đường dẫn phải bắt đầu bằng '
+                   f'{esc(" hoặc ".join(PREFIXES))}.</div>')
 
         token = self.csrf(tok)
-        options = f'<option value="{esc(PREFIX)}">Toàn bộ</option>' + "".join(
-            f'<option value="{esc(p["path"])}">{esc(p["title"])}</option>' for p in all_pages)
+        options = "".join(f'<option value="{esc(k)}">{esc(t)}</option>' for k, t in titles.items())
         form = (f'<form class="add card" method="post" action="/_auth/share">'
                 f'<input type="hidden" name="csrf" value="{token}"><input type="hidden" name="action" value="add">'
                 f'<input type="email" name="email" placeholder="email@gmail.com" required>'
@@ -599,7 +607,7 @@ def main():
     host, port = LISTEN.rsplit(":", 1)
     srv = ThreadingHTTPServer((host, int(port)), Handler)
     srv.daemon_threads = True
-    log(f"workgate nghe {LISTEN}, bảo vệ {PREFIX}, owner: {', '.join(OWNER_LIST) or 'chưa có'}")
+    log(f"workgate nghe {LISTEN}, bảo vệ {', '.join(PREFIXES)}, owner: {', '.join(OWNER_LIST) or 'chưa có'}")
     srv.serve_forever()
 
 

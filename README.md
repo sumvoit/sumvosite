@@ -1,6 +1,6 @@
 # sumvo.site
 
-Site tài liệu + blog cá nhân chạy [Hugo](https://gohugo.io/) với theme [hugo-book](https://github.com/alex-shpak/hugo-book) (giao diện docs/wiki kiểu BookStack). Chạy trên VPS bằng nginx; mục `/maotrungwork/` chỉ mở cho email Google được chia sẻ.
+Site tài liệu + blog cá nhân chạy [Hugo](https://gohugo.io/) với theme [hugo-book](https://github.com/alex-shpak/hugo-book) (giao diện docs/wiki kiểu BookStack). Chạy trên VPS bằng nginx; mục `/maotrungwork/` và `/edm/` chỉ mở cho email Google được chia sẻ.
 
 ## Chạy local
 
@@ -30,7 +30,7 @@ content/
 | Phần | Chỗ |
 |---|---|
 | Site Hugo | VPS `/var/www/sumvosite/site` |
-| Báo cáo `/maotrungwork/` | VPS `/var/www/sumvosite/private`. Bản gốc ở `static/maotrungwork/` trên máy Mac, không nằm trong git |
+| Báo cáo `/maotrungwork/`, tài liệu học `/edm/` | VPS `/var/www/sumvosite/private`. Bản gốc ở `static/maotrungwork/`, `static/edm/` trên máy Mac, không nằm trong git |
 | workgate: đăng nhập Google, kiểm quyền | `infra/workgate.py`, systemd `workgate`, `127.0.0.1:8090` |
 | Cấu hình workgate | VPS `/etc/sumvosite/workgate.env` |
 | Danh sách chia sẻ | VPS `/var/lib/workgate/acl.json` |
@@ -55,21 +55,23 @@ Push lên `main` không deploy. Deploy bằng lệnh trên máy Mac:
 
 | Việc | Lệnh |
 |---|---|
-| Báo cáo mới hoặc sửa báo cáo | `scripts/deploy-vps.sh reports` |
+| Báo cáo mới hoặc sửa báo cáo, sửa `/edm/` | `scripts/deploy-vps.sh reports` |
 | Site Hugo | `scripts/deploy-vps.sh site` |
 | Cả hai | `scripts/deploy-vps.sh` |
 | `infra/` đổi | `scripts/deploy-vps.sh infra`, rồi trên server `sudo bash ~/infra/setup-sumvosite.sh` |
 
 Cập nhật cột Trạng thái biên bản weekly từ TASKS.md: `python3 scripts/report-sync.py --deploy`.
 
-## Chia sẻ /maotrungwork/ theo Gmail
+## Chia sẻ /maotrungwork/ và /edm/ theo Gmail
 
-Mỗi request vô `/maotrungwork/` nginx hỏi workgate: chưa đăng nhập thì chuyển qua Google, email chưa được chia sẻ thì báo chưa có quyền. `/maotrungwork/` liệt kê các trang người đang đăng nhập được xem.
+Mỗi request vô `/maotrungwork/` hoặc `/edm/` nginx hỏi workgate: chưa đăng nhập thì chuyển qua Google, email chưa được chia sẻ thì báo chưa có quyền. `/maotrungwork/` liệt kê các trang người đang đăng nhập được xem, gồm cả trang trong `/edm/`.
+
+Trang `/edm/` là file `.html` nằm chung thư mục với ảnh, nên chia sẻ theo thư mục: chọn `Toàn bộ /edm/`. Chia sẻ đúng một file `.html` thì người nhận không tải được ảnh `slides/`.
 
 Owner (email trong `OWNER_EMAILS`) xem mọi trang. Chia sẻ:
 
 1. Mở `https://sumvo.site/_auth/share`, hoặc bấm Chia sẻ cạnh trang ở `/maotrungwork/`.
-2. Nhập email, chọn trang hoặc `/maotrungwork/` cho toàn bộ, bấm Chia sẻ.
+2. Nhập email, chọn trang, `Toàn bộ /maotrungwork/` hoặc `Toàn bộ /edm/`, bấm Chia sẻ.
 3. Gửi link hiện ra cho người nhận. Họ đăng nhập Google bằng đúng email đó.
 
 Thu hồi: bấm Thu hồi trong bảng, có hiệu lực ngay request kế tiếp. Gmail bỏ qua dấu chấm và phần `+nhãn`: chia sẻ `a.b@gmail.com` thì người đăng nhập `ab@gmail.com` cũng xem được.

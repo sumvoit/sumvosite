@@ -1,5 +1,5 @@
 [Unit]
-Description=workgate: đăng nhập Google và chia sẻ theo email cho sumvo.site/maotrungwork
+Description=workgate: đăng nhập Google và chia sẻ theo email cho sumvo.site/maotrungwork và /edm
 After=network-online.target
 Wants=network-online.target
 

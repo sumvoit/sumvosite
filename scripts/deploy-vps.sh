@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Build sumvo.site và đẩy lên VPS.
-#   scripts/deploy-vps.sh            site Hugo + báo cáo /maotrungwork/
+#   scripts/deploy-vps.sh            site Hugo + trang cần đăng nhập
 #   scripts/deploy-vps.sh site       chỉ site Hugo
-#   scripts/deploy-vps.sh reports    chỉ báo cáo (static/maotrungwork/)
+#   scripts/deploy-vps.sh reports    chỉ trang cần đăng nhập: báo cáo static/maotrungwork/, tài liệu static/edm/
 #   scripts/deploy-vps.sh infra      chép infra/ lên ~/infra/ trên server, sau đó chạy setup-sumvosite.sh trên server
 # Kết nối và BASE_URL lấy từ .deploy.env (không commit), mẫu ở .deploy.env.example.
 # Mật khẩu mục Enterprise Architecture lấy từ biến EA_PASSWORD hoặc Keychain. Lưu vô Keychain một lần:
@@ -29,7 +29,7 @@ site() {
     local pw=${EA_PASSWORD:-$(security find-generic-password -s sumvosite-ea -w 2> /dev/null || true)}
     [ -n "$pw" ] || { echo "Thiếu mật khẩu EA: đặt EA_PASSWORD hoặc lưu Keychain (xem đầu file)"; exit 1; }
     hugo --gc --minify --quiet --baseURL "$BASE_URL" -d "$OUT/public"
-    rm -rf "$OUT/public/maotrungwork"
+    rm -rf "$OUT/public/maotrungwork" "$OUT/public/edm"
     (cd "$OUT" && STATICRYPT_PASSWORD="$pw" npx --yes staticrypt@3.5.4 public/enterprise-architecture \
         -r -d public --short --remember 30 -c false > /dev/null)
     push "$OUT/public" "$REMOTE/site"
@@ -38,10 +38,10 @@ site() {
 
 reports() {
     mkdir -p "$OUT/private"
-    rsync -a static/maotrungwork "$OUT/private/"
+    rsync -a static/maotrungwork static/edm "$OUT/private/"
     bash scripts/gen-report-index.sh "$OUT/private/maotrungwork/report"
     push "$OUT/private" "$REMOTE/private"
-    echo "OK: báo cáo -> $DEPLOY_HOST:$REMOTE/private"
+    echo "OK: báo cáo, /edm/ -> $DEPLOY_HOST:$REMOTE/private"
 }
 
 infra() {

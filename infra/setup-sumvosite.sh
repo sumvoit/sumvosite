@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Dựng sumvo.site trên VPS: vhost nginx, SSL Let's Encrypt, workgate (đăng nhập Google cho /maotrungwork/).
+# Dựng sumvo.site trên VPS: vhost nginx, SSL Let's Encrypt, workgate (đăng nhập Google cho /maotrungwork/ và /edm/).
 # Cần nền của maotrung-web (setup-server.sh): nginx, certbot, snippet acme-challenge, security-headers, static-site.
 #   Máy Mac:  scripts/deploy-vps.sh infra
 #   Server:   sudo bash ~/infra/setup-sumvosite.sh [domain] [domain phụ...]
