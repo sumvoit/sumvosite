@@ -4,3 +4,4 @@ resources/
 .deploy.env
 static/maotrungwork/
 static/edm/
+__pycache__/
