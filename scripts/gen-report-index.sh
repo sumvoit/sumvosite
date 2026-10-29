@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Sinh trang danh sách báo cáo MaoTrung từ thư mục report/<năm>/rp-<loại>-<dd>-<mm>/.
-#   report/<năm>/                -> tất cả báo cáo của năm
+#   report/<năm>/                -> tất cả báo cáo của năm, mọi loại (gồm cả dashboard)
 #   report/<loại>/<năm>/         -> báo cáo theo loại (weekly, monthly, daily) của năm
 # Chạy sau khi Hugo build, trước bước staticrypt. scripts/deploy-vps.sh cũng gọi script này.
 # Cách dùng: scripts/gen-report-index.sh [public/maotrungwork/report]
@@ -21,7 +21,7 @@ list_reports() {
   for dir in "$ROOT/$year"/rp-*/; do
     [ -f "$dir/index.html" ] || continue
     name="$(basename "$dir")"
-    [[ "$name" =~ ^rp-(monthly|weekly|daily)-([0-9]{2})-([0-9]{2})$ ]] || continue
+    [[ "$name" =~ ^rp-([a-z]+)-([0-9]{2})-([0-9]{2})$ ]] || continue
     t="${BASH_REMATCH[1]}" d="${BASH_REMATCH[2]}" m="${BASH_REMATCH[3]}"
     [ -z "$type" ] || [ "$type" = "$t" ] || continue
     title="$(sed -n 's:.*<title>\(.*\)</title>.*:\1:p' "$dir/index.html" | head -1)"
