@@ -51,6 +51,10 @@ if [ ! -f "$ENV_FILE" ]; then
         } > "$ENV_FILE"
     )
 fi
+# Email báo yêu cầu quyền: thêm khoá còn thiếu vô file env cũ, giá trị điền tay
+for kv in SMTP_HOST= SMTP_PORT=465 SMTP_USER= SMTP_PASSWORD= MAIL_FROM=; do
+    grep -q "^${kv%%=*}=" "$ENV_FILE" || echo "$kv" >> "$ENV_FILE"
+done
 sed -i "s|^PUBLIC_URL=.*|PUBLIC_URL=https://$DOMAIN|" "$ENV_FILE"
 chmod 600 "$ENV_FILE"
 install -m 0644 "$HERE/workgate.service" /etc/systemd/system/workgate.service

@@ -34,6 +34,7 @@ content/
 | workgate: đăng nhập Google, kiểm quyền | `infra/workgate.py`, systemd `workgate`, `127.0.0.1:8090` |
 | Cấu hình workgate | VPS `/etc/sumvosite/workgate.env` |
 | Danh sách chia sẻ | VPS `/var/lib/workgate/acl.json` |
+| Yêu cầu quyền đang chờ | VPS `/var/lib/workgate/requests.json` |
 | vhost nginx, SSL | `infra/setup-sumvosite.sh`, Let's Encrypt tự gia hạn |
 | `maotrung.sumvo.site` | Domain phụ, chuyển 301 về `https://sumvo.site` cùng đường dẫn |
 | Kết nối deploy | `.deploy.env` trên máy Mac, không commit, mẫu ở `.deploy.env.example` |
@@ -64,7 +65,7 @@ Cập nhật cột Trạng thái biên bản weekly từ TASKS.md: `python3 scri
 
 ## Chia sẻ /maotrungwork/ và /edm/ theo Gmail
 
-Mỗi request vô `/maotrungwork/` hoặc `/edm/` nginx hỏi workgate: chưa đăng nhập thì chuyển qua Google, email chưa được chia sẻ thì báo chưa có quyền. `/maotrungwork/` và `/edm/` liệt kê các trang trong mục đó người đang đăng nhập được xem.
+Mỗi request vô `/maotrungwork/` hoặc `/edm/` nginx hỏi workgate: chưa đăng nhập thì chuyển qua Google, email chưa được chia sẻ thì hiện trang yêu cầu quyền. `/maotrungwork/` và `/edm/` liệt kê các trang trong mục đó người đang đăng nhập được xem.
 
 Trang `/edm/` là file `.html` nằm chung thư mục với ảnh, nên chia sẻ theo thư mục: chọn `Toàn bộ /edm/`. Chia sẻ đúng một file `.html` thì người nhận không tải được ảnh `slides/`.
 
@@ -76,7 +77,31 @@ Owner (email trong `OWNER_EMAILS`) xem mọi trang. Chia sẻ:
 
 Thu hồi: bấm Thu hồi trong bảng, có hiệu lực ngay request kế tiếp. Gmail bỏ qua dấu chấm và phần `+nhãn`: chia sẻ `a.b@gmail.com` thì người đăng nhập `ab@gmail.com` cũng xem được.
 
-Đổi owner: sửa `OWNER_EMAILS` (cách nhau dấu phẩy) trong `/etc/sumvosite/workgate.env`, chạy `sudo systemctl restart workgate`. Log xem, chặn, chia sẻ: `sudo journalctl -u workgate`.
+Đổi owner: sửa `OWNER_EMAILS` (cách nhau dấu phẩy) trong `/etc/sumvosite/workgate.env`, chạy `sudo systemctl restart workgate`. Log xem, chặn, chia sẻ, yêu cầu: `sudo journalctl -u workgate`.
+
+### Yêu cầu quyền truy cập
+
+Người đăng nhập mà chưa được chia sẻ trang thấy trang Bạn cần quyền truy cập: nhập lời nhắn, bấm Yêu cầu quyền truy cập. Mỗi email có một yêu cầu đang chờ cho mỗi trang, tối đa 20 yêu cầu đang chờ.
+
+Owner xử lý ở bảng Yêu cầu quyền truy cập trong `https://sumvo.site/_auth/share`. Trang `/maotrungwork/` của owner hiện số yêu cầu đang chờ.
+
+- Duyệt: chia sẻ đúng trang được yêu cầu. Trang `.html` trong `/edm/` được duyệt theo thư mục `/edm/`.
+- Từ chối: xoá yêu cầu, không báo người yêu cầu. Họ gửi lại được.
+- Chia sẻ tay một path rộng hơn cho cùng email, vd `/maotrungwork/`, cũng đáp ứng các yêu cầu nằm trong path đó.
+
+Có cấu hình SMTP thì owner nhận email khi có yêu cầu mới (trả lời email là trả lời người yêu cầu), người yêu cầu nhận email khi được duyệt. Không có SMTP thì mọi thứ vẫn chạy, chỉ không gửi email.
+
+Cấu hình SMTP trong `/etc/sumvosite/workgate.env`. `setup-sumvosite.sh` thêm sẵn các khoá trống:
+
+| Khoá | Giá trị khi gửi bằng Gmail |
+|---|---|
+| `SMTP_HOST` | `smtp.gmail.com` |
+| `SMTP_PORT` | `465`. Cổng khác dùng STARTTLS |
+| `SMTP_USER` | Địa chỉ Gmail gửi |
+| `SMTP_PASSWORD` | App password 16 ký tự tạo ở `https://myaccount.google.com/apppasswords`, tài khoản phải bật xác minh 2 bước |
+| `MAIL_FROM` | `sumvo.site <địa chỉ Gmail gửi>`. Gmail ghi đè địa chỉ khác Gmail đăng nhập |
+
+Sửa xong chạy `sudo systemctl restart workgate`. Gửi lỗi thì log có dòng `mail-error`.
 
 ## Khoá mật khẩu mục Enterprise Architecture
 

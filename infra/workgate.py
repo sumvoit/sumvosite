@@ -6,6 +6,10 @@ nginx gọi /_auth/check (auth_request) trước mỗi request vô các mục tr
 Danh sách chia sẻ lưu ở ACL_FILE, sửa tay file này cũng có hiệu lực ngay.
 Email trong OWNER_EMAILS xem mọi trang và quản lý chia sẻ tại /_auth/share.
 
+Người chưa có quyền gửi yêu cầu kèm lời nhắn từ trang 403, lưu ở REQUESTS_FILE.
+Owner duyệt hoặc từ chối tại /_auth/share. Có SMTP_HOST thì email báo owner khi có yêu cầu
+và báo người yêu cầu khi được cấp quyền.
+
 Cấu hình bằng biến môi trường, xem infra/setup-sumvosite.sh. Chỉ dùng thư viện chuẩn Python 3.10.
 """
 import base64
@@ -17,11 +21,15 @@ import os
 import posixpath
 import re
 import secrets
+import smtplib
+import ssl
 import threading
 import time
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
+from email.message import EmailMessage
+from email.utils import formatdate, make_msgid, parseaddr
 from http.cookies import SimpleCookie
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -37,6 +45,7 @@ AUTH_URL = env("GOOGLE_AUTH_URL", "https://accounts.google.com/o/oauth2/v2/auth"
 TOKEN_URL = env("GOOGLE_TOKEN_URL", "https://oauth2.googleapis.com/token")
 SECRET = env("SESSION_SECRET").encode()
 ACL_FILE = env("ACL_FILE", "/var/lib/workgate/acl.json")
+REQUESTS_FILE = env("REQUESTS_FILE", os.path.join(os.path.dirname(ACL_FILE), "requests.json"))
 CONTENT_ROOT = env("CONTENT_ROOT", "/var/www/sumvosite/private")
 # Mục cần đăng nhập, cách nhau dấu phẩy. Mục đầu tiên là trang chính liệt kê các trang được chia sẻ.
 PREFIXES = ["/" + p.strip().strip("/") + "/"
@@ -47,6 +56,15 @@ SITE_NAME = "sumvo.site"
 SECTION_NAMES = {"/maotrungwork/": "Mao Trung · Work", "/edm/": "sumvo.site · EDM"}
 SESSION_DAYS = int(env("SESSION_DAYS", "7"))
 LISTEN = env("LISTEN", "127.0.0.1:8090")
+# Email báo yêu cầu quyền. Cổng 465 dùng SSL, cổng khác dùng STARTTLS. Để trống SMTP_HOST thì không gửi.
+SMTP_HOST = env("SMTP_HOST")
+SMTP_PORT = int(env("SMTP_PORT", "465"))
+SMTP_USER = env("SMTP_USER")
+SMTP_PASSWORD = env("SMTP_PASSWORD")
+MAIL_FROM = env("MAIL_FROM") or SMTP_USER
+NOTE_MAX = 500
+# Số yêu cầu đang chờ tối đa của một email
+PENDING_MAX = 20
 
 SECURE = PUBLIC_URL.startswith("https://")
 REDIRECT_URI = PUBLIC_URL + "/_auth/callback"
@@ -161,30 +179,33 @@ def unsign(token, kind):
     return obj
 
 
-# ---- danh sách chia sẻ ----
+# ---- danh sách chia sẻ, yêu cầu quyền ----
 
-class Acl:
-    def __init__(self, path):
+class Store:
+    """Một list bản ghi trong file JSON {key: [...]}. Đọc lại khi file đổi nên sửa tay có hiệu lực ngay."""
+
+    def __init__(self, path, key):
         self.path = path
+        self.key = key
         self.lock = threading.Lock()
         self.mtime = None
-        self.shares = []
+        self.items = []
 
     def _load(self):
         try:
             mtime = os.stat(self.path).st_mtime_ns
         except FileNotFoundError:
-            self.shares, self.mtime = [], None
+            self.items, self.mtime = [], None
             return
         if mtime != self.mtime:
             with open(self.path, encoding="utf-8") as f:
-                self.shares = json.load(f).get("shares", [])
+                self.items = json.load(f).get(self.key, [])
             self.mtime = mtime
 
     def _save(self):
         tmp = self.path + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
-            json.dump({"shares": self.shares}, f, ensure_ascii=False, indent=1)
+            json.dump({self.key: self.items}, f, ensure_ascii=False, indent=1)
             f.write("\n")
         os.replace(tmp, self.path)
         self.mtime = os.stat(self.path).st_mtime_ns
@@ -192,36 +213,47 @@ class Acl:
     def all(self):
         with self.lock:
             self._load()
-            return list(self.shares)
+            return list(self.items)
 
-    def add(self, email, path, by):
+    def add(self, item, same):
+        """Thêm item nếu chưa có bản ghi nào same() đúng."""
         with self.lock:
             self._load()
-            if any(norm_email(s["email"]) == norm_email(email) and s["path"] == path for s in self.shares):
+            if any(same(x) for x in self.items):
                 return False
-            self.shares.append({"email": email, "path": path, "by": by, "at": now_vn()})
+            self.items.append(item)
             self._save()
             return True
 
-    def remove(self, email, path):
+    def remove(self, pick):
+        """Bỏ các bản ghi pick() đúng, trả về các bản ghi đã bỏ."""
         with self.lock:
             self._load()
-            keep = [s for s in self.shares
-                    if not (norm_email(s["email"]) == norm_email(email) and s["path"] == path)]
-            if len(keep) == len(self.shares):
-                return False
-            self.shares = keep
-            self._save()
-            return True
+            gone = [x for x in self.items if pick(x)]
+            if gone:
+                self.items = [x for x in self.items if not pick(x)]
+                self._save()
+            return gone
 
 
-ACL = Acl(ACL_FILE)
+ACL = Store(ACL_FILE, "shares")
+REQUESTS = Store(REQUESTS_FILE, "requests")
+
+
+def match(email, path):
+    return lambda x: norm_email(x["email"]) == norm_email(email) and x["path"] == path
 
 
 def allowed(email, path):
     if email in OWNERS:
         return True
     return any(norm_email(s["email"]) == email and covers(s["path"], path) for s in ACL.all())
+
+
+def pending():
+    """Yêu cầu đang chờ. Yêu cầu đã có quyền bằng đường khác (chia sẻ tay, sửa acl.json) thì bỏ luôn."""
+    REQUESTS.remove(lambda r: allowed(norm_email(r["email"]), r["path"]))
+    return REQUESTS.all()
 
 
 def pages():
@@ -248,6 +280,57 @@ def pages():
                 out.append({"path": path, "share": share, "title": title, "key": key})
     out.sort(key=lambda p: p["key"], reverse=True)
     return out
+
+
+def target_page(url):
+    """(đường dẫn chia sẻ, tên trang) của url người dùng mở, không có trên đĩa thì None.
+    Trang .html lẻ chia sẻ theo thư mục chứa nó như pages()."""
+    path = share_path(url)
+    if not path:
+        return None
+    for p in pages():
+        if p["path"] == path:
+            return p["share"], p["title"]
+    disk = os.path.join(CONTENT_ROOT, path.strip("/"))
+    if os.path.isfile(disk) or os.path.isfile(os.path.join(disk, "index.html")):
+        return path, path
+    return None
+
+
+# ---- email ----
+
+def mail(to, subject, body, reply_to=None):
+    """Gửi email ở thread nền, lỗi chỉ ghi log. Không có SMTP_HOST thì bỏ qua."""
+    if not SMTP_HOST or not to:
+        return
+    msg = EmailMessage()
+    msg["From"] = MAIL_FROM
+    msg["To"] = ", ".join(to)
+    msg["Subject"] = " ".join(subject.split())
+    msg["Date"] = formatdate(localtime=True)
+    msg["Message-ID"] = make_msgid(domain=parseaddr(MAIL_FROM)[1].rpartition("@")[2] or None)
+    if reply_to:
+        msg["Reply-To"] = reply_to
+    msg.set_content(body)
+
+    def run():
+        try:
+            ctx = ssl.create_default_context()
+            if SMTP_PORT == 465:
+                s = smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=20, context=ctx)
+            else:
+                s = smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=20)
+            with s:
+                if SMTP_PORT != 465:
+                    s.starttls(context=ctx)
+                if SMTP_USER:
+                    s.login(SMTP_USER, SMTP_PASSWORD)
+                s.send_message(msg)
+            log("mail", msg["To"], msg["Subject"])
+        except Exception as e:
+            log("mail-error", msg["To"], type(e).__name__, str(e)[:200])
+
+    threading.Thread(target=run, daemon=True).start()
 
 
 # ---- Google ----
@@ -298,7 +381,14 @@ ul.list a.sh{padding:0 18px;font-size:13px;white-space:nowrap}
 .btn.ghost{background:transparent;color:var(--acc);border:1px solid var(--line)}
 .btn.small{padding:4px 10px;font-size:13px;font-weight:500}
 form.add{display:grid;grid-template-columns:1fr 1.4fr auto;gap:10px;padding:16px}
-input{width:100%;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+input,textarea{width:100%;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+textarea{resize:vertical;min-height:84px}
+form.req{display:grid;gap:12px;padding:20px}
+form.req p{margin:0}
+form.req .btn{justify-self:start}
+.note{white-space:pre-wrap;word-break:break-word}
+.act{white-space:nowrap}
+.act form{display:inline}
 table{width:100%;border-collapse:collapse}
 th,td{text-align:left;padding:10px 14px;border-top:1px solid var(--line);vertical-align:top}
 th{border-top:0;color:var(--mute);font-weight:500;font-size:13px}
@@ -426,7 +516,19 @@ class Handler(BaseHTTPRequestHandler):
             return self.check({})
         if path == "/_auth/share":
             return self.share_post()
+        if path == "/_auth/request":
+            return self.request_post()
         self.send(405)
+
+    def read_form(self, tok):
+        """Form POST đã kiểm Origin và CSRF. Sai thì trả 403 và None."""
+        origin = self.headers.get("Origin")
+        length = min(int(self.headers.get("Content-Length") or 0), 8192)
+        form = dict(urllib.parse.parse_qsl(self.rfile.read(length).decode("utf-8", "replace")))
+        if (origin and origin != PUBLIC_URL) or not hmac.compare_digest(form.get("csrf", ""), self.csrf(tok)):
+            self.send(403)
+            return None
+        return form
 
     # ---- nginx auth_request ----
 
@@ -494,20 +596,63 @@ class Handler(BaseHTTPRequestHandler):
     # ---- trang ----
 
     def denied(self, q):
-        email, _, who = self.session()
+        """Trang 403: gửi yêu cầu quyền cho owner như Google Drive, hoặc chuyển tài khoản."""
+        email, tok, who = self.session()
         target = safe_next(self.headers.get("X-Original-URI") or q.get("next"))
         if not email:
             return self.to_google(target)
         sec = section(target)
-        home = f'<a class="btn ghost" href="{esc(sec)}">Trang được chia sẻ với tôi</a>'
+        kicker = section_name(sec)
+        home = f'<a href="{esc(sec)}">Trang được chia sẻ với tôi</a>'
+        page = target_page(target)
         # Có quyền mà vẫn tới đây là 403 của nginx (thư mục không có index.html), không phải thiếu quyền
-        if allowed(email, norm_path(target)):
-            return self.page(404, "Không có trang này", f"<p>{home}</p>", kicker=section_name(sec))
-        self.page(403, "Chưa được chia sẻ trang này",
-                  f"<p>Tài khoản <b>{esc(who)}</b> chưa có quyền xem trang này. "
-                  "Nhờ người gửi link chia sẻ cho email của bạn, hoặc đăng nhập bằng tài khoản khác.</p>"
-                  f'<p><a class="btn" href="/_auth/login?next={urllib.parse.quote(target)}">Đăng nhập tài khoản khác</a> '
-                  f"{home}</p>", kicker=section_name(sec))
+        if allowed(email, norm_path(target)) or not page:
+            return self.page(404, "Không có trang này", f"<p>{home}</p>", kicker=kicker)
+        switch = (f'<div class="bar"><span>Đăng nhập: {esc(who)}</span>'
+                  f'<a href="/_auth/login?next={urllib.parse.quote(target)}">Chuyển tài khoản</a>{home}</div>')
+        after = ("Bạn sẽ nhận email khi được cấp quyền, sau đó mở lại link này." if SMTP_HOST
+                 else "Khi được cấp quyền, mở lại link này để xem.")
+        sent = next((r for r in pending() if match(email, page[0])(r)), None)
+        if sent:
+            return self.page(403, "Đã gửi yêu cầu",
+                             f'<div class="msg ok">Đã gửi yêu cầu quyền xem trang này lúc {esc(sent["at"])}. '
+                             f"{after}</div>" + switch, kicker=kicker)
+        self.page(403, "Bạn cần quyền truy cập",
+                  f'<form class="req card" method="post" action="/_auth/request">'
+                  f'<input type="hidden" name="csrf" value="{self.csrf(tok)}">'
+                  f'<input type="hidden" name="next" value="{esc(target)}">'
+                  f"<p>Yêu cầu quyền truy cập, hoặc chuyển sang tài khoản đã được chia sẻ.</p>"
+                  f'<textarea name="note" maxlength="{NOTE_MAX}" placeholder="Lời nhắn (không bắt buộc)"></textarea>'
+                  f'<button class="btn" type="submit">Yêu cầu quyền truy cập</button></form>' + switch,
+                  kicker=kicker)
+
+    def request_post(self):
+        email, tok, who = self.session()
+        if not email:
+            return self.redirect(PREFIX, 303)
+        form = self.read_form(tok)
+        if form is None:
+            return
+        url = safe_next(form.get("next"))
+        page = target_page(url)
+        if not page or allowed(email, norm_path(url)):
+            return self.redirect(url, 303)
+        path, title = page
+        if sum(norm_email(r["email"]) == email for r in REQUESTS.all()) >= PENDING_MAX:
+            return self.page(429, "Đang chờ quá nhiều yêu cầu",
+                             f"<p>Email {esc(who)} đã có {PENDING_MAX} yêu cầu chưa được xử lý. "
+                             "Chờ owner duyệt rồi gửi tiếp.</p>", kicker=section_name(section(url)))
+        note = re.sub(r"[\x00-\x08\x0b-\x1f\x7f]", "", form.get("note", "").replace("\r\n", "\n")).strip()[:NOTE_MAX]
+        url = norm_path(url)
+        req = {"email": who, "path": path, "url": url, "title": title, "note": note, "at": now_vn()}
+        if REQUESTS.add(req, match(email, path)):
+            log("request", who, path, self.ip())
+            mail(OWNER_LIST, f"{who} xin quyền xem: {title}",
+                 f"{who} xin quyền xem trang:\n\n{title}\n{PUBLIC_URL}{url}\n\n"
+                 + (f"Lời nhắn:\n{note}\n\n" if note else "")
+                 + f"Duyệt hoặc từ chối: {PUBLIC_URL}/_auth/share#yeu-cau\n"
+                 f"Trả lời email này là trả lời {who}.\n", reply_to=who)
+        self.redirect(url, 303)
 
     def home(self, q):
         """Trang đầu của một mục: các trang trong mục đó người đang đăng nhập được xem."""
@@ -528,6 +673,8 @@ class Handler(BaseHTTPRequestHandler):
         extra = "".join(f'<a href="{esc(x)}">{esc(section_name(x))}</a>' for x in PREFIXES
                         if x != sec and any(p["path"].startswith(x) for p in mine))
         if owner:
+            n = len(pending())
+            extra += (f'<a href="/_auth/share#yeu-cau"><b>{n} yêu cầu quyền</b></a>' if n else "")
             extra += '<a href="/_auth/share">Quản lý chia sẻ</a>'
         log("home", who, sec, len(here), self.ip())
         self.page(200, "Trang được chia sẻ với bạn",
@@ -562,12 +709,16 @@ class Handler(BaseHTTPRequestHandler):
         msg = ""
         m = q.get("m")
         if m == "added":
-            link = PUBLIC_URL + q.get("p", PREFIX)
+            link = PUBLIC_URL + (q.get("u") or q.get("p", PREFIX))
             msg = (f'<div class="msg ok">Đã chia sẻ <b>{esc(titles.get(q.get("p"), q.get("p")))}</b> với '
-                   f'<b>{esc(q.get("e"))}</b>. Gửi link cho người nhận, họ đăng nhập Google bằng đúng email này:'
-                   f'<input readonly value="{esc(link)}"></div>')
+                   f'<b>{esc(q.get("e"))}</b>. '
+                   + ("Đã gửi email báo người yêu cầu. Link trang:" if q.get("n") and SMTP_HOST
+                      else "Gửi link cho người nhận, họ đăng nhập Google bằng đúng email này:")
+                   + f'<input readonly value="{esc(link)}"></div>')
         elif m == "removed":
             msg = f'<div class="msg ok">Đã thu hồi quyền của <b>{esc(q.get("e"))}</b>.</div>'
+        elif m == "declined":
+            msg = f'<div class="msg ok">Đã từ chối yêu cầu của <b>{esc(q.get("e"))}</b>.</div>'
         elif m == "exists":
             msg = '<div class="msg">Email này đã có quyền với trang đó.</div>'
         elif m == "bad":
@@ -575,6 +726,27 @@ class Handler(BaseHTTPRequestHandler):
                    f'{esc(" hoặc ".join(PREFIXES))}.</div>')
 
         token = self.csrf(tok)
+
+        def act(action, label, ghost, s):
+            return (f'<form method="post" action="/_auth/share">'
+                    f'<input type="hidden" name="csrf" value="{token}"><input type="hidden" name="action" value="{action}">'
+                    f'<input type="hidden" name="email" value="{esc(s["email"])}"><input type="hidden" name="path" value="{esc(s["path"])}">'
+                    f'<button class="btn small{" ghost" if ghost else ""}" type="submit">{label}</button></form>')
+
+        reqs = sorted(pending(), key=lambda r: r["at"], reverse=True)
+        requests = (
+            f'<h2 id="yeu-cau">Yêu cầu quyền truy cập ({len(reqs)})</h2><div class="card"><table>'
+            f'<thead><tr><th>Email</th><th>Trang</th><th>Lời nhắn</th><th>Lúc</th><th></th></tr></thead><tbody>'
+            + "".join(
+                f'<tr><td>{esc(r["email"])}</td>'
+                f'<td><a href="{esc(r.get("url", r["path"]))}">{esc(r.get("title") or r["path"])}</a>'
+                f'<div class="mute">{esc(r["path"])}</div></td>'
+                f'<td class="note">{esc(r.get("note", ""))}</td>'
+                f'<td class="mute">{esc(r["at"])}</td>'
+                f'<td class="act">{act("add", "Duyệt", False, r)} {act("decline", "Từ chối", True, r)}</td></tr>'
+                for r in reqs)
+            + "</tbody></table></div>" if reqs else "")
+
         options = "".join(f'<option value="{esc(k)}">{esc(t)}</option>' for k, t in titles.items())
         form = (f'<form class="add card" method="post" action="/_auth/share">'
                 f'<input type="hidden" name="csrf" value="{token}"><input type="hidden" name="action" value="add">'
@@ -588,10 +760,7 @@ class Handler(BaseHTTPRequestHandler):
             f'<tr><td>{esc(s["email"])}</td>'
             f'<td><a href="{esc(s["path"])}">{esc(titles.get(s["path"], s["path"]))}</a></td>'
             f'<td class="mute">{esc(s.get("at", ""))}</td>'
-            f'<td><form method="post" action="/_auth/share">'
-            f'<input type="hidden" name="csrf" value="{token}"><input type="hidden" name="action" value="remove">'
-            f'<input type="hidden" name="email" value="{esc(s["email"])}"><input type="hidden" name="path" value="{esc(s["path"])}">'
-            f'<button class="btn ghost small" type="submit">Thu hồi</button></form></td></tr>'
+            f'<td>{act("remove", "Thu hồi", True, s)}</td></tr>'
             for s in shares)
         table = (f'<div class="card"><table><thead><tr><th>Email</th><th>Trang</th><th>Lúc</th><th></th></tr></thead>'
                  f'<tbody>{rows}</tbody></table></div>' if shares
@@ -599,7 +768,7 @@ class Handler(BaseHTTPRequestHandler):
 
         owners = ", ".join(OWNER_LIST)
         self.page(200, "Quản lý chia sẻ",
-                  msg + form + f"<h2>Đang chia sẻ</h2>{table}"
+                  msg + form + requests + f"<h2>Đang chia sẻ</h2>{table}"
                   f'<p class="mute">Owner xem được mọi trang: {esc(owners)}. Đổi owner trong file env của workgate.</p>'
                   + account_bar(email, "".join(f'<a href="{esc(x)}">{esc(section_name(x))}</a>' for x in PREFIXES)))
 
@@ -607,25 +776,36 @@ class Handler(BaseHTTPRequestHandler):
         email, tok = self.owner_or_stop()
         if not email:
             return
-        origin = self.headers.get("Origin")
-        if origin and origin != PUBLIC_URL:
-            return self.send(403)
-        length = min(int(self.headers.get("Content-Length") or 0), 8192)
-        form = dict(urllib.parse.parse_qsl(self.rfile.read(length).decode("utf-8", "replace")))
-        if not hmac.compare_digest(form.get("csrf", ""), self.csrf(tok)):
-            return self.send(403)
+        form = self.read_form(tok)
+        if form is None:
+            return
         target = form.get("email", "").strip().lower()
         path = share_path(form.get("path", ""))
         if not EMAIL_RE.match(target) or not path:
             return self.redirect("/_auth/share?m=bad", 303)
         if form.get("action") == "remove":
-            ACL.remove(target, path)
+            ACL.remove(match(target, path))
             log("unshare", email, target, path)
             return self.redirect("/_auth/share?" + urllib.parse.urlencode({"m": "removed", "e": target}), 303)
-        if not ACL.add(target, path, email):
+        if form.get("action") == "decline":
+            REQUESTS.remove(match(target, path))
+            log("decline", email, target, path)
+            return self.redirect("/_auth/share?" + urllib.parse.urlencode({"m": "declined", "e": target}), 303)
+        added = ACL.add({"email": target, "path": path, "by": email, "at": now_vn()}, match(target, path))
+        # Duyệt yêu cầu hay chia sẻ tay đều đáp ứng các yêu cầu đang chờ nằm trong path: báo người yêu cầu
+        done = REQUESTS.remove(lambda r: norm_email(r["email"]) == norm_email(target) and covers(path, r["path"]))
+        for r in done:
+            log("approve", email, r["email"], r["path"])
+            mail([r["email"]], f"Đã được cấp quyền xem: {r['title']}",
+                 f"{email} đã cấp quyền xem trang cho {r['email']}:\n\n{r['title']}\n{PUBLIC_URL}{r['url']}\n\n"
+                 f"Mở link và đăng nhập Google bằng {r['email']}.\n", reply_to=email)
+        if not added:
             return self.redirect("/_auth/share?m=exists", 303)
         log("share", email, target, path)
-        self.redirect("/_auth/share?" + urllib.parse.urlencode({"m": "added", "e": target, "p": path}), 303)
+        q = {"m": "added", "e": target, "p": path}
+        if done:
+            q.update(n="1", u=done[0]["url"])
+        self.redirect("/_auth/share?" + urllib.parse.urlencode(q), 303)
 
 
 def main():
